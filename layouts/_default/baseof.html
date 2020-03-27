@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{{- $title := printf "%s%s%s" .Title " - " .Site.Title }}
+{{- $description := .Summary }}
+{{- with .Description }}{{ $description = . }}{{ end }}
+{{- $image := "https://cloud.githubusercontent.com/assets/10100202/24450367/ef3c0796-147a-11e7-99a9-404bc0deeb3d.jpg" }}
+{{- with .Params.Image }}{{ $image = . }}{{ end }}
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>{{ $title }}</title>
+		<meta name="description" content="{{ $description }}">
+
+		<link href="/css/wi.css" rel="stylesheet">
+
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@Wurst_Imperium">
+		<meta name="twitter:title" content="{{ $title }}">
+		<meta name="twitter:description" content="{{ $description }}">
+		<meta name="twitter:image" content="{{ $image }}">
+		
+	</head>
+	<body>
+		
+		<div style="min-height: 100%">
+			{{- partial "header.html" . -}}
+			{{- block "main" . -}}
+			{{- .Content -}}
+			{{- end -}}
+			<div style="height: 60px;"></div>
+		</div>
+		{{- partial "footer.html" . -}}
+		
+		<script src="/js/wi.js"></script>
+		{{- partial "cookieconsent.html" . -}}
+		{{- partial "google_auto_ads.html" . -}}
+		{{- template "_internal/google_analytics_async.html" . -}}
+		<div id="search-dialog" data-role="dialog" data-href="/search.html" data-close-button="true" data-overlay="true" data-overlay-color="op-dark" data-overlay-click-close="true"></div>
+		
+	</body>
+</html>

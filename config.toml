@@ -1,0 +1,18 @@
+title = "WurstImperium.net"
+baseurl = "https://www.wurstimperium.net/"
+DefaultContentLanguage = "en"
+googleAnalytics = "UA-52838431-6"
+
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    disable = false
+    respectDoNotTrack = true
+    useSessionStorage = false
+  [privacy.twitter]
+    disable = false
+    enableDNT = true
+    simple = false
+  [privacy.youtube]
+    disable = false
+    privacyEnhanced = true
