@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{{- $title := printf "%s%s%s" .Title " - " .Site.Title }}
+{{- $title := print .Title " - " .Site.Title }}
 {{- $description := .Summary }}
 {{- with .Description }}{{ $description = . }}{{ end }}
 {{- $image := "https://cloud.githubusercontent.com/assets/10100202/24450367/ef3c0796-147a-11e7-99a9-404bc0deeb3d.jpg" }}
@@ -12,7 +12,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>{{ $title }}</title>
+		{{- block "title" . -}}
+		<title>{{ print .Title " - " .Site.Title }}</title>
+		{{- end -}}
 		<meta name="description" content="{{ $description }}">
 
 		<link href="/css/wi.css" rel="stylesheet">

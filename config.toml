@@ -12,3 +12,6 @@ DefaultContentLanguage = "en"
   [privacy.youtube]
     disable = false
     privacyEnhanced = true
+
+[markup.goldmark.renderer]
+  unsafe = true

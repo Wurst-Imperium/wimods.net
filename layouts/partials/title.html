@@ -1,0 +1,19 @@
+<header class="bg-gray fg-white">
+    <div class="container padding40 no-padding-left no-padding-right">
+        <h1 class="align-center text-shadow">
+            {{ if isset . "l1" }}
+                {{- .l1 -}}
+            {{ else }}
+                {{- .Title -}}
+            {{ end }}
+            <br>
+            <small class="fg-grayLighter">
+                {{ if isset . "l2" }}
+                    {{- .l2 -}}
+                {{ else }}
+                    {{- .Description -}}
+                {{ end }}
+            </small>
+        </h1>
+    </div>
+</header>
