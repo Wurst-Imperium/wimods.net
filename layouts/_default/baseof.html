@@ -29,15 +29,16 @@
 	<body>
 		
 		<div style="min-height: 100%">
-			{{- partial "header.html" . -}}
+			{{- partial "header" . -}}
 			{{- block "main" . -}}
 			{{- .Content -}}
 			{{- end -}}
 			<div style="height: 60px;"></div>
 		</div>
-		{{- partial "footer.html" . -}}
+		{{- partial "footer" . -}}
 		
 		<script src="/js/wi.js"></script>
+		{{- partial "plausible" . -}}
 		
 	</body>
 </html>
