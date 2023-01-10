@@ -25,6 +25,8 @@
 		<meta name="twitter:description" content="{{ $description }}">
 		<meta name="twitter:image" content="{{ $image }}">
 		
+		{{- partial "plausible" . -}}
+		
 	</head>
 	<body>
 		
@@ -38,7 +40,6 @@
 		{{- partial "footer" . -}}
 		
 		<script src="/js/wi.js"></script>
-		{{- partial "plausible" . -}}
 		
 	</body>
 </html>
