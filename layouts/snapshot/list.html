@@ -1,5 +1,5 @@
 {{ define "title" }}
-{{- if eq .Kind "taxonomyTerm" -}}
+{{- if not (isset .Data "Term") -}}
 	<title>{{ print "Minecraft Mod Downloads for Snapshot Versions - " .Site.Title }}</title>
 {{- else -}}
 	<title>{{ printf "Minecraft %s Snapshot Mod Downloads - %s" .Data.Term .Site.Title }}</title>
@@ -12,7 +12,7 @@
 <script>
 	console.log({{ .Kind }})
 </script>
-{{- if eq .Kind "taxonomyTerm" -}}
+{{- if not (isset .Data "Term") -}}
 	{{ $l1 := printf "Snapshot-Compatible Minecraft Mod Downloads" }}
 	{{ $l2 := printf "Mods for Minecraft's Snapshots, Pre-Releases, and Release Candidates." }}
 	{{ partial "title" (dict "l1" $l1 "l2" $l2) }}
