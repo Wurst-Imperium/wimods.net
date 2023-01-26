@@ -1,0 +1,61 @@
+{{- $scratch := newScratch -}}
+
+<noscript>
+	WARNING: JavaScript is disabled. The download buttons might not work properly until you enable JavaScript.
+</noscript>
+
+<div class="padding10 no-padding-left no-padding-right" style="display: grid;grid-template-columns: 1fr;">
+	
+	{{- range .Params.mcversions -}}
+		{{- $tooOldForFabric := lt (index (first 2 (split . ".")) 1) 14 -}}
+		<div data-mcversion="{{ . }}">
+			{{- if not $tooOldForFabric -}}
+				<div class="padding10 no-padding-left no-padding-right">
+					<h3>for Minecraft {{ . }} + Fabric</h3>
+					{{- partial "update/download" (dict "mcversion" . "modloader" "fabric" "page" $) -}}
+				</div>
+			{{- end -}}
+			{{- if isset $.Params "forge" | and (in $.Params.forge .) -}}
+				<div class="padding10 no-padding-left no-padding-right">
+					<h3>for Minecraft {{ . }} + Forge</h3>
+					{{- partial "update/download" (dict "mcversion" . "modloader" "forge" "page" $) -}}
+				</div>
+			{{- end -}}
+		</div>
+	{{- end -}}
+
+	{{- with .Params.snapshots -}}
+	<div data-mcversion="snapshot" class="padding10 no-padding-left no-padding-right">
+		<h3>for Minecraft Snapshots</h3>
+		<div style="display: grid;grid-template-columns: 1fr;">
+			{{- range . -}}
+			<details data-snapshot="{{ . }}">
+				<summary>{{ . }} (click to expand)</summary>
+				{{- partial "update/download" (dict "mcversion" . "modloader" "fabric" "page" $) -}}
+			</details>
+			{{- end -}}
+		</div>
+	</div>
+	{{- end -}}
+
+</div>
+
+<script>
+	let urlParams = new URLSearchParams(window.location.search);
+	let mc = urlParams.get("mc");
+	let snapshot = urlParams.get("snapshot");
+
+	if (snapshot) {
+		mc = "snapshot";
+		let details = document.querySelectorAll(`details[data-snapshot="${snapshot}"]`);
+		details.forEach(details => {
+			details.style.gridRow = "1";
+			details.open = true;
+		});
+	}
+
+	if (mc) {
+		let elements = document.querySelectorAll(`[data-mcversion="${mc}"]`);
+		elements.forEach(element => element.style.gridRow = "1");
+	}
+</script>

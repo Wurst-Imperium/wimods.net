@@ -1,0 +1,57 @@
+{{ define "main" }}
+<style>
+	@media (max-width:800px){
+		ins.adsbygoogle {
+			height: 333px;
+		}
+	}
+	@media (min-width:801px){
+		ins.adsbygoogle {
+			height: 280px;
+		}
+	}
+	ul.mcversions {
+		margin: 0;
+		padding: 0;
+	}
+	ul.mcversions>li {
+		list-style: none;
+		padding: 0.625rem 0;
+	}
+	ul.mcversions>li>a>div {
+		margin: 0.625rem 0;
+		padding: 0 0.625rem;
+		background-color: #eeeeee;
+		border: 1px #d9d9d9 solid;
+	}
+</style>
+
+{{- $modname := index .Site.Params.modnames .Params.mod -}}
+<main>
+	{{ partial "title" . }}
+	<section class="padding20 no-padding-left no-padding-right">
+		<div class="container">
+			{{- .Content -}}
+			<ul class="mcversions">
+				{{ range where (where (.Site.Pages.ByParam "mcversion").Reverse "Section" .Params.mod) "Type" "mod-mc-downloads" }}
+					<li {{ if (in $.Params.old_mcversions .Params.mcversion) -}}class="old"{{- end -}}>
+						<a href="{{- .Permalink -}}" class="fg-gray">
+							<div>
+								<h2>
+									{{- if eq "z-all" .Params.mcversion -}}
+										Latest {{ $modname }} Updates
+									{{- else if eq "snapshot" .Params.mcversion -}}
+										Snapshots, Pre-Releases, etc.
+									{{- else -}}
+										{{ $modname }} for Minecraft {{ .Params.mcversion }}
+									{{- end -}}
+								</h2>
+							</div>
+						</a>
+					</li>
+				{{ end }}
+			</ul>
+		</div>
+	</section>
+</main>
+{{ end }}

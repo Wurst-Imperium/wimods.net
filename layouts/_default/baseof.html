@@ -12,9 +12,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		{{- block "title" . -}}
+		{{ block "title" . -}}
 		<title>{{ print .Title " - " .Site.Title }}</title>
-		{{- end -}}
+		{{- end }}
 		<meta name="description" content="{{ $description }}">
 
 		<link href="/css/wi.css" rel="stylesheet">
@@ -25,19 +25,21 @@
 		<meta name="twitter:description" content="{{ $description }}">
 		<meta name="twitter:image" content="{{ $image }}">
 		
-		{{- partial "plausible" . -}}
+		<link rel="canonical" href="https://www.wurstimperium.net{{ .RelPermalink }}">
+		
+		{{ partialCached "plausible" . }}
 		
 	</head>
 	<body>
 		
 		<div style="min-height: 100%">
-			{{- partial "header" . -}}
+			{{- partialCached "header" . .Section -}}
 			{{- block "main" . -}}
 			{{- .Content -}}
 			{{- end -}}
 			<div style="height: 60px;"></div>
 		</div>
-		{{- partial "footer" . -}}
+		{{- partialCached "footer" . -}}
 		
 		<script src="/js/wi-v2023.01.13.js"></script>
 		

@@ -1,0 +1,10 @@
+{{ define "main" }}
+<main>
+    {{ partial "title" . }}
+    <section class="bg-grayLighter padding20 no-padding-left no-padding-right">
+        <div class="container">
+            {{- .Content -}}
+        </div>
+    </section>
+</main>
+{{ end }}

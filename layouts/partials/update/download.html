@@ -1,0 +1,141 @@
+{{- $scratch := newScratch -}}
+
+{{- $modid := .page.Params.mod -}}
+{{- $modversion := .page.Params.modversion -}}
+{{- $modname := index .page.Site.Params.modnames $modid -}}
+{{- $modnameGitHub := replace $modname " " "-" -}}
+
+{{- $mcversion := .mcversion -}}
+{{- $modloader := .modloader -}}
+{{- $isFabric := eq $modloader "fabric" -}}
+
+{{- if $isFabric -}}
+	{{- $scratch.Set "modloaderSuffix" "" -}}
+{{- else -}}
+	{{- $scratch.Set "modloaderSuffix" "-Forge" -}}
+{{- end -}}
+
+{{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
+{{- $fabric_apis := index (index .page.Site.Data.fabric_api $modid) $modversion -}}
+{{- $baselink := printf "https://github.com/Wurst-Imperium-MCX/%s/releases/download/v%s/%s-%s-MC%s%s" $modnameGitHub $modversion $modnameGitHub $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
+
+<p>
+	{{- $mainlink := printf "%s.jar" $baselink -}}
+	{{- $mainfile := index (last 1 (split $mainlink "/")) 0 -}}
+	<a class="command-button download"
+		href="{{ $mainlink }}" rel="nofollow" target="_blank"
+		data-analytics="Download {{ $modname }}"
+		data-analytics-version="{{ $modversion }}"
+		data-analytics-mcversion="{{ $mcversion }}"
+		data-analytics-modloader="{{ $modloader }}"
+		data-analytics-type="main"
+		data-analytics-mirror="GitHub"
+		data-analytics-file="{{ $mainfile }}"
+	>
+		<span class="icon mif-file-download"></span>
+		{{ $modname }} v{{ $modversion }} MC{{ $mcversion }}
+		<small>File: {{ $mainfile }}</small>
+	</a>
+	{{ if isset $fabric_apis $mcversion | and $isFabric -}}
+		{{- $apiversion := index $fabric_apis $mcversion -}}
+		{{- $apiversion_short := index (split $apiversion "+") 0 -}}
+		{{- $apilink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $apiversion $apiversion -}}
+		{{- $apifile := index (last 1 (split $apilink "/")) 0 -}}
+		<a class="command-button"
+			href="{{ $apilink }}" rel="nofollow" target="_blank"
+			data-analytics="Download Fabric API"
+			data-analytics-version="{{ $apiversion_short }}"
+			data-analytics-mcversion="{{ $mcversion }}"
+			data-analytics-file="{{ $apifile }}"
+			data-analytics-mod="{{ $modname }}"
+			data-analytics-modmc="{{ $modname }} MC{{ $mcversion }}"
+			data-analytics-modversion="{{ $modname }} {{ $modversion }}"
+			data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
+		>
+			<img src="https://images.wurstclient.net/_media/icon/fabric.png" class="icon">
+			Fabric API
+			<small>v{{ $apiversion }}</small>
+		</a>
+	{{- end -}}
+</p>
+
+{{- $mirrors := newScratch -}}
+{{- if isset $cfids $mcversion -}}
+	{{- $mirrors.Set "curseforge" (string (index $cfids $mcversion)) -}}
+{{- end -}}
+
+{{- if or (ne nil ($mirrors.Get "curseforge")) (ne nil ($mirrors.Get "modrinth")) -}}
+	<p>Mirrors:</p>
+	<p>
+		{{- with $mirrors.Get "curseforge" -}}
+			{{- $cflink := printf "https://www.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
+			<a class="button curseforge"
+				href="{{ $cflink }}" rel="nofollow" target="_blank"
+				data-analytics="Download {{ $modname }}"
+				data-analytics-version="{{ $modversion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+				data-analytics-modloader="{{ $modloader }}"
+				data-analytics-type="main"
+				data-analytics-mirror="CurseForge"
+				data-analytics-file="{{ $mainfile }}"
+			>
+				<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
+				CurseForge
+			</a>
+		{{- end -}}
+	</p>
+{{- end -}}
+
+{{- $hasAdditionalFiles := eq $mcversion "1.12.2" | or $isFabric -}}
+{{- if $hasAdditionalFiles -}}
+	<p>Additional files:</p>
+	<ul class="spaced-list">
+		<li>
+			{{- $srclink := printf "%s-sources.jar" $baselink -}}
+			{{- $srcfile := index (last 1 (split $srclink "/")) 0 -}}
+			<a href="{{ $srclink }}" rel="nofollow" target="_blank"
+				data-analytics="Download {{ $modname }}"
+				data-analytics-version="{{ $modversion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+				data-analytics-modloader="{{ $modloader }}"
+				data-analytics-type="sources"
+				data-analytics-mirror="GitHub"
+				data-analytics-file="{{ $srcfile }}"
+			>
+				{{ $srcfile }}
+			</a>
+		</li>
+		{{- if $isFabric -}}
+		<li>
+			{{- $devlink := printf "%s-dev.jar" $baselink -}}
+			{{- $devfile := index (last 1 (split $devlink "/")) 0 -}}
+			<a href="{{ $devlink }}" rel="nofollow" target="_blank"
+				data-analytics="Download {{ $modname }}"
+				data-analytics-version="{{ $modversion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+				data-analytics-modloader="{{ $modloader }}"
+				data-analytics-type="dev"
+				data-analytics-mirror="GitHub"
+				data-analytics-file="{{ $devfile }}"
+			>
+				{{ $devfile }}
+			</a>
+		</li>
+		<li>
+			{{- $srcdevlink := printf "%s-sources-dev.jar" $baselink -}}
+			{{- $srcdevfile := index (last 1 (split $srcdevlink "/")) 0 -}}
+			<a href="{{ $srcdevlink }}" rel="nofollow" target="_blank"
+				data-analytics="Download {{ $modname }}"
+				data-analytics-version="{{ $modversion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+				data-analytics-modloader="{{ $modloader }}"
+				data-analytics-type="sources-dev"
+				data-analytics-mirror="GitHub"
+				data-analytics-file="{{ $srcdevfile }}"
+			>
+				{{ $srcdevfile }}
+			</a>
+		</li>
+		{{- end -}}
+	</ul>
+{{- end -}}

@@ -1,4 +1,4 @@
-title = "WurstImperium.net"
+title = "Wurst-Imperium"
 baseurl = "https://www.wurstimperium.net/"
 DefaultContentLanguage = "en"
 
@@ -15,3 +15,12 @@ DefaultContentLanguage = "en"
 
 [markup.goldmark.renderer]
   unsafe = true
+
+[taxonomies]
+  mcversion = "mcversions"
+  snapshot = "snapshots"
+
+[Params]
+  [Params.modnames]
+    mo-glass = "Mo Glass"
+    wi-zoom = "WI Zoom"

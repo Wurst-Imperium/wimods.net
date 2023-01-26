@@ -1,0 +1,16 @@
+{{- $altText := printf "%s %s update image" (index .Site.Params.modnames .Params.mod) .Params.modversion -}}
+
+<div class="margin20 no-margin-left no-margin-right no-margin-top padding10 bg-grayDarker">
+	{{- if .Params.image -}}
+		{{- $fullSizeImage := replace .Params.image "_540p.webp" ".jpg" -}}
+		{{- $fullSizeFilename := index (last 1 (split $fullSizeImage "/")) 0 -}}
+		<a href="{{ $fullSizeImage }}" target="_blank" title='{{ printf "File: %s" $fullSizeFilename }}'>
+			<img src="{{ .Params.image }}" alt="{{ $altText }}" width="960" height="540">
+		</a>
+	{{- else -}}
+		<span class="missing-image">
+			<img src="https://images.wurstclient.net/_media/placeholder-320x180.webp" class="no-visible" alt="placeholder for {{ $altText }} (missing)" width="960" height="540">
+			<span class="mif-file-picture fg-grayLight"></span>
+		</span>
+	{{- end -}}
+</div>
