@@ -9,9 +9,6 @@
 {{ define "main" }}
 {{- $scratch := newScratch -}}
 {{- $scratch.Set "snapshots" slice -}}
-<script>
-	console.log({{ .Kind }})
-</script>
 {{- if not (isset .Data "Term") -}}
 	{{ $l1 := printf "Snapshot-Compatible Minecraft Mod Downloads" }}
 	{{ $l2 := printf "Mods for Minecraft's Snapshots, Pre-Releases, and Release Candidates." }}
