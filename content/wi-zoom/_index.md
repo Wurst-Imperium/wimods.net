@@ -4,9 +4,8 @@ description: The zoom from the Wurst Client as a standalone mod.
 ---
 <img src="https://user-images.githubusercontent.com/10100202/67816432-973d2400-fab2-11e9-8699-e05eb5ba6551.jpg" alt="comparison of no zoom, 3x zoom, and 50x zoom" width="2560" height="1440">
 
-## WI Zoom (Wurst-Imperium Zoom)
-
-The zoom from the <a href="https://www.wurstclient.net/" target="_blank">Wurst Client</a> as a standalone mod.
+# WI Zoom (Wurst-Imperium Zoom)
+The zoom from the <a href="https://www.wurstclient.net/" target="_blank">Wurst Client</a> as a standalone mod. The WI Zoom Minecraft mod lets you zoom in and out with the mouse wheel, providing up to 50x magnification without the need for a spyglass. This mod is fully compatible with OptiFine and Sodium, but unlike OptiFine's zoom, WI Zoom lets the camera move in a logical way, without making it wobble around. WI Zoom supports all of the latest Minecraft versions, including snapshots.
 
 <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" rel="nofollow">
   <img src="https://i.imgur.com/Ol1Tcf8.png" alt="Requires Fabric API" width="149" height="50">
@@ -44,7 +43,7 @@ The zoom from the <a href="https://www.wurstclient.net/" target="_blank">Wurst C
 - Dynamic mouse sensitivity! (since v1.1)
 - Fully compatible with <a href="https://optifine.net/home" target="_blank">OptiFine</a> / <a href="https://github.com/CaffeineMC/sodium-fabric" target="_blank">Sodium</a>!
 
-## How To Use
+## How To Zoom
 
 Hold down the <kbd>V</kbd> key to activate the zoom (this keybind can be changed).  
 While zooming, you can use the <kbd>mouse wheel</kbd> to zoom in further.
