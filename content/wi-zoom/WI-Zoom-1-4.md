@@ -36,6 +36,7 @@ snapshots:
 - "1.19.1-pre1"
 - "22w24a"
 ---
+**Note:** In snapshot 23w05a, due to a [bug in Fabric](https://github.com/FabricMC/fabric/issues/2879), the zoom keybind does not show up in the controls menu. You can still zoom, but can't change the keybind right now. The Fabric team is [working on a fix](https://github.com/FabricMC/fabric-loader/pull/764).
 ## Changelog
 
 - Added Chinese translations (Mainland, Taiwan, Hong Kong, and Classical variants) (Thanks to <a href="https://github.com/HJ-zhtw" target="_blank" rel="noopener noreferrer">HJ-zhtw</a>!)
