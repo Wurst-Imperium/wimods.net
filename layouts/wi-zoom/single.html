@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{- $modname := index .Site.Params.modnames .Params.mod -}}
 <main>
-    {{- partial "title" . -}}
+    {{- partial "title" (dict "l1" .Title "l2" (.Date.Format "2006-01-02")) -}}
 
     <section id="changelog" class="padding20 no-padding-left no-padding-right">
         <div class="container">
