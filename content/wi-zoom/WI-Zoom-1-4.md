@@ -1,6 +1,7 @@
 ---
 title: WI Zoom 1.4 - More Translations
-description: WI Zoom 1.4 adds support for several new languages. The update is available as a Fabric mod for Minecraft 1.19.3 - 1.18.2, as well as many different snapshots.
+description: WI Zoom 1.4 adds support for several new languages. The update is available
+  as a Fabric mod for Minecraft 1.19.3 - 1.18.2, as well as many different snapshots.
 date: 2022-06-16T09:36:00+01:00
 image: https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.4_540p.webp
 mod: wi-zoom
@@ -12,6 +13,7 @@ mcversions:
 - "1.19"
 - "1.18.2"
 snapshots:
+- 23w07a
 - 23w06a
 - 23w05a
 - "23w04a"
