@@ -17,6 +17,7 @@ mcversions:
 - "1.18"
 - "1.17.1"
 snapshots:
+- 1.19.4-pre3
 - 1.19.4-pre2
 - 1.19.4-pre1
 - 23w07a
