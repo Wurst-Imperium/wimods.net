@@ -14,6 +14,7 @@ mcversions:
 - "1.19"
 - "1.18.2"
 snapshots:
+- 23w13a_or_b
 - 23w13a
 - 23w12a
 - 1.19.4-rc3
