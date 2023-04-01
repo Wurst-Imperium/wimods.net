@@ -51,6 +51,8 @@ snapshots:
 - "1.19.1-pre1"
 - "22w24a"
 ---
+**Note:** In snapshot 23w13a_or_b, make sure to change the zoom keybind to something else so that it doesn't conflict with the new "Vote Menu" keybind.
+
 **Note:** In snapshot 23w05a, there used to be a [bug in Fabric](https://github.com/FabricMC/fabric/issues/2879) that caused modded keybinds (such as WI Zoom's zoom keybind) to not show up in the controls menu. Make sure you are using the latest Fabric API (`0.73.4+1.19.4`) and Fabric Loader version (`0.14.14`) when playing on this snapshot.
 
 ## Changelog
