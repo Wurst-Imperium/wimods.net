@@ -18,6 +18,7 @@ mcversions:
 - "1.18"
 - "1.17.1"
 snapshots:
+- 23w16a
 - 23w14a
 - 23w13a_or_b
 - 23w13a
