@@ -10,7 +10,11 @@
 {{- $isFabric := eq $modloader "fabric" -}}
 
 {{- if $isFabric -}}
-	{{- $scratch.Set "modloaderSuffix" "" -}}
+	{{- $modfabricsuffix := index .page.Site.Params.fabric_suffix $modid -}}
+	{{- if not $modfabricsuffix -}}
+		{{- $modfabricsuffix = "" -}}
+	{{- end -}}
+	{{- $scratch.Set "modloaderSuffix" $modfabricsuffix -}}
 {{- else -}}
 	{{- $scratch.Set "modloaderSuffix" "-Forge" -}}
 {{- end -}}
@@ -36,26 +40,35 @@
 		{{ $modname }} v{{ $modversion }} MC{{ $mcversion }}
 		<small>File: {{ $mainfile }}</small>
 	</a>
-	{{ if isset $fabric_apis $mcversion | and $isFabric -}}
-		{{- $apiversion := index $fabric_apis $mcversion -}}
-		{{- $apiversion_short := index (split $apiversion "+") 0 -}}
-		{{- $apilink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $apiversion $apiversion -}}
-		{{- $apifile := index (last 1 (split $apilink "/")) 0 -}}
-		<a class="command-button"
-			href="{{ $apilink }}" rel="nofollow" target="_blank"
-			data-analytics="Download Fabric API"
-			data-analytics-version="{{ $apiversion_short }}"
-			data-analytics-mcversion="{{ $mcversion }}"
-			data-analytics-file="{{ $apifile }}"
-			data-analytics-mod="{{ $modname }}"
-			data-analytics-modmc="{{ $modname }} MC{{ $mcversion }}"
-			data-analytics-modversion="{{ $modname }} {{ $modversion }}"
-			data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
-		>
-			<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
-			Fabric API
-			<small>v{{ $apiversion }}</small>
-		</a>
+	{{- if $isFabric -}}
+		{{- $mcversion_short := index (split $mcversion ".x") 0 -}}
+		{{- $isRange := ne $mcversion $mcversion_short -}}
+		{{- if not $isRange -}}
+			{{- $mcversion_short = "!!INVALID!!" -}}
+		{{- end -}}
+		{{- range $fabric_mcversion, $fabric_apiversion := $fabric_apis -}}
+			{{- if hasPrefix $fabric_mcversion $mcversion_short | or (eq $fabric_mcversion $mcversion) -}}
+				{{- $fabric_apiversion_short := index (split $fabric_apiversion "+") 0 -}}
+				{{- $apilink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
+				{{- $apifile := index (last 1 (split $apilink "/")) 0 }}
+				<a class="command-button"
+					href="{{ $apilink }}" rel="nofollow" target="_blank"
+					style="margin: 5px 5px 5px 0"
+					data-analytics="Download Fabric API"
+					data-analytics-version="{{ $fabric_apiversion_short }}"
+					data-analytics-mcversion="{{ $mcversion }}"
+					data-analytics-file="{{ $apifile }}"
+					data-analytics-mod="{{ $modname }}"
+					data-analytics-modmc="{{ $modname }} MC{{ $mcversion }}"
+					data-analytics-modversion="{{ $modname }} {{ $modversion }}"
+					data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
+				>
+					<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
+					Fabric API MC{{ $fabric_mcversion }}
+					<small>v{{ $fabric_apiversion }}</small>
+				</a>
+			{{- end -}}
+		{{- end -}}
 	{{- end -}}
 </p>
 

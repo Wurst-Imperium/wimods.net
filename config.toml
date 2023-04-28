@@ -24,3 +24,6 @@ DefaultContentLanguage = "en"
   [Params.modnames]
     mo-glass = "Mo Glass"
     wi-zoom = "WI Zoom"
+    cameranoclip = "CameraNoClip"
+  [Params.fabric_suffix]
+    cameranoclip = "-Fabric"

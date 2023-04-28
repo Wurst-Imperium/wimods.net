@@ -17689,7 +17689,22 @@ details {
   margin: 0;
 }
 
-.button.curseforge:hover {
+.button.modrinth {
+  background: #30b27c;
+  color: #ffffff;
+  border-color: #30b27c;
+  padding: 0.5rem 1rem;
+  height: auto;
+  vertical-align: baseline;
+  margin: 0;
+}
+
+.button.modrinth img {
+  height: 1rem;
+  vertical-align: text-bottom;
+}
+
+.button.curseforge:hover, .button.modrinth:hover {
   outline: #222222 solid 1px;
 }
 
