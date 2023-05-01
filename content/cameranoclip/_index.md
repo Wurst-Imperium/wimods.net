@@ -26,17 +26,17 @@ Don't let the camera snapping effect ruin your Minecraft experience any longer! 
         View Source Code
     </a>
 </p>
-<!-- <p>Mirrors:</p>
+<p>Mirrors:</p>
 <p>
   <a class="button curseforge" href="https://www.curseforge.com/minecraft/mc-mods/cameranoclip" rel="nofollow" target="_blank">
     <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
     CurseForge
   </a>
-  <a class="button modrinth" href="https://modrinth.com/mod/cameranoclip" rel="nofollow" target="_blank">
+  <!-- <a class="button modrinth" href="https://modrinth.com/mod/cameranoclip" rel="nofollow" target="_blank">
     <img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" class="icon">
     Modrinth
-  </a>
-</p> -->
+  </a> -->
+</p>
 
 ## Features
 - Removes the annoying camera snapping effect in third-person mode
