@@ -81,7 +81,7 @@
 	<p>Mirrors:</p>
 	<p>
 		{{- with $mirrors.Get "curseforge" -}}
-			{{- $cflink := printf "https://www.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
+			{{- $cflink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
 			<a class="button curseforge"
 				href="{{ $cflink }}" rel="nofollow" target="_blank"
 				data-analytics="Download {{ $modname }}"
