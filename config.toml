@@ -25,5 +25,7 @@ DefaultContentLanguage = "en"
     mo-glass = "Mo Glass"
     wi-zoom = "WI Zoom"
     cameranoclip = "CameraNoClip"
+    chestesp = "ChestESP"
   [Params.fabric_suffix]
     cameranoclip = "-Fabric"
+    chestesp = "-Fabric"
