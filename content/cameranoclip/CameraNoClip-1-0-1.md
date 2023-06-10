@@ -5,8 +5,10 @@ image: https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.
 mod: cameranoclip
 modversion: "1.0.1"
 mcversions:
+- "1.20"
 - "1.19.x"
 forge:
+- "1.20"
 - "1.19.x"
 ---
 ## Changelog
@@ -20,5 +22,5 @@ forge:
 
 ## Important Notes
 - This mod is client-side only, meaning it does not need to be installed on a server for you to enjoy its benefits.
-- Make sure you have the latest version of Fabric or Forge installed for Minecraft 1.19.
+- Make sure you have the latest version of Fabric or Forge installed for your Minecraft version.
 - When using Fabric, you need to install a compatible version of the [Fabric API](https://modrinth.com/mod/fabric-api/versions) as well.

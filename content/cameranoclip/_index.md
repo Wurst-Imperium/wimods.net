@@ -2,9 +2,9 @@
 title: CameraNoClip
 description: Allows the camera in 3rd person to go through walls.
 ---
-## CameraNoClip Mod - Enhance Your Third-Person View in Minecraft 1.19! (Fabric & Forge)
+## CameraNoClip Mod - Enhance Your Third-Person View in Minecraft! (Fabric & Forge)
 
-Are you tired of the annoying camera snapping effect in third-person mode? Say goodbye to those sudden zooms and enjoy a smooth, immersive experience with the CameraNoClip mod for Minecraft 1.19 - with both Fabric and Forge support!
+Are you tired of the annoying camera snapping effect in third-person mode? Say goodbye to those sudden zooms and enjoy a smooth, immersive experience with the CameraNoClip mod for Minecraft - with both Fabric and Forge support!
 
 Originally a popular feature in the Wurst Client, CameraNoClip now comes as a standalone mod, allowing your camera in third-person mode to move around freely without snapping to nearby blocks and entities. This significantly improves user comfort, especially in crowded areas, where the camera would otherwise zoom in and out abruptly.
 
@@ -51,4 +51,4 @@ Don't let the camera snapping effect ruin your Minecraft experience any longer! 
 
 ## Important Notes
 - This mod is client-side only, meaning it does not need to be installed on a server for you to enjoy its benefits.
-- Make sure you have the latest version of Fabric or Forge installed for Minecraft 1.19.
+- Make sure you have the latest version of Fabric or Forge installed for your Minecraft version.
