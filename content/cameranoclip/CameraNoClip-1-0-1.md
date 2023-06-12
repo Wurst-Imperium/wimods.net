@@ -5,6 +5,7 @@ image: https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.
 mod: cameranoclip
 modversion: "1.0.1"
 mcversions:
+- 1.20.1
 - "1.20"
 - "1.19.x"
 forge:
