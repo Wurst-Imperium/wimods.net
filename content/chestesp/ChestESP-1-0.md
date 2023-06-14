@@ -5,6 +5,7 @@ image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.0_540p.w
 mod: chestesp
 modversion: "1.0"
 mcversions:
+- "1.20.1"
 - "1.20"
 - "1.19.4"
 ---
@@ -15,6 +16,6 @@ mcversions:
 
 - Fabric API (see the buttons below)
 
-- ModMenu ([for 1.19.4](https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.19.4&c=release)) ([for 1.20](https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.20&c=release))
+- ModMenu ([for 1.19.4](https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.19.4&c=release)) ([for 1.20/1.20.1](https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.20&c=release))
 
-- Cloth Config API ([for 1.19.4](https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.19.4&c=release)) ([for 1.20](https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.20&c=release))
+- Cloth Config API ([for 1.19.4](https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.19.4&c=release)) ([for 1.20/1.20.1](https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.20&c=release))
