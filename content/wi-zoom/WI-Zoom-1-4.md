@@ -16,6 +16,7 @@ mcversions:
 - "1.19"
 - "1.18.2"
 snapshots:
+- 23w35a
 - 23w33a
 - 23w32a
 - 23w31a
