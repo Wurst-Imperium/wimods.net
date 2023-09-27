@@ -1,19 +1,23 @@
 <header class="bg-gray fg-white">
-    <div class="container padding40 no-padding-left no-padding-right">
-        <h1 class="align-center text-shadow">
-            {{ if isset . "l1" }}
-                {{- .l1 -}}
-            {{ else }}
-                {{- .Title -}}
-            {{ end }}
-            <br>
-            <small class="fg-grayLighter">
-                {{ if isset . "l2" }}
-                    {{- .l2 -}}
-                {{ else }}
-                    {{- .Description -}}
-                {{ end }}
-            </small>
-        </h1>
-    </div>
+	<div class="container padding40 no-padding-left no-padding-right">
+		<h1 class="align-center text-shadow">
+			{{ if isset . "l1" }}
+				{{- .l1 -}}
+			{{ else if isset .Params "title_l1" }}
+				{{- .Params.title_l1 -}}
+			{{ else }}
+				{{- .Title -}}
+			{{ end }}
+			<br>
+			<small class="fg-grayLighter">
+				{{ if isset . "l2" }}
+					{{- .l2 -}}
+				{{ else if isset .Params "title_l2" }}
+					{{- .Params.title_l2 -}}
+				{{ else }}
+					{{- .Description -}}
+				{{ end }}
+			</small>
+		</h1>
+	</div>
 </header>
