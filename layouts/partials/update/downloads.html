@@ -15,7 +15,12 @@
 					{{- partial "update/download" (dict "mcversion" . "modloader" "fabric" "page" $) -}}
 				</div>
 			{{- end -}}
-			{{- if isset $.Params "forge" | and (in $.Params.forge .) -}}
+			{{- if isset $.Params "neoforge" | and (in $.Params.neoforge .) -}}
+				<div class="padding10 no-padding-left no-padding-right">
+					<h3>for Minecraft {{ . }} + NeoForge</h3>
+					{{- partial "update/download" (dict "mcversion" . "modloader" "forge" "page" $) -}}
+				</div>
+			{{- else if isset $.Params "forge" | and (in $.Params.forge .) -}}
 				<div class="padding10 no-padding-left no-padding-right">
 					<h3>for Minecraft {{ . }} + Forge</h3>
 					{{- partial "update/download" (dict "mcversion" . "modloader" "forge" "page" $) -}}
