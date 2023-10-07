@@ -29,11 +29,11 @@ The zoom from the <a href="https://www.wurstclient.net/" target="_blank">Wurst C
 </p>
 <p>Mirrors:</p>
 <p>
-  <a class="button modrinth" href="https://modrinth.com/mod/wi-zoom" rel="nofollow" target="_blank" style="min-width: 9rem;">
+  <a class="button modrinth" href="https://modrinth.com/mod/wi-zoom" rel="nofollow" target="_blank">
     <img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" class="icon">
     Modrinth
   </a>
-  <a class="button curseforge" href="https://www.curseforge.com/minecraft/mc-mods/wi-zoom" rel="nofollow" target="_blank" style="min-width: 9rem;">
+  <a class="button curseforge" href="https://www.curseforge.com/minecraft/mc-mods/wi-zoom" rel="nofollow" target="_blank">
     <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
     CurseForge
   </a>

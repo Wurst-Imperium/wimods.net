@@ -76,11 +76,28 @@
 {{- if isset $cfids $mcversion -}}
 	{{- $mirrors.Set "curseforge" (string (index $cfids $mcversion)) -}}
 {{- end -}}
+{{- $modrinth := and (index .page.Site.Params.modrinth $modid) (ne $mcversion "1.19_deep_dark_experimental_snapshot-1") -}}
 
-{{- if or (ne nil ($mirrors.Get "curseforge")) (ne nil ($mirrors.Get "modrinth")) -}}
+{{- if or (ne nil ($mirrors.Get "curseforge")) (ne nil $modrinth) -}}
 	<p>Mirrors:</p>
 	<p>
-		{{- with $mirrors.Get "curseforge" -}}
+		{{- with $modrinth -}}
+			{{- $modrinthlink := printf "https://modrinth.com/mod/%s/version/%s-MC%s" $modid $modversion $mcversion -}}
+			<a class="button modrinth"
+				href="{{ $modrinthlink }}" rel="nofollow" target="_blank"
+				data-analytics="Download {{ $modname }}"
+				data-analytics-version="{{ $modversion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+				data-analytics-modloader="{{ $modloader }}"
+				data-analytics-type="main"
+				data-analytics-mirror="Modrinth"
+				data-analytics-file="{{ $mainfile }}"
+			>
+				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
+				Modrinth
+			</a>
+		{{- end }}
+		{{ with $mirrors.Get "curseforge" -}}
 			{{- $cflink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
 			<a class="button curseforge"
 				href="{{ $cflink }}" rel="nofollow" target="_blank"

@@ -29,3 +29,5 @@ DefaultContentLanguage = "en"
   [Params.fabric_suffix]
     cameranoclip = "-Fabric"
     chestesp = "-Fabric"
+  [Params.modrinth]
+    wi-zoom = true
