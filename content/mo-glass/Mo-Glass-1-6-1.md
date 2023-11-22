@@ -21,6 +21,7 @@ mcversions:
 - "1.18"
 - "1.17.1"
 snapshots:
+- 1.20.3-pre2
 - 1.20.3-pre1
 - 23w46a
 - 23w45a
