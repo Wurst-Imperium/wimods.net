@@ -12,6 +12,7 @@ mcversions:
 neoforge:
 - "1.20.1"
 snapshots:
+- 1.20.3-pre4
 - 1.20.3-pre3
 - 1.20.3-pre2
 - 1.20.3-pre1
