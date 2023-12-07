@@ -31,3 +31,4 @@ DefaultContentLanguage = "en"
     chestesp = "-Fabric"
   [Params.modrinth]
     wi-zoom = true
+    mo-glass = true
