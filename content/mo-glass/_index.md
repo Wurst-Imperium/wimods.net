@@ -2,9 +2,9 @@
 title: Mo Glass
 description: Adds glass stairs and glass slabs to Minecraft.
 ---
-![Mo Glass 1.6](https://user-images.githubusercontent.com/10100202/146299553-864f59fb-74a1-4a8a-9214-92febeecf236.jpg)
+![A Minecraft house with its roof made out of glass stairs, powered by the Mo Glass mod](https://user-images.githubusercontent.com/10100202/69939492-ab78a480-14e8-11ea-8aa7-c351657b334b.jpg)
 
-![https://www.curseforge.com/minecraft/mc-mods/fabric-api](https://user-images.githubusercontent.com/10100202/93722968-0aec9180-fb9b-11ea-9983-bc0fc51b47ab.png)
+Mo Glass is a Minecraft mod that adds glass stairs and glass slabs, including stained and tinted glass variants. They look great in any build and connect seamlessly with vanilla glass blocks. The mod is available for many different Minecraft versions, including snapshots.
 
 ## Downloads
 
@@ -116,14 +116,16 @@ That's a lot of effort just to add two new blocks to the game - and a lot of opp
 
 ## Supported Languages
 
-- Chinese (Simplified/Mainland) (since v1.2)
-- Chinese (Traditional/Taiwan) (since v1.2)
+- Chinese (Simplified) (since v1.2)
+- Chinese (Traditional) (since v1.2)
 - English (US) (since v1.0)
 - French (France) (since v1.6)
 - German (Germany) (since v1.2)
 - Italian (Italy) (since v1.6)
+- Japanese (Japan) (since v1.7)
 - Oshiwambo (Oshindonga) (since v1.5)
 - Oshiwambo (Oshikwanyama) (since v1.5)
+- Portuguese (Brazil) (since v1.7)
 - Russian (Russia) (since v1.5)
 - Spanish (Argentina) (since v1.4)
 - Spanish (Chile) (since v1.4)
