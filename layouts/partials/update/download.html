@@ -82,7 +82,7 @@
 	<p>Mirrors:</p>
 	<p>
 		{{- with $modrinth -}}
-			{{- $modrinthlink := printf "https://modrinth.com/mod/%s/version/%s-MC%s" $modid $modversion $mcversion -}}
+			{{- $modrinthlink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 			<a class="button modrinth"
 				href="{{ $modrinthlink }}" rel="nofollow" target="_blank"
 				data-analytics="Download {{ $modname }}"
