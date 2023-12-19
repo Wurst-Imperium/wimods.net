@@ -14,6 +14,7 @@ mcversions:
 neoforge:
 - "1.20.1"
 snapshots:
+- 23w51b
 - 1.20.4-rc1
 - 1.20.3-rc1
 - 1.20.3-pre4
