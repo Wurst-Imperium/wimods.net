@@ -18,7 +18,7 @@
 			{{- if isset $.Params "neoforge" | and (in $.Params.neoforge .) -}}
 				<div class="padding10 no-padding-left no-padding-right">
 					<h3>for Minecraft {{ . }} + NeoForge</h3>
-					{{- partial "update/download" (dict "mcversion" . "modloader" "forge" "page" $) -}}
+					{{- partial "update/download" (dict "mcversion" . "modloader" "neoforge" "page" $) -}}
 				</div>
 			{{- else if isset $.Params "forge" | and (in $.Params.forge .) -}}
 				<div class="padding10 no-padding-left no-padding-right">

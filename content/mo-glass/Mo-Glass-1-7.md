@@ -12,13 +12,14 @@ mcversions:
 - 1.20.2
 - 1.20.1
 neoforge:
+- 1.20.2
 - 1.20.1
 snapshots:
 - 23w51b
 ---
 ## Changelog
 
-- Added support for NeoForge 1.20.1.
+- Added support for NeoForge 1.20.1 and 1.20.2.
 
 - Added Brazilian Portuguese translations. ([#30](https://github.com/Wurst-Imperium/Mo-Glass/pull/30) - Thanks to [FITFC](https://github.com/FITFC)!)
 
