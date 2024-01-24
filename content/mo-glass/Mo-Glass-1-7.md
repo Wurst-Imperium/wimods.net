@@ -15,6 +15,7 @@ neoforge:
 - 1.20.2
 - 1.20.1
 snapshots:
+- 24w03b
 - 23w51b
 ---
 ## Changelog
