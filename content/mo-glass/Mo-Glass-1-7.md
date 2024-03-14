@@ -15,6 +15,7 @@ neoforge:
 - 1.20.2
 - 1.20.1
 snapshots:
+- 24w11a
 - 24w10a
 - 24w09a
 - 24w07a
