@@ -14,6 +14,7 @@ mcversions:
 neoforge:
 - "1.20.1"
 snapshots:
+- 1.20.5-pre1
 - 24w14a
 - 24w14potato
 - 24w13a
