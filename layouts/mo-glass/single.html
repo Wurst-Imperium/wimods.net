@@ -1,31 +1,47 @@
 {{ define "main" }}
 {{- $modname := index .Site.Params.modnames .Params.mod -}}
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "nofabric" (slice) -}}
+{{- if isset .Params "nofabric" -}}
+	{{- $scratch.Set "nofabric" .Params.nofabric -}}
+{{- end -}}
 <main>
-    {{- partial "title" (dict "l1" .Title "l2" (.Date.Format "2006-01-02")) -}}
+	{{- partial "title" (dict "l1" .Title "l2" (.Date.Format "2006-01-02")) -}}
 
-    <section id="changelog" class="padding20 no-padding-left no-padding-right">
-        <div class="container">
-            {{- partial "update/image" . -}}
-            {{- partial "update/mcversions" . -}}
-            {{- .Content -}}
-        </div>
-    </section>
+	<section id="changelog" class="padding20 no-padding-left no-padding-right">
+		<div class="container">
+			{{- partial "update/image" . -}}
+			{{- partial "update/mcversions" . -}}
+			{{- .Content -}}
+		</div>
+	</section>
 
 	<section id="downloads" class="padding40 no-padding-left no-padding-right bg-grayLighter">
 		<div class="container">
 			<h2>Downloads</h2>
-            {{- partial "update/downloads" . -}}
+			{{- partial "update/downloads" . -}}
 		</div>
 	</section>
 
 	<section id="installation" class="padding20 no-padding-left no-padding-right">
 		<div class="container">
 			<h2 id="installation">Installation</h2>
-            <ol>
-                <li><p>Install <a href="https://fabricmc.net/use/installer/" target="_blank" rel="nofollow noopener">Fabric (Loader)</a>.</p></li>
-                <li><p>Add Fabric (API) to your mods folder.</p></li>
-                <li><p>Add {{ $modname }} to your mods folder.</p></li>
-            </ol>
+			<p>{{ $modname }} can be installed just like any other mod. Follow the instructions below for your modloader of choice.</p>
+			{{- if (not (eq (len .Params.mcversions) (len ($scratch.Get "nofabric")))) -}}
+			<h3>Fabric</h3>
+			<ol>
+				<li><p>Install the <a href="https://fabricmc.net/use/installer/" target="_blank" rel="nofollow noopener">Fabric modloader</a>.</p></li>
+				<li><p>Add {{ $modname }} (Fabric version) to your mods folder.</p></li>
+				<li><p>Add the Fabric API to your mods folder.</p></li>
+			</ol>
+			{{- end -}}
+			{{- if isset .Params "neoforge" -}}
+			<h3>NeoForge</h3>
+			<ol>
+				<li><p>Install the <a href="https://neoforged.net/" target="_blank" rel="nofollow noopener">NeoForge modloader</a>.</p></li>
+				<li><p>Add {{ $modname }} (NeoForge version) to your mods folder.</p></li>
+			</ol>
+			{{- end -}}
 		</div>
 	</section>
 
