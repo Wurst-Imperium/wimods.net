@@ -1,11 +1,19 @@
-This version of {{ index .Site.Params.modnames .Params.mod }} is available for Minecraft {{ delimit $.Params.mcversions ", " " and " }}
+This version of {{ index .Site.Params.modnames .Params.mod }}
+{{- " is available for " -}}
+{{- if gt (len .Params.mcversions) 0 -}}
+    {{- "Minecraft " -}}
+    {{- delimit $.Params.mcversions ", " " and " -}}
+    {{- with .Params.snapshots -}}
+        {{- ", as well as " -}}
+    {{- end -}}
+{{- end -}}
 
 {{- with .Params.snapshots -}}
     {{- if gt 10 (len .) -}}
-        , as well as snapshot
+        snapshot
         {{- if lt 1 (len .) -}}s{{- end }} {{ delimit . ", " " and " }}
     {{- else -}}
-        , as well as {{ len . }} different snapshots ranging from {{ index (first 1 .) 0 }} to {{ index (last 1 .) 0 }}
+        {{ len . }} different snapshots ranging from {{ index (first 1 .) 0 }} to {{ index (last 1 .) 0 }}
     {{- end -}}
 {{- end -}}.
 
