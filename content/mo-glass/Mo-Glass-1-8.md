@@ -8,6 +8,7 @@ mod: mo-glass
 modversion: "1.8"
 mcversions: []
 snapshots:
+- 1.20.5-rc1
 - 1.20.5-pre4
 - 1.20.5-pre3
 ---
