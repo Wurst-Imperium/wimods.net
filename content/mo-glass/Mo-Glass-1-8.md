@@ -6,7 +6,8 @@ date: 2024-04-17T01:24:00+02:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.8_540p.webp
 mod: mo-glass
 modversion: "1.8"
-mcversions: []
+mcversions:
+- 1.20.5
 snapshots:
 - 1.20.5-rc3
 - 1.20.5-rc2
