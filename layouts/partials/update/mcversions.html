@@ -1,21 +1,22 @@
-This version of {{ index .Site.Params.modnames .Params.mod }}
-{{- " is available for " -}}
-{{- if gt (len .Params.mcversions) 0 -}}
-    {{- "Minecraft " -}}
-    {{- delimit $.Params.mcversions ", " " and " -}}
-    {{- with .Params.snapshots -}}
-        {{- ", as well as " -}}
-    {{- end -}}
-{{- end -}}
-
-{{- with .Params.snapshots -}}
-    {{- if gt 10 (len .) -}}
-        snapshot
-        {{- if lt 1 (len .) -}}s{{- end }} {{ delimit . ", " " and " }}
-    {{- else -}}
-        {{ len . }} different snapshots ranging from {{ index (first 1 .) 0 }} to {{ index (last 1 .) 0 }}
-    {{- end -}}
-{{- end -}}.
+<p>
+	This version of {{ index .Site.Params.modnames .Params.mod }}
+	{{- " is available for " -}}
+	{{- if gt (len .Params.mcversions) 0 -}}
+		{{- "Minecraft " -}}
+		{{- delimit $.Params.mcversions ", " " and " -}}
+		{{- with .Params.snapshots -}}
+			{{- ", as well as " -}}
+		{{- end -}}
+	{{- end -}}
+	{{- with .Params.snapshots -}}
+		{{- if gt 10 (len .) -}}
+			snapshot
+			{{- if lt 1 (len .) -}}s{{- end }} {{ delimit . ", " " and " }}
+		{{- else -}}
+			{{ len . }} different snapshots ranging from {{ index (first 1 .) 0 }} to {{ index (last 1 .) 0 }}
+		{{- end -}}
+	{{- end -}}.
+</p>
 
 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5218363098774955" data-ad-slot="4418061113" data-ad-format="auto" data-full-width-responsive="true"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
