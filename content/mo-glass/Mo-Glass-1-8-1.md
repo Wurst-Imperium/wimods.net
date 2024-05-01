@@ -11,7 +11,7 @@ mcversions:
 ---
 ## Changelog
 
-- Fixed crafting recipes not working in Minecraft 1.20.5/6.
+- Fixed crafting recipes not working in Minecraft 1.20.5/6. ([#35](https://github.com/Wurst-Imperium/Mo-Glass/issues/35))
 
 - Fixed crafting recipes for stained glass stairs/slabs of different colors not being grouped together like vanilla recipes.
 
