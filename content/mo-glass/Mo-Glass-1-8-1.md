@@ -8,6 +8,8 @@ modversion: "1.8.1"
 mcversions:
 - 1.20.6
 - 1.20.5
+snapshots:
+- 24w18a
 ---
 ## Changelog
 
