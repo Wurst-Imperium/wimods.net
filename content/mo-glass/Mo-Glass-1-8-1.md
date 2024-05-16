@@ -9,6 +9,7 @@ mcversions:
 - 1.20.6
 - 1.20.5
 snapshots:
+- 24w20a
 - 24w19b
 - 24w18a
 ---
