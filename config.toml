@@ -1,6 +1,7 @@
 title = "WI Mods"
 baseurl = "https://www.wimods.net/"
 DefaultContentLanguage = "en"
+titleCaseStyle = "none"
 
 [privacy]
   [privacy.googleAnalytics]
