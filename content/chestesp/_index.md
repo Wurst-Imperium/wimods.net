@@ -2,6 +2,14 @@
 title: ChestESP
 description: This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 ---
+<div class="align-center">
+  <p><b>Minecraft 1.20.3/1.20.4/1.20.5/1.20.6-compatible builds of this mod are available to Early Access members.<br>Join now to download these versions!</b></p>
+  <a class="command-button shadow bg-lightBlue bg-hover-cyan fg-white bd-lightBlue" href="https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90" style="padding-top: 1rem;padding-bottom: 1rem;padding-left: 5rem;" data-analytics="View on Ko-fi" data-analytics-id="top button">
+    <img src="https://storage.ko-fi.com/cdn/cup-border.png" class="icon" style="width: auto;">
+    Download via Ko-fi
+  </a>
+</div>
+
 This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 
 ![A screenshot showing all of the different containers that ChestESP supports](https://github.com/Wurst-Imperium/ChestESP/assets/10100202/5b77efdd-4a6b-49ea-8fed-1b1c18d13d7a)
@@ -61,4 +69,12 @@ In the settings menu, you can:
 Additionally, there's a "Toggle ChestESP" entry in the Options > Controls > Key Binds menu that allows you to quickly enable/disable the mod at the press of a button. This feature is not bound to any key by default.
 
 ## Supported Versions
-At the moment, ChestESP only supports Fabric and is only available for Minecraft 1.20 - 1.19.4. Support for Forge and older Minecraft versions might be added in the future, depending on demand.
+
+- 1.20.6 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
+- 1.20.5 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
+- 1.20.4 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
+- 1.20.3 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
+- 1.20.2 Fabric
+- 1.20.1 Fabric
+- 1.20 Fabric
+- 1.19.4 Fabric
