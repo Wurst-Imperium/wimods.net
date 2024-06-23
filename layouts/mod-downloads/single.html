@@ -29,28 +29,28 @@
 {{- $modname := index .Site.Params.modnames .Params.mod -}}
 <main>
 	{{ partial "title" . }}
-	<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5218363098774955" data-ad-slot="2172829624" data-ad-format="auto" data-full-width-responsive="true"></ins>
-	<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 	<section class="padding20 no-padding-left no-padding-right">
 		<div class="container">
+			<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5218363098774955" data-ad-slot="2172829624" data-ad-format="auto" data-full-width-responsive="true"></ins>
+			<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 			{{- .Content -}}
 			<ul class="mcversions">
 				{{ range where (where (.Site.Pages.ByParam "mcversion").Reverse "Section" .Params.mod) "Type" "mod-mc-downloads" }}
-					<li {{ if (in $.Params.old_mcversions .Params.mcversion) -}}class="old"{{- end -}}>
-						<a href="{{- .Permalink -}}" class="fg-gray">
-							<div>
-								<h2>
-									{{- if eq "z-all" .Params.mcversion -}}
-										Latest {{ $modname }} Updates
-									{{- else if eq "snapshot" .Params.mcversion -}}
-										Snapshots, Pre-Releases, etc.
-									{{- else -}}
-										{{ $modname }} for Minecraft {{ .Params.mcversion }}
-									{{- end -}}
-								</h2>
-							</div>
-						</a>
-					</li>
+				<li {{ if (in $.Params.old_mcversions .Params.mcversion) -}}class="old"{{- end -}}>
+					<a href="{{- .Permalink -}}" class="fg-gray">
+						<div>
+							<h2>
+								{{- if eq "z-all" .Params.mcversion -}}
+									Latest {{ $modname }} Updates
+								{{- else if eq "snapshot" .Params.mcversion -}}
+									Snapshots, Pre-Releases, etc.
+								{{- else -}}
+									{{ $modname }} for Minecraft {{ .Params.mcversion }}
+								{{- end -}}
+							</h2>
+						</div>
+					</a>
+				</li>
 				{{ end }}
 			</ul>
 		</div>
