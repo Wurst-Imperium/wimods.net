@@ -3,8 +3,8 @@ title: ChestESP
 description: This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 ---
 <div class="align-center">
-  <p><b>Minecraft 1.20.3/1.20.4/1.20.5/1.20.6-compatible builds of this mod are available to Early Access members.<br>Join now to download these versions!</b></p>
-  <a class="command-button shadow bg-lightBlue bg-hover-cyan fg-white bd-lightBlue" href="https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90" style="padding-top: 1rem;padding-bottom: 1rem;padding-left: 5rem;" data-analytics="View on Ko-fi" data-analytics-id="top button">
+  <p><b>A Minecraft 1.21-compatible build of this mod is available to Early Access members.<br>Join now to download this version!</b></p>
+  <a class="command-button shadow bg-lightBlue bg-hover-cyan fg-white bd-lightBlue" href="https://ko-fi.com/Post/Early-Access-ChestESP-Mod-for-Minecraft-1-21-X8X1ZOM62" style="padding-top: 1rem;padding-bottom: 1rem;padding-left: 5rem;" data-analytics="View on Ko-fi" data-analytics-id="top button">
     <img src="https://storage.ko-fi.com/cdn/cup-border.png" class="icon" style="width: auto;">
     Download via Ko-fi
   </a>
@@ -69,11 +69,11 @@ In the settings menu, you can:
 Additionally, there's a "Toggle ChestESP" entry in the Options > Controls > Key Binds menu that allows you to quickly enable/disable the mod at the press of a button. This feature is not bound to any key by default.
 
 ## Supported Versions
-
-- 1.20.6 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
-- 1.20.5 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
-- 1.20.4 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
-- 1.20.3 Fabric ([early access](https://ko-fi.com/post/Early-Access-ChestESP-Mod-for-1-20-31-20-41-20-B0B7YLO90))
+- 1.21 Fabric ([early access](https://ko-fi.com/Post/Early-Access-ChestESP-Mod-for-Minecraft-1-21-X8X1ZOM62))
+- 1.20.6 Fabric
+- 1.20.5 Fabric
+- 1.20.4 Fabric
+- 1.20.3 Fabric
 - 1.20.2 Fabric
 - 1.20.1 Fabric
 - 1.20 Fabric
