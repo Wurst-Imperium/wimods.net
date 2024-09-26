@@ -18,6 +18,7 @@ mcversions:
 neoforge:
 - "1.20.1"
 snapshots:
+- 24w39a
 - 24w38a
 - 24w37a
 - 24w36a
