@@ -9,6 +9,7 @@ modversion: "1.10"
 mcversions:
 - 1.21.1
 snapshots:
+- 24w40a
 - 24w39a
 - 24w38a
 - 24w37a
