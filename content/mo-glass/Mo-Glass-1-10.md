@@ -9,6 +9,7 @@ modversion: "1.10"
 mcversions:
 - 1.21.1
 snapshots:
+- 1.21.2-pre4
 - 1.21.2-pre3
 - 1.21.2-pre2
 - 1.21.2-pre1
