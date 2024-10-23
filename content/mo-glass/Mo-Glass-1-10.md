@@ -7,6 +7,7 @@ image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.10_540p.
 mod: mo-glass
 modversion: "1.10"
 mcversions:
+- 1.21.3
 - 1.21.2
 - 1.21.1
 snapshots:
