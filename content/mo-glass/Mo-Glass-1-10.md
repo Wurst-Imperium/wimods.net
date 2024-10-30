@@ -11,6 +11,7 @@ mcversions:
 - 1.21.2
 - 1.21.1
 snapshots:
+- 24w44a
 - 1.21.2-rc2
 - 1.21.2-rc1
 - 1.21.2-pre5
