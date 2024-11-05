@@ -137,37 +137,5 @@
 				{{ $srcfile }}
 			</a>
 		</li>
-		{{- if $isFabric -}}
-		<li>
-			{{- $devlink := printf "%s-dev.jar" $baselink -}}
-			{{- $devfile := index (last 1 (split $devlink "/")) 0 -}}
-			<a href="{{ $devlink }}" rel="nofollow" target="_blank"
-				data-analytics="Download {{ $modname }}"
-				data-analytics-version="{{ $modversion }}"
-				data-analytics-mcversion="{{ $mcversion }}"
-				data-analytics-modloader="{{ $modloader }}"
-				data-analytics-type="dev"
-				data-analytics-mirror="GitHub"
-				data-analytics-file="{{ $devfile }}"
-			>
-				{{ $devfile }}
-			</a>
-		</li>
-		<li>
-			{{- $srcdevlink := printf "%s-sources-dev.jar" $baselink -}}
-			{{- $srcdevfile := index (last 1 (split $srcdevlink "/")) 0 -}}
-			<a href="{{ $srcdevlink }}" rel="nofollow" target="_blank"
-				data-analytics="Download {{ $modname }}"
-				data-analytics-version="{{ $modversion }}"
-				data-analytics-mcversion="{{ $mcversion }}"
-				data-analytics-modloader="{{ $modloader }}"
-				data-analytics-type="sources-dev"
-				data-analytics-mirror="GitHub"
-				data-analytics-file="{{ $srcdevfile }}"
-			>
-				{{ $srcdevfile }}
-			</a>
-		</li>
-		{{- end -}}
 	</ul>
 {{- end -}}
