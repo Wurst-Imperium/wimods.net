@@ -24,10 +24,6 @@ This mod highlights nearby chests so you can see them through walls. It's based 
     <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
     CurseForge
   </a>
-  <!-- <a class="button modrinth" href="https://modrinth.com/mod/chestesp" rel="nofollow" target="_blank">
-    <img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" class="icon">
-    Modrinth
-  </a> -->
 </p>
 
 ## Features
