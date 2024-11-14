@@ -4,7 +4,7 @@ description: This mod highlights nearby chests so you can see them through walls
 ---
 This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 
-![A screenshot showing all of the different containers that ChestESP supports](https://github.com/Wurst-Imperium/ChestESP/assets/10100202/5b77efdd-4a6b-49ea-8fed-1b1c18d13d7a)
+<img src="https://images.wurstclient.net/_media/update/chestesp/chestesp_1.2_540p.webp" alt="A screenshot showing all of the different containers that ChestESP supports" width="960" height="540">
 
 ## Downloads
 <p>
@@ -20,31 +20,44 @@ This mod highlights nearby chests so you can see them through walls. It's based 
 </p>
 <p>Mirrors:</p>
 <p>
-  <a class="button curseforge" href="https://www.curseforge.com/minecraft/mc-mods/chestesp" rel="nofollow" target="_blank">
-    <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
-    CurseForge
-  </a>
+    <a class="button curseforge" href="https://www.curseforge.com/minecraft/mc-mods/chestesp" rel="nofollow" target="_blank">
+        <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
+        CurseForge
+    </a>
 </p>
 
-## Features
-- Highlights different types of chests and other containers with colored boxes, colored lines, or both
-- See highlighted chests even when they are hidden behind other blocks
-- Useful for finding hidden dungeons, buried treasure, and secret player bases
-- Highly customizable with Cloth Config integration, allowing you to modify colors, styles, and which container types to show
-- Supports a wide variety of container types, including chests, trapped chests, ender chests, chest minecarts, barrels, shulker boxes, hoppers, hopper minecarts, droppers, dispensers, furnaces, blast furnaces, and smokers
-- Quickly toggle the entire mod with a keybind or through the settings menu
-- Lightweight and optimized for performance
+## Installation
 
-## Required Dependencies
-ChestESP only works if the following other mods are also installed:
-- [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
-- [ModMenu](https://www.curseforge.com/minecraft/mc-mods/modmenu)
-- [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+<p class="set-border padding10 bd-violet">
+    <strong>Important:</strong>
+    Always make sure that your modloader and all of your mods are made for the same Minecraft version.
+    Your game will crash if you mix different versions.
+</p>
 
-## How to Use
+### Installation using Fabric
+
+1. Install [Fabric Loader](https://fabricmc.net/use/installer/).
+2. Add [Fabric API](https://modrinth.com/mod/fabric-api) to your mods folder.
+3. Add ChestESP to your mods folder.
+
+<p class="set-border padding10 bd-blue">
+    <strong>Note:</strong>
+    Older ChestESP versions also required that you add
+    <a href="https://modrinth.com/mod/cloth-config" rel="nofollow">Cloth Config</a> and
+    <a href="https://modrinth.com/mod/modmenu" rel="nofollow">ModMenu</a> to your mods folder.
+    As of ChestESP 1.2, you no longer need to do this.
+</p>
+
+### Installation using NeoForge
+
+1. Install [NeoForge](https://neoforged.net/).
+2. Add ChestESP to your mods folder.
+
+## Usage
+
 Once installed, ChestESP will automatically highlight any nearby chests.
 
-The mod also comes with an in-game settings menu that can be accessed through ModMenu.
+The mod also comes with an in-game settings menu that can be accessed through ModMenu in Fabric or the built-in mod list in NeoForge.
 
 ![A screenshot showing ChestESP's settings menu, powered by Cloth Config](https://github.com/Wurst-Imperium/ChestESP/assets/10100202/3bb121ed-eb5d-49b1-ad62-3bcec3d6d488)
 
@@ -54,15 +67,29 @@ In the settings menu, you can:
 - Toggle on/off specific container types.
 - Enable/disable the entire mod.
 
-Additionally, there's a "Toggle ChestESP" entry in the Options > Controls > Key Binds menu that allows you to quickly enable/disable the mod at the press of a button. This feature is not bound to any key by default.
+There is also a "Toggle ChestESP" entry in the Options > Controls > Key Binds menu that allows you to quickly enable/disable the mod at the press of a button. This feature is not bound to any key by default.
 
-## Supported Versions
-- 1.21 Fabric ([early access](https://ko-fi.com/Post/Early-Access-ChestESP-Mod-for-Minecraft-1-21-X8X1ZOM62))
-- 1.20.6 Fabric
-- 1.20.5 Fabric
-- 1.20.4 Fabric
-- 1.20.3 Fabric
-- 1.20.2 Fabric
-- 1.20.1 Fabric
-- 1.20 Fabric
-- 1.19.4 Fabric
+## Supported containers
+
+ChestESP supports the following container types:
+- Chests
+- Trapped chests
+- Ender chests
+- Barrels
+- Shulker boxes
+- Decorated pots
+- Chest minecarts
+- Chest boats
+- Hopper minecarts
+- Hoppers
+- Droppers
+- Dispensers
+- Furnaces
+- Blast furnaces
+- Smokers
+
+Not all of these containers are enabled by default to prevent cluttering your screen. Be sure to check the settings menu and enable all the ones you want.
+
+## Supported languages
+
+Only English for now.
