@@ -1,0 +1,45 @@
+{{- $modname := index .Site.Params.modnames .Params.mod -}}
+
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "nofabric" (slice) -}}
+{{- if isset .Params "nofabric" -}}
+	{{- $scratch.Set "nofabric" .Params.nofabric -}}
+{{- end -}}
+
+{{- $scratch.Set "modloaders" (slice) -}}
+{{- if (not (eq (len .Params.mcversions) (len ($scratch.Get "nofabric")))) -}}
+	{{- $scratch.Add "modloaders" "fabric" -}}
+{{- end -}}
+{{- if isset .Params "neoforge" -}}
+	{{- $scratch.Add "modloaders" "neoforge" -}}
+{{- end -}}
+
+<p>
+	{{- $modname }} can be installed just like any other Minecraft mod.
+	{{ if gt (len ($scratch.Get "modloaders")) 1 -}}
+		Follow the instructions below for your modloader of choice.
+	{{- end -}}
+</p>
+
+<p class="set-border padding10 bd-violet">
+	<strong>Important:</strong>
+	Always make sure that your modloader and all of your mods are made for the same Minecraft version.
+	Your game will crash if you mix different versions.
+</p>
+
+{{- if in ($scratch.Get "modloaders") "fabric" -}}
+<h3>Installation using Fabric</h3>
+<ol>
+	<li><p>Install <a href="https://fabricmc.net/use/installer/" target="_blank" rel="nofollow">Fabric Loader</a>.</p></li>
+	<li><p>Add Fabric API to your mods folder.</p></li>
+	<li><p>Add {{ $modname }} to your mods folder.</p></li>
+</ol>
+{{- end -}}
+
+{{- if in ($scratch.Get "modloaders") "neoforge" -}}
+<h3>Installation using NeoForge</h3>
+<ol>
+	<li><p>Install <a href="https://neoforged.net/" target="_blank" rel="nofollow">NeoForge</a>.</p></li>
+	<li><p>Add {{ $modname }} to your mods folder.</p></li>
+</ol>
+{{- end -}}

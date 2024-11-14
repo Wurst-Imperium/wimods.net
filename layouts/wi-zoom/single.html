@@ -1,5 +1,4 @@
 {{ define "main" }}
-{{- $modname := index .Site.Params.modnames .Params.mod -}}
 
 <style>
 @media(max-width:800px) {
@@ -35,20 +34,7 @@
 	<section id="installation" class="padding20 no-padding-left no-padding-right">
 		<div class="container">
 			<h2 id="installation">Installation</h2>
-			<p>{{ $modname }} can be installed just like any other mod. Follow the instructions below for your modloader of choice.</p>
-			<h3>Fabric</h3>
-			<ol>
-				<li><p>Install the <a href="https://fabricmc.net/use/installer/" target="_blank" rel="nofollow noopener">Fabric modloader</a>.</p></li>
-				<li><p>Add {{ $modname }} (Fabric version) to your mods folder.</p></li>
-				<li><p>Add the Fabric API to your mods folder.</p></li>
-			</ol>
-			{{- if isset .Params "neoforge" -}}
-			<h3>NeoForge</h3>
-			<ol>
-				<li><p>Install the <a href="https://neoforged.net/" target="_blank" rel="nofollow noopener">NeoForge modloader</a>.</p></li>
-				<li><p>Add {{ $modname }} (NeoForge version) to your mods folder.</p></li>
-			</ol>
-			{{- end -}}
+			{{- partial "update/installation" . -}}
 		</div>
 	</section>
 
