@@ -5,7 +5,7 @@ image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.1_540p.w
 mod: chestesp
 modversion: "1.1"
 mcversions:
-- 1.21
+- "1.21"
 - 1.20.6
 - 1.20.5
 - 1.20.4
