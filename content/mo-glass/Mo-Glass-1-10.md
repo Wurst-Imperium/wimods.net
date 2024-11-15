@@ -10,6 +10,9 @@ mcversions:
 - 1.21.3
 - 1.21.2
 - 1.21.1
+neoforge:
+- 1.21.3
+- "1.21"
 snapshots:
 - 24w46a
 - 24w45a
