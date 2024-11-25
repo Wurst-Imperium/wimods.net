@@ -14,6 +14,7 @@ neoforge:
 - 1.21.3
 - "1.21"
 snapshots:
+- 1.21.4-pre2
 - 1.21.4-pre1
 - 24w46a
 - 24w45a
