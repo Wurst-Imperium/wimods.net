@@ -37,15 +37,15 @@ jobs:
         with:
           python-version: "3.12"
           cache: "pip"
-          cache-dependency-path: _scripts/requirements.txt
+          cache-dependency-path: scripts/requirements.txt
 
       - name: Install dependencies
         run: |
-          pip install -r _scripts/requirements.txt
+          pip install -r scripts/requirements.txt
 
       - name: Run add_mod_port.py
         run: |
-          python _scripts/add_mod_port.py \
+          python scripts/add_mod_port.py \
             "${{ github.event.inputs.mod }}" \
             "${{ github.event.inputs.modloader }}" \
             "${{ github.event.inputs.mod_version }}" \
