@@ -62,7 +62,7 @@ def find_mod_update_post(mod, version):
 
 			post_path = os.path.join(root, file)
 			front_matter = read_front_matter(post_path)
-			if front_matter["modversion"] == version:
+			if front_matter.get("modversion") == version:
 				return front_matter, post_path
 
 	raise ValueError(f"Could not find post for mod {mod} version {version}")
