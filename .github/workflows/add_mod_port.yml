@@ -8,6 +8,9 @@ on:
       mod:
         description: "Mod ID (as it appears in config.toml)"
         required: true
+      modloader:
+        description: "Mod loader (fabric or neoforge)"
+        required: true
       mod_version:
         description: "Mod version (without v or -MC)"
         required: true
@@ -15,8 +18,8 @@ on:
         description: "Minecraft version"
         required: true
       fapi_version:
-        description: "Fabric API version"
-        required: true
+        description: "Fabric API version (if modloader is fabric)"
+        required: false
       file_id:
         description: "CurseForge file ID"
         required: true
@@ -44,9 +47,10 @@ jobs:
         run: |
           python _scripts/add_mod_port.py \
             "${{ github.event.inputs.mod }}" \
+            "${{ github.event.inputs.modloader }}" \
             "${{ github.event.inputs.mod_version }}" \
             "${{ github.event.inputs.mc_version }}" \
-            "${{ github.event.inputs.fapi_version }}" \
+            ${{ github.event.inputs.modloader == 'fabric' && format('--fapi-version {0}', github.event.inputs.fapi_version) || '' }} \
             "${{ github.event.inputs.file_id }}"
 
       - name: Commit changes
@@ -54,8 +58,9 @@ jobs:
           MOD="${{ github.event.inputs.mod }}"
           MOD_VERSION="${{ github.event.inputs.mod_version }}"
           MC_VERSION="${{ github.event.inputs.mc_version }}"
+          MODLOADER="${{ github.event.inputs.modloader }}"
           git config --local user.email "contact.wurstimperium@gmail.com"
           git config --local user.name "Wurst-Bot"
           git add .
-          git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION"
+          git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION ($MODLOADER)"
           git push
