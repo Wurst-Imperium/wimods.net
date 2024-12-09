@@ -1,6 +1,6 @@
 # Adds the necessary Hugo metadata when an existing mod update is ported to a new Minecraft version.
 name: Add Mod Port
-run-name: Add ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} build for ${{ github.event.inputs.mc_version }}
+run-name: Add ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} build for ${{ github.event.inputs.mc_version }} (${{ github.event.inputs.modloader }})
 
 on:
   workflow_dispatch:
