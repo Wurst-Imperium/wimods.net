@@ -115,18 +115,17 @@ def update_fabric_api_data(mod, mod_version, mc_version, fapi_version):
 		data[mod_version][mc_version] = fapi_version
 
 	# Sort fabric_api by release time and version type
-	for mod_version in data:
-		data[mod_version] = {
-			k: v
-			for k, v in sorted(
-				data[mod_version].items(),
-				key=lambda item: (
-					version_info[item[0]]["type"] == "release",
-					version_info[item[0]]["releaseTime"],
-				),
-				reverse=True,
-			)
-		}
+	data[mod_version] = {
+		k: v
+		for k, v in sorted(
+			data[mod_version].items(),
+			key=lambda item: (
+				version_info[item[0]]["type"] == "release",
+				version_info[item[0]]["releaseTime"],
+			),
+			reverse=True,
+		)
+	}
 
 	with open(data_file, "w") as f:
 		json.dump(data, f, indent=2)
@@ -145,18 +144,17 @@ def update_curseforge_data(mod, modloader, mod_version, mc_version, file_id):
 		data[mod_version][mc_version] = int(file_id)
 
 	# Sort curseforge IDs by release time and version type
-	for mod_version in data:
-		data[mod_version] = {
-			k: v
-			for k, v in sorted(
-				data[mod_version].items(),
-				key=lambda item: (
-					version_info[item[0]]["type"] == "release",
-					version_info[item[0]]["releaseTime"],
-				),
-				reverse=True,
-			)
-		}
+	data[mod_version] = {
+		k: v
+		for k, v in sorted(
+			data[mod_version].items(),
+			key=lambda item: (
+				version_info[item[0]]["type"] == "release",
+				version_info[item[0]]["releaseTime"],
+			),
+			reverse=True,
+		)
+	}
 
 	with open(data_file, "w") as f:
 		json.dump(data, f, indent=2)
