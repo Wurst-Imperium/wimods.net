@@ -50,7 +50,7 @@ jobs:
             "${{ github.event.inputs.modloader }}" \
             "${{ github.event.inputs.mod_version }}" \
             "${{ github.event.inputs.mc_version }}" \
-            ${{ github.event.inputs.modloader == 'fabric' && format('--fapi-version {0}', github.event.inputs.fapi_version) || '' }} \
+            ${{ github.event.inputs.modloader == 'fabric' && format('--fapi_version {0}', github.event.inputs.fapi_version) || '' }} \
             "${{ github.event.inputs.file_id }}"
 
       - name: Commit changes
