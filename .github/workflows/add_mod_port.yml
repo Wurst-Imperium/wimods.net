@@ -40,8 +40,7 @@ jobs:
           cache-dependency-path: scripts/requirements.txt
 
       - name: Install dependencies
-        run: |
-          pip install -r scripts/requirements.txt
+        run: pip install -r scripts/requirements.txt
 
       - name: Run add_mod_port.py
         run: |
@@ -64,3 +63,8 @@ jobs:
           git add .
           git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION ($MODLOADER)"
           git push
+
+      # For some reason the commit above doesn't automatically trigger the hugo
+      # workflow, so we need to explicitly start it here.
+      - name: Trigger hugo workflow
+        run: gh workflow run hugo.yml
