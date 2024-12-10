@@ -3,9 +3,16 @@
 {{- $scratch := newScratch -}}
 {{- $all := eq "z-all" .Params.mcversion -}}
 {{- $snapshot := eq "snapshot" .Params.mcversion -}}
+{{- $mc_update_name := index .Site.Params.mc_update_names .Params.mcversion -}}
+{{- $description := printf "Download %s for Minecraft %s!" $modname .Params.mcversion -}}
+{{- if $snapshot | or $all -}}
+	{{- $description = .Description -}}
+{{- else if $mc_update_name -}}
+	{{- $description = printf "Download %s for Minecraft %s - %s!" $modname .Params.mcversion $mc_update_name -}}
+{{- end -}}
 
 <main>
-	{{- partial "title" . -}}
+	{{- partial "title" (dict "l1" .Title "l2" $description) -}}
 	{{- if $snapshot -}}
 	<section class="padding20 no-padding-left no-padding-right bg-grayLighter">
 		<div class="container text-accent">
