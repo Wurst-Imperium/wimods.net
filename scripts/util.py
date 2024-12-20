@@ -1,5 +1,6 @@
 import json
 import os
+import tomli
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
@@ -75,6 +76,11 @@ def read_json_file(path: Path) -> dict:
 def write_json_file(path: Path, data: dict):
 	"""Write a JSON data file."""
 	path.write_text(json.dumps(data, indent=2), encoding="utf-8", newline="\n")
+
+
+def read_toml_file(path: Path) -> dict:
+	"""Read a TOML data file."""
+	return tomli.loads(path.read_text(encoding="utf-8"))
 
 
 def set_github_output(key: str, value: str):
