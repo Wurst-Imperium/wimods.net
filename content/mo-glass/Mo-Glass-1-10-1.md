@@ -12,6 +12,8 @@ mcversions:
 - 1.21.2
 - 1.21.1
 - '1.21'
+neoforge:
+- 1.21.3
 ---
 ## Changelog
 
