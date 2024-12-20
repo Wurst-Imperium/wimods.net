@@ -8,6 +8,7 @@ mod: mo-glass
 modversion: "1.10.1"
 mcversions:
 - 1.21.4
+- 1.21.3
 ---
 ## Changelog
 
