@@ -12,20 +12,20 @@ yaml.preserve_quotes = True
 
 
 @dataclass
-class JekyllPost:
+class HugoPost:
 	front_matter: CommentedMap
 	content: str
 	path: Path
 
 
-def read_post(path: Path) -> JekyllPost:
+def read_post(path: Path) -> HugoPost:
 	"""Read front matter and content from a Jekyll/Hugo post."""
 	content = path.read_text(encoding="utf-8")
 	parts = content.split("---", 2)
 	if len(parts) < 3:
 		raise ValueError(f"Invalid front matter format in {path}")
 
-	return JekyllPost(yaml.load(parts[1]), parts[2].strip(), path)
+	return HugoPost(yaml.load(parts[1]), parts[2].strip(), path)
 
 
 def write_front_matter(path: Path, front_matter: CommentedMap):
@@ -41,7 +41,7 @@ def write_front_matter(path: Path, front_matter: CommentedMap):
 	path.write_text(new_content, encoding="utf-8", newline="\n")
 
 
-def find_mod_update_post(mod: str, version: str) -> JekyllPost:
+def find_mod_update_post(mod: str, version: str) -> HugoPost:
 	"""Find the mod update post for a specific version."""
 	posts_folder = Path("content") / mod
 	version_slug = version.replace(".", "-")

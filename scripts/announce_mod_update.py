@@ -5,7 +5,7 @@ import requests
 import util
 from dataclasses import dataclass
 from pathlib import Path
-from util import JekyllPost
+from util import HugoPost
 
 
 @dataclass
@@ -36,7 +36,7 @@ def parse_changelog(content: str) -> str:
 	return "\n".join(changelog_lines).strip()
 
 
-def create_announcement(mod_update: JekyllPost) -> WurstForumDiscussion:
+def create_announcement(mod_update: HugoPost) -> WurstForumDiscussion:
 	"""Create an announcement from a mod update post."""
 	# Title
 	title = mod_update.front_matter["title"]
