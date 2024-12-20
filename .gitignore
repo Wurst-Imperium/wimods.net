@@ -3,3 +3,6 @@ public/
 
 # .hugo_build.lock file
 *.lock
+
+# Python bytecode
+*.pyc
