@@ -24,18 +24,18 @@ jobs:
         with:
           python-version: "3.12"
           cache: "pip"
-          cache-dependency-path: _scripts/requirements.txt
+          cache-dependency-path: scripts/requirements.txt
 
       - name: Install dependencies
         run: |
-          pip install -r _scripts/requirements.txt
+          pip install -r scripts/requirements.txt
 
       - name: Run announce_mod_update.py
         id: announce
         env:
           WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
         run: |
-          python _scripts/announce_mod_update.py "${{ github.event.inputs.mod }}" "${{ github.event.inputs.mod_version }}"
+          python scripts/announce_mod_update.py "${{ github.event.inputs.mod }}" "${{ github.event.inputs.mod_version }}"
 
       - name: Write summary
         run: |
