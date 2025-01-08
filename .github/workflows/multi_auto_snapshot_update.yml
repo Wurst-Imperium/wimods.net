@@ -102,13 +102,14 @@ jobs:
       run: |
         CF_GAME_VERSION="${{ inputs.cf_game_version }}"
         if [ -z "$CF_GAME_VERSION" ]; then
-          if [ -z "${{ secrets.CURSEFORGE_API_KEY }}" ]; then
-            echo "CurseForge API key is not set"
+          # CfCore is the _other_ CurseForge API, see https://console.curseforge.com/#/api-keys
+          if [ -z "${{ secrets.CFCORE_API_KEY }}" ]; then
+            echo "CfCore API key is not set"
             exit 1
           fi
           RESPONSE=$(curl -s -w "%{http_code}" \
             -H "Accept: application/json" \
-            -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
+            -H "x-api-key: ${{ secrets.CFCORE_API_KEY }}" \
             "https://api.curseforge.com/v1/mods/306612/files")
           STATUS_CODE=${RESPONSE: -3}
           BODY=${RESPONSE::-3}
