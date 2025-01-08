@@ -85,7 +85,7 @@ jobs:
       id: get_yarn_and_loader
       run: |
         RESPONSE=$(curl -s \
-          "https://meta.fabricmc.net/v1/versions/loader/${{ steps.get_mc_version.outputs.mc_version }}")
+          "https://meta.fabricmc.net/v1/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
         if [ "$(echo "$RESPONSE" | jq length)" -gt 0 ]; then
           YARN_VERSION=$(echo "$RESPONSE" | jq -r '.[0].mappings.version')
           LOADER_VERSION=$(echo "$RESPONSE" | jq -r '.[0].loader.version')
@@ -94,7 +94,7 @@ jobs:
           echo "Yarn version: \`$YARN_VERSION\`" >> $GITHUB_STEP_SUMMARY
           echo "Loader version: \`$LOADER_VERSION\`" >> $GITHUB_STEP_SUMMARY
         else
-          echo "No yarn/loader versions found for ${{ steps.get_mc_version.outputs.mc_version }}"
+          echo "No yarn/loader versions found for ${{ steps.get_mc_versions.outputs.mc_version }}"
           echo "Response: $RESPONSE"
           exit 1
         fi
@@ -103,7 +103,7 @@ jobs:
       run: |
         FAPI_VERSION="${{ inputs.fapi_version }}"
         if [ -z "$FAPI_VERSION" ]; then
-          MC_VERSION="${{ steps.get_mc_version.outputs.mc_version }}"
+          MC_VERSION="${{ steps.get_mc_versions.outputs.mc_version }}"
           if [ -z "${{ secrets.GITHUB_TOKEN }}" ]; then
             echo "GitHub token is not set"
             exit 1
@@ -144,7 +144,7 @@ jobs:
           CF_GAME_VERSION=$(echo "$BODY" \
             | jq -r '.data[0].gameVersions[] | select(. != "Fabric")')
           if [ -z "$CF_GAME_VERSION" ]; then
-            echo "No CurseForge game version found for ${{ steps.get_mc_version.outputs.mc_version }}"
+            echo "No CurseForge game version found for ${{ steps.get_mc_versions.outputs.mc_version }}"
             echo "Status code: $STATUS_CODE"
             echo "Response: $BODY"
             exit 1
