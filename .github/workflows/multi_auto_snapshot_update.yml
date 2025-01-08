@@ -109,7 +109,8 @@ jobs:
           fi
           RESPONSE=$(curl -s -w "%{http_code}" \
             -H "Accept: application/json" \
-            -H "x-api-key: ${{ secrets.CFCORE_API_KEY }}" \
+            # Must use single quotes here because the API keys contain $
+            -H 'x-api-key: ${{ secrets.CFCORE_API_KEY }}' \
             "https://api.curseforge.com/v1/mods/306612/files")
           STATUS_CODE=${RESPONSE: -3}
           BODY=${RESPONSE::-3}
