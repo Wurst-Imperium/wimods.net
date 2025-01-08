@@ -1,0 +1,144 @@
+name: Publish Snapshot Mod Ports
+run-name: Publish mod ports for ${{ github.event.inputs.snapshot }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot:
+        description: "Minecraft version / branch name to publish from"
+        required: true
+      include_wurst:
+        description: "Include Wurst Client"
+        type: boolean
+        required: false
+        default: true
+      include_wi_zoom:
+        description: "Include WI Zoom"
+        type: boolean
+        required: false
+        default: true
+      include_mo_glass:
+        description: "Include Mo Glass"
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+
+  wurst:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.include_wurst }}
+    steps:
+    - name: Build Wurst publish inputs
+      id: wurst_inputs
+      run: |
+        JSON_STRING=$(cat << EOF
+        {
+          "close_milestone": "false",
+          "upload_backups": "true",
+          "publish_github": "true",
+          "update_website": "true",
+          "announce_backport": "false"
+        }
+        EOF
+        )
+        # Convert to single line and escape quotes
+        echo "json=${JSON_STRING//$'\n'/}" >> "$GITHUB_OUTPUT"
+    - name: Trigger publish workflow
+      id: wurst_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: Wurst7
+        ref: ${{ github.event.inputs.snapshot }}
+        workflow: publish.yml
+        workflow_inputs: ${{ steps.wurst_inputs.outputs.json }}
+    - name: Wait for publish workflow to finish (run ${{ steps.wurst_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: Wurst7
+        run_id: ${{ steps.wurst_dispatch.outputs.run_id }}
+        run_timeout_seconds: 600  # 10 minutes
+
+  wi_zoom:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.include_wi_zoom }}
+    steps:
+    - name: Build WI Zoom publish inputs
+      id: wi_zoom_inputs
+      run: |
+        JSON_STRING=$(cat << EOF
+        {
+          "close_milestone": "false",
+          "upload_backups": "true",
+          "publish_github": "true",
+          "publish_curseforge": "true",
+          "publish_modrinth": "true",
+          "update_website": "true"
+        }
+        EOF
+        )
+        # Convert to single line and escape quotes
+        echo "json=${JSON_STRING//$'\n'/}" >> "$GITHUB_OUTPUT"
+    - name: Trigger publish workflow
+      id: wi_zoom_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: WI-Zoom
+        ref: ${{ github.event.inputs.snapshot }}
+        workflow: publish.yml
+        workflow_inputs: ${{ steps.wi_zoom_inputs.outputs.json }}
+    - name: Wait for publish workflow to finish (run ${{ steps.wi_zoom_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: WI-Zoom
+        run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
+        run_timeout_seconds: 600  # 10 minutes
+
+  mo_glass:
+    # Can't have two mods updating the wimods.net website at the same time.
+    needs: wi_zoom
+    runs-on: ubuntu-latest
+    if: ${{ inputs.include_mo_glass }}
+    steps:
+    - name: Build Mo Glass publish inputs
+      id: mo_glass_inputs
+      run: |
+        JSON_STRING=$(cat << EOF
+        {
+          "close_milestone": "false",
+          "upload_backups": "true",
+          "publish_github": "true",
+          "publish_curseforge": "true",
+          "publish_modrinth": "true",
+          "update_website": "true"
+        }
+        EOF
+        )
+        # Convert to single line and escape quotes
+        echo "json=${JSON_STRING//$'\n'/}" >> "$GITHUB_OUTPUT"
+    - name: Trigger publish workflow
+      id: mo_glass_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: Mo-Glass
+        ref: ${{ github.event.inputs.snapshot }}
+        workflow: publish.yml
+        workflow_inputs: ${{ steps.mo_glass_inputs.outputs.json }}
+    - name: Wait for publish workflow to finish (run ${{ steps.mo_glass_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: Mo-Glass
+        run_id: ${{ steps.mo_glass_dispatch.outputs.run_id }}
+        run_timeout_seconds: 600  # 10 minutes
