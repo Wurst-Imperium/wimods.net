@@ -15,6 +15,8 @@ mcversions:
 neoforge:
 - 1.21.3
 - '1.21'
+snapshots:
+- 25w02a
 ---
 ## Changelog
 
