@@ -101,7 +101,7 @@ jobs:
           RESPONSE=$(curl -s \
             -H "Accept: application/json" \
             -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
-            "https://api.curseforge.com/v1/games/minecraft/mods/306612/files?pageSize=1")
+            "https://api.curseforge.com/v1/mods/306612/files")
           CF_GAME_VERSION=$(echo "$RESPONSE" \
             | jq -r '.data[0].gameVersions[] | select(. != "Fabric")')
           if [ -z "$CF_GAME_VERSION" ]; then
