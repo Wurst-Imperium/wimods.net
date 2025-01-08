@@ -106,15 +106,18 @@ jobs:
             echo "CurseForge API key is not set"
             exit 1
           fi
-          RESPONSE=$(curl -s \
+          RESPONSE=$(curl -s -w "%{http_code}" \
             -H "Accept: application/json" \
             -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
             "https://api.curseforge.com/v1/mods/306612/files")
-          CF_GAME_VERSION=$(echo "$RESPONSE" \
+          STATUS_CODE=${RESPONSE: -3}
+          BODY=${RESPONSE::-3}
+          CF_GAME_VERSION=$(echo "$BODY" \
             | jq -r '.data[0].gameVersions[] | select(. != "Fabric")')
           if [ -z "$CF_GAME_VERSION" ]; then
             echo "No CurseForge game version found for ${{ steps.get_mc_version.outputs.mc_version }}"
-            echo "Response: $RESPONSE"
+            echo "Status code: $STATUS_CODE"
+            echo "Response: $BODY"
             exit 1
           fi
         fi
