@@ -107,9 +107,9 @@ jobs:
             echo "CfCore API key is not set"
             exit 1
           fi
+          # Must use single quotes here because the API keys contain $
           RESPONSE=$(curl -s -w "%{http_code}" \
             -H "Accept: application/json" \
-            # Must use single quotes here because the API keys contain $
             -H 'x-api-key: ${{ secrets.CFCORE_API_KEY }}' \
             "https://api.curseforge.com/v1/mods/306612/files")
           STATUS_CODE=${RESPONSE: -3}
