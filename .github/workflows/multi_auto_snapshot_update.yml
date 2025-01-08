@@ -59,17 +59,7 @@ jobs:
             fi
           fi
           if [ -z "$PREV_MC_VERSION" ]; then
-            # Get all release/snapshot versions sorted by releaseTime
-            PREV_MC_VERSION=$(echo "$RESPONSE" | jq -r --arg VERSION "$MC_VERSION" '
-              .versions |
-              map(select(.type == "snapshot" or .type == "release")) |
-              sort_by(.releaseTime) |
-              reverse |
-              to_entries |
-              map(select(.value.id == $VERSION)) |
-              .[0].key as $idx |
-              .[$idx + 1].value.id
-            ')
+            PREV_MC_VERSION=$(echo "$RESPONSE" | jq -r --arg MC_VERSION "$MC_VERSION" '.versions | map(select(.id != $MC_VERSION)) | .[0].id')
             if [ -z "$PREV_MC_VERSION" ]; then
               echo "No previous Minecraft version found"
               echo "Response: $RESPONSE"
