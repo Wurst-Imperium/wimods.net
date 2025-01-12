@@ -38,59 +38,59 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
-        run: echo ${{ github.event.inputs.distinct_id }}
+    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
+      run: echo ${{ github.event.inputs.distinct_id }}
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-          cache-dependency-path: scripts/requirements.txt
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: "pip"
+        cache-dependency-path: scripts/requirements.txt
 
-      - name: Install dependencies
-        run: pip install -r scripts/requirements.txt
+    - name: Install dependencies
+      run: pip install -r scripts/requirements.txt
 
-      - name: Run add_mod_port.py
-        run: |
-          python scripts/add_mod_port.py \
-            "${{ github.event.inputs.mod }}" \
-            "${{ github.event.inputs.modloader }}" \
-            "${{ github.event.inputs.mod_version }}" \
-            "${{ github.event.inputs.mc_version }}" \
-            ${{ github.event.inputs.modloader == 'fabric' && format('--fapi_version {0}', github.event.inputs.fapi_version) || '' }} \
-            "${{ github.event.inputs.file_id }}"
+    - name: Run add_mod_port.py
+      run: |
+        python scripts/add_mod_port.py \
+          "${{ github.event.inputs.mod }}" \
+          "${{ github.event.inputs.modloader }}" \
+          "${{ github.event.inputs.mod_version }}" \
+          "${{ github.event.inputs.mc_version }}" \
+          ${{ github.event.inputs.modloader == 'fabric' && format('--fapi_version {0}', github.event.inputs.fapi_version) || '' }} \
+          "${{ github.event.inputs.file_id }}"
 
-      - name: Commit changes
-        run: |
-          MOD="${{ github.event.inputs.mod }}"
-          MOD_VERSION="${{ github.event.inputs.mod_version }}"
-          MC_VERSION="${{ github.event.inputs.mc_version }}"
-          MODLOADER="${{ github.event.inputs.modloader }}"
-          git config --local user.email "contact.wurstimperium@gmail.com"
-          git config --local user.name "Wurst-Bot"
-          git add .
-          git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION ($MODLOADER)"
-          git push
+    - name: Commit changes
+      run: |
+        MOD="${{ github.event.inputs.mod }}"
+        MOD_VERSION="${{ github.event.inputs.mod_version }}"
+        MC_VERSION="${{ github.event.inputs.mc_version }}"
+        MODLOADER="${{ github.event.inputs.modloader }}"
+        git config --local user.email "contact.wurstimperium@gmail.com"
+        git config --local user.name "Wurst-Bot"
+        git add .
+        git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION ($MODLOADER)"
+        git push
 
-      - name: Trigger hugo workflow
-        id: hugo_dispatch
-        uses: codex-/return-dispatch@v2
-        with:
-          token: ${{ github.token }}
-          owner: Wurst-Imperium
-          repo: wimods.net
-          ref: master
-          workflow: hugo.yml
+    - name: Trigger hugo workflow
+      id: hugo_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ github.token }}
+        owner: Wurst-Imperium
+        repo: wimods.net
+        ref: master
+        workflow: hugo.yml
 
-      - name: Wait for website update to finish (run ${{ steps.hugo_dispatch.outputs.run_id }})
-        uses: codex-/await-remote-run@v1
-        with:
-          token: ${{ github.token }}
-          owner: Wurst-Imperium
-          repo: wimods.net
-          run_id: ${{ steps.hugo_dispatch.outputs.run_id }}
-          run_timeout_seconds: 300  # 5 minutes
+    - name: Wait for hugo workflow to finish (run ${{ steps.hugo_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ github.token }}
+        owner: Wurst-Imperium
+        repo: wimods.net
+        run_id: ${{ steps.hugo_dispatch.outputs.run_id }}
+        run_timeout_seconds: 300  # 5 minutes

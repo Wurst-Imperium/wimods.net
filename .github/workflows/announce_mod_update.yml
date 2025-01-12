@@ -16,28 +16,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-          cache-dependency-path: scripts/requirements.txt
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: "pip"
+        cache-dependency-path: scripts/requirements.txt
 
-      - name: Install dependencies
-        run: |
-          pip install -r scripts/requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install -r scripts/requirements.txt
 
-      - name: Run announce_mod_update.py
-        id: announce
-        env:
-          WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
-        run: |
-          python scripts/announce_mod_update.py "${{ github.event.inputs.mod }}" "${{ github.event.inputs.mod_version }}"
+    - name: Run announce_mod_update.py
+      id: announce
+      env:
+        WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
+      run: |
+        python scripts/announce_mod_update.py \
+          "${{ github.event.inputs.mod }}" \
+          "${{ github.event.inputs.mod_version }}"
 
-      - name: Write summary
-        run: |
-          echo "Discussion ID: ${{ steps.announce.outputs.discussion_id }}" >> $GITHUB_STEP_SUMMARY
-          echo "Link: <https://wurstforum.net/d/${{ steps.announce.outputs.discussion_id }}>" >> $GITHUB_STEP_SUMMARY
+    - name: Write summary
+      run: |
+        echo "Discussion ID: ${{ steps.announce.outputs.discussion_id }}" >> $GITHUB_STEP_SUMMARY
+        echo "Link: <https://wurstforum.net/d/${{ steps.announce.outputs.discussion_id }}>" >> $GITHUB_STEP_SUMMARY
