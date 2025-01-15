@@ -1,11 +1,13 @@
 import json
 import os
+import requests
 import tomli
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap, CommentedSeq
+from typing import Iterator
 
 yaml = YAML()
 yaml.preserve_quotes = True
@@ -16,6 +18,18 @@ class HugoPost:
 	front_matter: CommentedMap
 	content: str
 	path: Path
+
+	def get_update_url(self) -> str:
+		mod = self.front_matter["mod"]
+		version = self.front_matter["modversion"]
+		return f"https://www.wimods.net/{mod}/{mod}-{version.replace('.', '-')}/"
+
+
+@dataclass
+class WurstForumDiscussion:
+	title: str
+	tags: list[int]
+	content: str
 
 
 def read_post(path: Path) -> HugoPost:
@@ -41,19 +55,66 @@ def write_front_matter(path: Path, front_matter: CommentedMap):
 	path.write_text(new_content, encoding="utf-8", newline="\n")
 
 
-def find_mod_update_post(mod: str, version: str) -> HugoPost:
-	"""Find the mod update post for a specific version."""
+def get_mod_update_posts(mod: str) -> Iterator[Path]:
+	"""Get all update post paths for the given mod."""
 	posts_folder = Path("content") / mod
-	version_slug = version.replace(".", "-")
-	for post_path in posts_folder.rglob(f"*-{version_slug}.md"):
-		if not post_path.is_file():
-			continue
+	for post_path in posts_folder.rglob("*.md"):
+		if post_path.is_file() and post_path.name.lower().startswith(mod):
+			yield post_path
 
+
+def find_mod_update_post(mod: str, version: str) -> HugoPost:
+	"""Find and read the mod update post for a specific version."""
+	for post_path in get_mod_update_posts(mod):
 		post = read_post(post_path)
 		if post.front_matter.get("modversion") == version:
 			return post
 
 	raise ValueError(f"Could not find post for mod {mod} version {version}")
+
+
+def parse_changelog(content: str) -> str:
+	"""Parse the changelog from the content of a mod update post."""
+	changelog_lines = []
+	for line in content[content.find("## Changelog") :].splitlines():
+		stripped = line.strip()
+		if not stripped or stripped.startswith("-") or stripped.startswith("## Changelog"):
+			changelog_lines.append(line)
+			continue
+		break
+	return "\n".join(changelog_lines).strip()
+
+
+def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -> int:
+	"""Upload a new discussion to WurstForum and return its ID."""
+	url = "https://wurstforum.net/api/discussions"
+	headers = {"Authorization": f"Token {os.getenv('WURSTFORUM_TOKEN')}"}
+	data = {
+		"data": {
+			"type": "discussions",
+			"attributes": {
+				"title": discussion.title,
+				"content": discussion.content,
+			},
+			"relationships": {
+				"tags": {
+					"data": [{"type": "tags", "id": tag_id} for tag_id in discussion.tags],
+				},
+			},
+		},
+	}
+
+	print(f"Request data: {json.dumps(data, indent=2)}")
+	if dry_run:
+		return 123
+
+	response = requests.post(url, headers=headers, json=data)
+	if not response.ok:
+		raise requests.HTTPError(f"Request failed (code {response.status_code}): {response.text}")
+	discussion_id = response.json().get("data", {}).get("id")
+	if not discussion_id:
+		raise ValueError(f"No discussion ID in response: {response.text}")
+	return discussion_id
 
 
 def read_yaml_file(path: Path) -> CommentedMap | CommentedSeq:

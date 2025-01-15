@@ -1,19 +1,7 @@
 import argparse
-import json
-import os
-import requests
 import util
-from dataclasses import dataclass
 from pathlib import Path
-from util import HugoPost
-
-
-@dataclass
-class WurstForumDiscussion:
-	title: str
-	tags: list[int]
-	content: str
-
+from util import HugoPost, WurstForumDiscussion
 
 announcement_template = """
 @"Everyone"#g7 {mod_name} {mod_version} is now available. Download it here: <{update_url}>
@@ -22,18 +10,6 @@ announcement_template = """
 
 {changelog}
 """.strip()
-
-
-def parse_changelog(content: str) -> str:
-	"""Parse the changelog from the content of a Wurst update post."""
-	changelog_lines = []
-	for line in content[content.find("## Changelog") :].splitlines():
-		stripped = line.strip()
-		if not stripped or stripped.startswith("-") or stripped.startswith("## Changelog"):
-			changelog_lines.append(line)
-			continue
-		break
-	return "\n".join(changelog_lines).strip()
 
 
 def create_announcement(mod_update: HugoPost) -> WurstForumDiscussion:
@@ -56,41 +32,12 @@ def create_announcement(mod_update: HugoPost) -> WurstForumDiscussion:
 		title=title,
 		mod_name=mod_name,
 		mod_version=mod_version,
-		update_url=f"https://www.wimods.net/{mod}/{mod}-{mod_version.replace('.', '-')}/",
+		update_url=mod_update.get_update_url(),
 		image_url=mod_update.front_matter["image"],
-		changelog=parse_changelog(mod_update.content),
+		changelog=util.parse_changelog(mod_update.content),
 	)
 
 	return WurstForumDiscussion(title, list(tags.values()), content)
-
-
-def upload_discussion(discussion: WurstForumDiscussion) -> int:
-	"""Upload a new discussion to WurstForum and return its ID."""
-	url = "https://wurstforum.net/api/discussions"
-	headers = {"Authorization": f"Token {os.getenv('WURSTFORUM_TOKEN')}"}
-	data = {
-		"data": {
-			"type": "discussions",
-			"attributes": {
-				"title": discussion.title,
-				"content": discussion.content,
-			},
-			"relationships": {
-				"tags": {
-					"data": [{"type": "tags", "id": tag_id} for tag_id in discussion.tags],
-				},
-			},
-		},
-	}
-
-	print(f"Request data: {json.dumps(data, indent=2)}")
-	response = requests.post(url, headers=headers, json=data)
-	if not response.ok:
-		raise requests.HTTPError(f"Request failed (code {response.status_code}): {response.text}")
-	discussion_id = response.json().get("data", {}).get("id")
-	if not discussion_id:
-		raise ValueError(f"No discussion ID in response: {response.text}")
-	return discussion_id
 
 
 def main(mod, mod_version):
@@ -100,7 +47,7 @@ def main(mod, mod_version):
 	print(f"Title: {announcement.title}")
 	print(f"Content: {announcement.content}")
 
-	discussion_id = upload_discussion(announcement)
+	discussion_id = util.upload_discussion(announcement)
 	print(f"https://wurstforum.net/d/{discussion_id}")
 	util.set_github_output("discussion_id", discussion_id)
 

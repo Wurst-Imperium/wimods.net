@@ -26,12 +26,15 @@ def update_mod_post(mod, modloader, mod_version, mc_version):
 				key=lambda v: version_info[v]["releaseTime"],
 				reverse=True,
 			)
-	elif mc_version not in front_matter["mcversions"]:
-		front_matter["mcversions"].append(mc_version)
-		front_matter["mcversions"].sort(
-			key=lambda v: version_info[v]["releaseTime"],
-			reverse=True,
-		)
+	else:
+		if "mcversions" not in front_matter:
+			front_matter["mcversions"] = []
+		if mc_version not in front_matter["mcversions"]:
+			front_matter["mcversions"].append(mc_version)
+			front_matter["mcversions"].sort(
+				key=lambda v: version_info[v]["releaseTime"],
+				reverse=True,
+			)
 
 	if modloader == "neoforge":
 		if "neoforge" not in front_matter:
