@@ -1,5 +1,5 @@
-import argparse
 import util
+from argparse import ArgumentParser
 from pathlib import Path
 from util import HugoPost, WurstForumDiscussion
 
@@ -53,7 +53,7 @@ def main(mod, mod_version):
 
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description="Announces a new mod update on WurstForum")
+	parser = ArgumentParser(description="Announces a new mod update on WurstForum")
 	parser.add_argument("mod", help="Mod ID (as it appears in config.toml)")
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
 	args = parser.parse_args()

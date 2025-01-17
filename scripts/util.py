@@ -3,6 +3,7 @@ import os
 import requests
 import tomli
 from dataclasses import dataclass
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from ruamel.yaml import YAML
@@ -23,6 +24,15 @@ class HugoPost:
 		mod = self.front_matter["mod"]
 		version = self.front_matter["modversion"]
 		return f"https://www.wimods.net/{mod}/{mod}-{version.replace('.', '-')}/"
+
+	def get_date(self) -> datetime:
+		return datetime.fromisoformat(str(self.front_matter["date"]))
+
+	def get_mod_version(self) -> str:
+		return self.front_matter["modversion"]
+
+	def get_mc_versions(self) -> list[str]:
+		return self.front_matter.get("mcversions", [])
 
 
 @dataclass
@@ -55,19 +65,18 @@ def write_front_matter(path: Path, front_matter: CommentedMap):
 	path.write_text(new_content, encoding="utf-8", newline="\n")
 
 
-def get_mod_update_posts(mod: str) -> Iterator[Path]:
+def get_mod_update_posts(mod: str) -> Iterator[HugoPost]:
 	"""Get all update post paths for the given mod."""
 	posts_folder = Path("content") / mod
 	for post_path in posts_folder.rglob("*.md"):
 		if post_path.is_file() and post_path.name.lower().startswith(mod):
-			yield post_path
+			yield read_post(post_path)
 
 
 def find_mod_update_post(mod: str, version: str) -> HugoPost:
 	"""Find and read the mod update post for a specific version."""
-	for post_path in get_mod_update_posts(mod):
-		post = read_post(post_path)
-		if post.front_matter.get("modversion") == version:
+	for post in get_mod_update_posts(mod):
+		if post.get_mod_version() == version:
 			return post
 
 	raise ValueError(f"Could not find post for mod {mod} version {version}")
