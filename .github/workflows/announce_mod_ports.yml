@@ -1,0 +1,60 @@
+name: Announce Mod Ports
+run-name: Announce new ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} port(s) on WurstForum
+
+on:
+  workflow_dispatch:
+    inputs:
+      mod:
+        description: "Mod ID (as it appears in config.toml)"
+        required: true
+      mod_version:
+        description: "Mod version (without v or -MC)"
+        required: true
+      targets:
+        description: "Space-separated list of Minecraft versions with modloaders (e.g. '1.21.1:fabric 1.21.1:neoforge')"
+        required: true
+      dry_run:
+        description: "Don't actually upload the announcement"
+        type: boolean
+        default: false
+      distinct_id:
+        description: "Automatically set by the return-dispatch action (leave blank if running manually)"
+        required: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
+      run: echo ${{ github.event.inputs.distinct_id }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: "pip"
+        cache-dependency-path: scripts/requirements.txt
+
+    - name: Install dependencies
+      run: |
+        pip install -r scripts/requirements.txt
+
+    - name: Run announce_mod_ports.py
+      id: announce
+      env:
+        WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
+      run: |
+        python scripts/announce_mod_ports.py \
+          "${{ github.event.inputs.mod }}" \
+          "${{ github.event.inputs.mod_version }}" \
+          ${{ github.event.inputs.targets }} \
+          ${{ github.event.inputs.dry_run && '--dry-run' || '' }}
+
+    - name: Write summary
+      run: |
+        echo "Discussion ID: ${{ steps.announce.outputs.discussion_id }}" >> $GITHUB_STEP_SUMMARY
+        echo "Link: <https://wurstforum.net/d/${{ steps.announce.outputs.discussion_id }}>" >> $GITHUB_STEP_SUMMARY
