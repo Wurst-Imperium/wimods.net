@@ -31,8 +31,16 @@ class HugoPost:
 	def get_mod_version(self) -> str:
 		return self.front_matter["modversion"]
 
-	def get_mc_versions(self) -> list[str]:
-		return self.front_matter.get("mcversions", [])
+	def get_mc_versions(self, modloader: str) -> list[str]:
+		if modloader == "fabric":
+			return [
+				v
+				for v in self.front_matter.get("mcversions", [])
+				if v not in self.front_matter.get("nofabric", [])
+			]
+		if modloader == "neoforge":
+			return self.front_matter.get("neoforge", [])
+		raise ValueError(f"Invalid modloader: {modloader}")
 
 
 @dataclass
