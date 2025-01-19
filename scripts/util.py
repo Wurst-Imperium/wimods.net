@@ -127,6 +127,9 @@ def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -
 		add_github_summary(f"Title: {discussion.title}")
 		add_github_summary(f"Tags: {discussion.tags}")
 		add_github_summary(discussion.content)
+		assert (
+			len(discussion.title) <= 80
+		), "Title is longer than 80 characters, WurstForum would have rejected this request"
 		set_github_output("discussion_id", "123")
 		return 123
 
