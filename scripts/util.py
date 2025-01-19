@@ -123,6 +123,11 @@ def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -
 
 	print(f"Request data: {json.dumps(data, indent=2)}")
 	if dry_run:
+		add_github_summary("Dry-run mode, would have posted the following:")
+		add_github_summary(f"Title: {discussion.title}")
+		add_github_summary(f"Tags: {discussion.tags}")
+		add_github_summary(discussion.content)
+		set_github_output("discussion_id", "123")
 		return 123
 
 	response = requests.post(url, headers=headers, json=data)
@@ -131,6 +136,10 @@ def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -
 	discussion_id = response.json().get("data", {}).get("id")
 	if not discussion_id:
 		raise ValueError(f"No discussion ID in response: {response.text}")
+
+	add_github_summary(f"Discussion ID: {discussion_id}")
+	add_github_summary(f"Link: <https://wurstforum.net/d/{discussion_id}>")
+	set_github_output("discussion_id", discussion_id)
 	return discussion_id
 
 

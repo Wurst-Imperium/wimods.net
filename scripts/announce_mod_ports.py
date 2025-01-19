@@ -167,17 +167,7 @@ def main(mod: str, mod_version: str, mod_targets: list[ModTarget], dry_run: bool
 
 	# Upload announcement
 	announcement = WurstForumDiscussion(title, list(tags.values()), content)
-	discussion_id = util.upload_discussion(announcement, dry_run=dry_run)
-
-	util.set_github_output("discussion_id", discussion_id)
-	if dry_run:
-		util.add_github_summary("Dry-run mode, would have posted the following:")
-		util.add_github_summary(f"Title: {announcement.title}")
-		util.add_github_summary(f"Tags: {announcement.tags}")
-		util.add_github_summary(announcement.content)
-	else:
-		util.add_github_summary(f"Discussion ID: {discussion_id}")
-		util.add_github_summary(f"Link: <https://wurstforum.net/d/{discussion_id}>")
+	util.upload_discussion(announcement, dry_run=dry_run)
 
 
 if __name__ == "__main__":
