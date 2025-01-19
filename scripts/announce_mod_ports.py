@@ -122,6 +122,8 @@ def main(mod: str, mod_version: str, mod_targets: list[ModTarget], dry_run: bool
 	# Title
 	formatted_targets = " / ".join(str(target) for target in mod_targets)
 	title = f"{mod_name} {mod_version} ported to Minecraft {formatted_targets}"
+	if len(title) > 80:
+		title = f"{mod_name} {mod_version} ported to new Minecraft versions"
 
 	# Tag IDs - check these at https://wurstforum.net/api/tags
 	tags = {
