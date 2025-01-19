@@ -8,6 +8,7 @@ mod: wi-zoom
 modversion: "1.6"
 mcversions:
 - 1.21.4
+- 1.21.3
 snapshots:
 - 25w03a
 - 25w02a
