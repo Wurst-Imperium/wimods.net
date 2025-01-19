@@ -50,6 +50,8 @@ def main(mod, mod_version):
 	discussion_id = util.upload_discussion(announcement)
 	print(f"https://wurstforum.net/d/{discussion_id}")
 	util.set_github_output("discussion_id", discussion_id)
+	util.add_github_summary(f"Discussion ID: {discussion_id}")
+	util.add_github_summary(f"Link: <https://wurstforum.net/d/{discussion_id}>")
 
 
 if __name__ == "__main__":

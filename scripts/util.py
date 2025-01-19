@@ -168,3 +168,12 @@ def set_github_output(key: str, value: str):
 		return
 	with open(os.environ["GITHUB_OUTPUT"], "a") as env:
 		print(f"{key}={value}", file=env)
+
+
+def add_github_summary(summary: str):
+	"""Add a line to the GitHub Actions summary for the current step."""
+	if "GITHUB_STEP_SUMMARY" not in os.environ:
+		print(summary)
+		return
+	with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary_file:
+		print(summary, file=summary_file)
