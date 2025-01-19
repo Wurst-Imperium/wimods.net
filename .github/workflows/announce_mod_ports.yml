@@ -50,4 +50,4 @@ jobs:
           "${{ github.event.inputs.mod }}" \
           "${{ github.event.inputs.mod_version }}" \
           ${{ github.event.inputs.targets }} \
-          ${{ github.event.inputs.dry_run && '--dry-run' || '' }}
+          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
