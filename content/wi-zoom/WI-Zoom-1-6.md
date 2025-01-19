@@ -13,6 +13,7 @@ snapshots:
 - 25w03a
 - 25w02a
 neoforge:
+- 1.21.4
 - 1.21.3
 ---
 ## Changelog
