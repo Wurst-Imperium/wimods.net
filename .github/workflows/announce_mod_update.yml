@@ -10,6 +10,10 @@ on:
       mod_version:
         description: "Mod version (without v or -MC)"
         required: true
+      dry_run:
+        description: "Don't actually upload the announcement"
+        type: boolean
+        default: false
 
 jobs:
   announce:
@@ -35,4 +39,5 @@ jobs:
       run: |
         python scripts/announce_mod_update.py \
           "${{ github.event.inputs.mod }}" \
-          "${{ github.event.inputs.mod_version }}"
+          "${{ github.event.inputs.mod_version }}" \
+          ${{ github.event.inputs.dry_run && '--dry-run' || '' }}
