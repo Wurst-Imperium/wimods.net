@@ -27,13 +27,18 @@ on:
         type: boolean
         required: false
         default: true
+      announce_only:
+        description: "Only announce, don't publish"
+        type: boolean
+        required: false
+        default: false
 
 
 jobs:
 
   wurst:
     runs-on: ubuntu-latest
-    if: ${{ inputs.include_wurst }}
+    if: ${{ inputs.include_wurst && !inputs.announce_only }}
     steps:
     - name: Build Wurst publish inputs
       id: wurst_inputs
@@ -71,7 +76,7 @@ jobs:
 
   wi_zoom:
     runs-on: ubuntu-latest
-    if: ${{ inputs.include_wi_zoom }}
+    if: ${{ inputs.include_wi_zoom && !inputs.announce_only }}
     steps:
     - name: Build WI Zoom publish inputs
       id: wi_zoom_inputs
@@ -112,7 +117,7 @@ jobs:
     # Can't have two mods updating the wimods.net website at the same time.
     needs: wi_zoom
     runs-on: ubuntu-latest
-    if: ${{ inputs.include_mo_glass }}
+    if: ${{ inputs.include_mo_glass && !inputs.announce_only }}
     steps:
     - name: Build Mo Glass publish inputs
       id: mo_glass_inputs
