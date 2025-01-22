@@ -179,7 +179,7 @@ jobs:
         owner: Wurst-Imperium
         repo: Wurst7
         run_id: ${{ steps.wurst_dispatch.outputs.run_id }}
-        run_timeout_seconds: 600  # 10 minutes
+        run_timeout_seconds: 1200  # 20 minutes
 
   wi_zoom:
     runs-on: ubuntu-latest
@@ -218,7 +218,7 @@ jobs:
         owner: Wurst-Imperium
         repo: WI-Zoom
         run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
-        run_timeout_seconds: 600  # 10 minutes
+        run_timeout_seconds: 1200  # 20 minutes
 
   mo_glass:
     runs-on: ubuntu-latest
@@ -257,4 +257,4 @@ jobs:
         owner: Wurst-Imperium
         repo: Mo-Glass
         run_id: ${{ steps.mo_glass_dispatch.outputs.run_id }}
-        run_timeout_seconds: 600  # 10 minutes
+        run_timeout_seconds: 1200  # 20 minutes
