@@ -10,8 +10,8 @@ on:
       mod_version:
         description: "Mod version (without v or -MC)"
         required: true
-      targets:
-        description: "Space-separated list of Minecraft versions with modloaders (e.g. '1.21.1:fabric 1.21.1:neoforge')"
+      branches:
+        description: "Space-separated list of branch names (e.g. 'master 1.21.3-neoforge')"
         required: true
       dry_run:
         description: "Don't actually upload the announcement"
@@ -49,5 +49,5 @@ jobs:
         python scripts/announce_mod_ports.py \
           "${{ github.event.inputs.mod }}" \
           "${{ github.event.inputs.mod_version }}" \
-          ${{ github.event.inputs.targets }} \
+          ${{ github.event.inputs.branches }} \
           ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}

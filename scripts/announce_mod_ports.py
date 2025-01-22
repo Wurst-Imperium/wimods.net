@@ -12,10 +12,21 @@ class ModTarget:
 	modloader: str
 
 	@classmethod
-	def from_string(cls, combined: str) -> "ModTarget":
-		mc_version, modloader = combined.split(":")
-		if modloader not in ["fabric", "neoforge"]:
-			raise ValueError(f"Invalid modloader: {modloader}")
+	def from_branch(cls, mod: str, branch: str) -> "ModTarget":
+		"""Extract MC version and modloader from gradle.properties in the given branch."""
+		props = util.read_gradle_properties(mod, branch)
+
+		mc_version = props.get("minecraft_version")
+		if not mc_version:
+			raise ValueError(f"Could not find Minecraft version in {mod}@{branch}")
+
+		if "fabric_version" in props:
+			modloader = "fabric"
+		elif "neo_version" in props:
+			modloader = "neoforge"
+		else:
+			raise ValueError(f"Could not determine modloader in {mod}@{branch}")
+
 		return cls(mc_version, modloader)
 
 	def __str__(self) -> str:
@@ -176,14 +187,10 @@ if __name__ == "__main__":
 	parser = ArgumentParser(description="Announces a new set of mod ports on WurstForum")
 	parser.add_argument("mod", help="Mod ID (as it appears in config.toml)")
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
-	parser.add_argument(
-		"mod_targets",
-		nargs="+",
-		help="Minecraft versions with modloaders that the mod was ported to (e.g. 1.21.1:fabric)",
-	)
+	parser.add_argument("branches", nargs="+", help="Branch names (e.g. 'master 1.21.3-neoforge')")
 	parser.add_argument(
 		"--dry-run", action="store_true", help="Don't actually upload the announcement"
 	)
 	args = parser.parse_args()
-	mod_targets = [ModTarget.from_string(t) for t in args.mod_targets]
+	mod_targets = [ModTarget.from_branch(args.mod, branch) for branch in args.branches]
 	main(args.mod, args.mod_version, mod_targets, args.dry_run)
