@@ -31,11 +31,12 @@ class HugoPost:
 	def get_mod_version(self) -> str:
 		return self.front_matter["modversion"]
 
-	def get_mc_versions(self, modloader: str) -> list[str]:
+	def get_mc_versions_including_snapshots(self, modloader: str) -> list[str]:
 		if modloader == "fabric":
 			return [
 				v
 				for v in self.front_matter.get("mcversions", [])
+				+ self.front_matter.get("snapshots", [])
 				if v not in self.front_matter.get("nofabric", [])
 			]
 		if modloader == "neoforge":

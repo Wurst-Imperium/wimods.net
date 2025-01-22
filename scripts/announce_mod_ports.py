@@ -40,7 +40,7 @@ def find_update_before(mod: str, before_date: datetime, target: ModTarget) -> Hu
 	for post in util.get_mod_update_posts(mod):
 		if post.get_date() >= before_date:
 			continue
-		if target.mc_version in post.get_mc_versions(target.modloader):
+		if target.mc_version in post.get_mc_versions_including_snapshots(target.modloader):
 			if latest_post is None or post.get_date() > latest_post.get_date():
 				latest_post = post
 	return latest_post
