@@ -152,14 +152,14 @@ def main(mod: str, mod_version: str, mod_targets: list[ModTarget], dry_run: bool
 				mod_name=mod_name,
 				mod_version=mod_version,
 				target=target,
-				update_url=current_update.get_update_url(),
+				update_url=f"{current_update.get_update_url()}?mc={target.mc_version}",
 			)
 		else:
 			content = announcement_template_one.format(
 				mod_name=mod_name,
 				mod_version=mod_version,
 				target=target,
-				update_url=current_update.get_update_url(),
+				update_url=f"{current_update.get_update_url()}?mc={target.mc_version}",
 				changelogs=combine_changelogs(mod, mod_name, target, current_update, prev_update),
 			)
 	else:
