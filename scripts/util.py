@@ -13,6 +13,8 @@ from typing import Iterator
 yaml = YAML()
 yaml.preserve_quotes = True
 
+_wurstforum_headers = {"Authorization": f"Token {os.getenv('WURSTFORUM_TOKEN')}"}
+
 
 @dataclass
 class HugoPost:
@@ -106,7 +108,6 @@ def parse_changelog(content: str) -> str:
 def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -> int:
 	"""Upload a new discussion to WurstForum and return its ID."""
 	url = "https://wurstforum.net/api/discussions"
-	headers = {"Authorization": f"Token {os.getenv('WURSTFORUM_TOKEN')}"}
 	data = {
 		"data": {
 			"type": "discussions",
@@ -134,7 +135,7 @@ def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -
 		set_github_output("discussion_id", "123")
 		return 123
 
-	response = requests.post(url, headers=headers, json=data)
+	response = requests.post(url, headers=_wurstforum_headers, json=data)
 	if not response.ok:
 		raise requests.HTTPError(f"Request failed (code {response.status_code}): {response.text}")
 	discussion_id = response.json().get("data", {}).get("id")
@@ -145,6 +146,43 @@ def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -
 	add_github_summary(f"Link: <https://wurstforum.net/d/{discussion_id}>")
 	set_github_output("discussion_id", discussion_id)
 	return discussion_id
+
+
+def upload_post(discussion_id: str | int, content: str, dry_run: bool = False) -> int:
+	"""Upload a post to an existing WurstForum discussion and return its ID."""
+	url = "https://wurstforum.net/api/posts"
+	data = {
+		"data": {
+			"type": "posts",
+			"attributes": {
+				"content": content,
+			},
+			"relationships": {
+				"discussion": {
+					"data": {"type": "discussions", "id": str(discussion_id)},
+				},
+			},
+		},
+	}
+
+	print(f"Request data: {json.dumps(data, indent=2)}")
+	if dry_run:
+		add_github_summary("Dry-run mode, would have posted the following:")
+		add_github_summary(f"Discussion ID: {discussion_id}")
+		add_github_summary(content)
+		set_github_output("post_id", "123")
+		return 123
+
+	response = requests.post(url, headers=_wurstforum_headers, json=data)
+	if not response.ok:
+		raise requests.HTTPError(f"Request failed (code {response.status_code}): {response.text}")
+	post_id = response.json().get("data", {}).get("id")
+	if not post_id:
+		raise ValueError(f"No post ID in response: {response.text}")
+
+	add_github_summary(f"Post ID: {post_id}")
+	set_github_output("post_id", post_id)
+	return post_id
 
 
 def read_yaml_file(path: Path) -> CommentedMap | CommentedSeq:
