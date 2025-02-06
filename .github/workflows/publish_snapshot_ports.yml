@@ -93,6 +93,7 @@ jobs:
         run_timeout_seconds: 600  # 10 minutes
 
   wi_mods:
+    name: ${{ matrix.mod.name }}
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
