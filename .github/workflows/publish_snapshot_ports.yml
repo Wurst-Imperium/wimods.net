@@ -36,6 +36,23 @@ on:
 
 jobs:
 
+  prepare:
+    runs-on: ubuntu-latest
+    if: ${{ (inputs.include_wi_zoom || inputs.include_mo_glass) && !inputs.announce_only }}
+    outputs:
+      matrix: ${{ steps.set_matrix.outputs.matrix }}
+    steps:
+    - id: set_matrix
+      run: |
+        mods=()
+        if [[ "${{ inputs.include_wi_zoom }}" == "true" ]]; then
+          mods+=('{"name": "WI Zoom", "repo": "WI-Zoom"}')
+        fi
+        if [[ "${{ inputs.include_mo_glass }}" == "true" ]]; then
+          mods+=('{"name": "Mo Glass", "repo": "Mo-Glass"}')
+        fi
+        echo "matrix={\"mod\":[$(IFS=,; echo "${mods[*]}")]}" >> "$GITHUB_OUTPUT"
+
   wurst:
     name: Wurst Client
     runs-on: ubuntu-latest
@@ -76,22 +93,12 @@ jobs:
         run_timeout_seconds: 600  # 10 minutes
 
   wi_mods:
+    needs: prepare
     runs-on: ubuntu-latest
-    if: ${{ (inputs.include_wi_zoom || inputs.include_mo_glass) && !inputs.announce_only }}
     strategy:
-      matrix:
-        mod:
-        - name: WI Zoom
-          repo: WI-Zoom
-          run: ${{ inputs.include_wi_zoom }}
-        - name: Mo Glass
-          repo: Mo-Glass
-          run: ${{ inputs.include_mo_glass }}
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
       max-parallel: 1
     steps:
-    - name: Skip if mod not included
-      if: ${{ !matrix.mod.run }}
-      run: exit 0
     - name: Build ${{ matrix.mod.name }} publish inputs
       id: mod_inputs
       run: |
