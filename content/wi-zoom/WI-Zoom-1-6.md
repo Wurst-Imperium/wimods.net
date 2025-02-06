@@ -10,6 +10,7 @@ mcversions:
 - 1.21.4
 - 1.21.3
 snapshots:
+- 25w06a
 - 25w05a
 - 25w04a
 - 25w03a
