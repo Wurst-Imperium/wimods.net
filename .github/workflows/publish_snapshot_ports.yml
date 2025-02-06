@@ -115,12 +115,9 @@ jobs:
 
   mo_glass:
     # Can't have two mods updating the wimods.net website at the same time.
+    needs: wi_zoom
     runs-on: ubuntu-latest
-    needs: [wi_zoom]
-    if: |
-      inputs.include_mo_glass &&
-      !inputs.announce_only &&
-      (needs.wi_zoom.result == 'success' || needs.wi_zoom.result == 'skipped')
+    if: ${{ inputs.include_mo_glass && !inputs.announce_only }}
     steps:
     - name: Build Mo Glass publish inputs
       id: mo_glass_inputs
