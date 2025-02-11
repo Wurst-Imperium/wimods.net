@@ -66,8 +66,7 @@ jobs:
           "close_milestone": "false",
           "upload_backups": "true",
           "publish_github": "true",
-          "update_website": "true",
-          "announce_backport": "false"
+          "update_website": "true"
         }
         EOF
         )
