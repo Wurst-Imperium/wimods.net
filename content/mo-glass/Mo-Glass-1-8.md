@@ -21,7 +21,7 @@ snapshots:
 
 Fabric and NeoForge are unifying their tag conventions in Minecraft 1.20.5. This update adjusts Mo Glass's tags according to the new conventions.
 
-- Add all of Mo Glass's stained glass blocks and items to the appropriate `c:dyed/<color>` tags.
+- Added all of Mo Glass's stained glass blocks and items to the appropriate `c:dyed/<color>` tags.
 
 - Renamed all `colored_glass_*` tags to `stained_glass_*`.
 
