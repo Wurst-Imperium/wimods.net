@@ -17,6 +17,7 @@ neoforge:
 - 1.21.3
 - '1.21'
 snapshots:
+- 25w10a
 - 25w09b
 - 25w09a
 - 25w08a
