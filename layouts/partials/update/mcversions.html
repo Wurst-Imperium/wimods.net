@@ -1,7 +1,7 @@
 <p>
 	This version of {{ index .Site.Params.modnames .Params.mod }}
 	{{- " is available for " -}}
-	{{- if gt (len .Params.mcversions) 0 -}}
+	{{- if and (isset .Params "mcversions") (gt (len .Params.mcversions) 0) -}}
 		{{- "Minecraft " -}}
 		{{- delimit $.Params.mcversions ", " " and " -}}
 		{{- with .Params.snapshots -}}

@@ -7,7 +7,7 @@
 {{- end -}}
 
 {{- $scratch.Set "modloaders" (slice) -}}
-{{- if (not (eq (len .Params.mcversions) (len ($scratch.Get "nofabric")))) -}}
+{{- if and (isset .Params "mcversions") (not (eq (len .Params.mcversions) (len ($scratch.Get "nofabric")))) -}}
 	{{- $scratch.Add "modloaders" "fabric" -}}
 {{- end -}}
 {{- if isset .Params "neoforge" -}}
