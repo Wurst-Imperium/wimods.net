@@ -8,6 +8,8 @@ mod: mo-glass
 modversion: "1.11"
 mcversions:
 - 1.21.4
+snapshots:
+- 25w10a
 ---
 ## Changelog
 
