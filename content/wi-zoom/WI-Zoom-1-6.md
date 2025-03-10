@@ -9,6 +9,7 @@ modversion: "1.6"
 mcversions:
 - 1.21.4
 - 1.21.3
+- 1.21.1
 snapshots:
 - 25w10a
 - 25w09b
