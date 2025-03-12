@@ -23,6 +23,7 @@ nofabric:
 - 1.20.4
 - 1.20.2
 snapshots:
+- 1.21.5-pre2
 - 1.21.5-pre1
 - 25w10a
 - 25w09b
