@@ -9,6 +9,7 @@ modversion: "1.11"
 mcversions:
 - 1.21.4
 snapshots:
+- 1.21.5-pre1
 - 25w10a
 ---
 ## Changelog
