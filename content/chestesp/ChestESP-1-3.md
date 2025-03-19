@@ -5,9 +5,11 @@ image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3_540p.w
 mod: chestesp
 modversion: "1.3"
 mcversions:
+- 1.21.2
 - 1.21.1
 - '1.21'
 neoforge:
+- 1.21.2
 - 1.21.1
 - '1.21'
 ---
