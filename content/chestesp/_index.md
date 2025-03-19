@@ -4,7 +4,7 @@ description: This mod highlights nearby chests so you can see them through walls
 ---
 This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 
-<img src="https://images.wurstclient.net/_media/update/chestesp/chestesp_1.2_540p.webp" alt="A screenshot showing all of the different containers that ChestESP supports" width="960" height="540">
+<img src="https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3_540p.webp" alt="A screenshot showing all of the different containers that ChestESP supports" width="960" height="540">
 
 ## Downloads
 <p>
