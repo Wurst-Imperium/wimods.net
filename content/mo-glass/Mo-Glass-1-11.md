@@ -10,6 +10,7 @@ mcversions:
 - 1.21.5
 - 1.21.4
 snapshots:
+- 25w15a
 - 25w14craftmine
 - 1.21.5-rc2
 - 1.21.5-rc1
