@@ -24,6 +24,7 @@ nofabric:
 - 1.20.4
 - 1.20.2
 snapshots:
+- 25w18a
 - 25w17a
 - 25w16a
 - 25w15a
