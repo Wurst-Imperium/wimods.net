@@ -1,15 +1,17 @@
 ---
 title: Mo Glass 1.11 - More Tests and Fixes
-description: Update 1.11 makes the Mo Glass mod more reliable by adding many automated
-  tests and fixing bugs that these tests uncovered.
+description: Update 1.11 makes the Mo Glass mod more reliable by adding many 
+  automated tests and fixing bugs that these tests uncovered.
 date: 2025-03-08T13:16:00+01:00
-image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.11_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.11_540p.webp
 mod: mo-glass
 modversion: "1.11"
 mcversions:
 - 1.21.5
 - 1.21.4
 snapshots:
+- 1.21.6-pre4
 - 1.21.6-pre3
 - 1.21.6-pre2
 - 1.21.6-pre1
