@@ -8,6 +8,7 @@ image:
 mod: mo-glass
 modversion: "1.11"
 mcversions:
+- 1.21.6
 - 1.21.5
 - 1.21.4
 snapshots:
