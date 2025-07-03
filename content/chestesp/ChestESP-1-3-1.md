@@ -6,6 +6,7 @@ image:
 mod: chestesp
 modversion: "1.3.1"
 mcversions:
+- 1.21.7
 - 1.21.6
 - 1.21.5
 neoforge:
