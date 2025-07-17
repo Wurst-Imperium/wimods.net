@@ -87,6 +87,7 @@ jobs:
         workflow: hugo.yml
 
     - name: Wait for hugo workflow to finish (run ${{ steps.hugo_dispatch.outputs.run_id }})
+      continue-on-error: true  # often fails due to GitHub API issues
       uses: codex-/await-remote-run@v1
       with:
         token: ${{ github.token }}
