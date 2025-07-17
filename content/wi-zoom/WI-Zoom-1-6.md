@@ -8,6 +8,7 @@ image:
 mod: wi-zoom
 modversion: "1.6"
 mcversions:
+- 1.21.8
 - 1.21.7
 - 1.21.6
 - 1.21.5
