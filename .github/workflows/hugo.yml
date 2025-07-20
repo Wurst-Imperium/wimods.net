@@ -50,7 +50,7 @@ jobs:
     - name: Build with Hugo
       env:
         HUGO_ENVIRONMENT: production
-      run: hugo --minify --baseURL "https://www.wimods.net/"
+      run: hugo --baseURL "https://www.wimods.net/"
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
