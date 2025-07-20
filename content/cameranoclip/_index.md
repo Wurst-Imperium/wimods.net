@@ -8,7 +8,7 @@ Are you tired of the annoying camera snapping effect in third-person mode? Say g
 
 Originally a popular feature in the Wurst Client, CameraNoClip now comes as a standalone mod, allowing your camera in third-person mode to move around freely without snapping to nearby blocks and entities. This significantly improves user comfort, especially in crowded areas, where the camera would otherwise zoom in and out abruptly.
 
-![CameraNoClip in action](https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0_540p.webp)
+<img src="https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0_540p.webp" alt="CameraNoClip in action" width="960" height="540">
 
 Not only does this mod improve your overall gameplay experience, but it can also be used to see through blocks at certain angles. However, if you're specifically looking for that feature, you might want to try the Wurst Client itself instead, which offers more powerful features like Freecam, CaveFinder, and X-Ray.
 

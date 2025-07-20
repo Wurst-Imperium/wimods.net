@@ -2,7 +2,7 @@
 title: Mo Glass
 description: Adds glass stairs and glass slabs to Minecraft.
 ---
-![A Minecraft house with its roof made out of glass stairs, powered by the Mo Glass mod](https://user-images.githubusercontent.com/10100202/69939492-ab78a480-14e8-11ea-8aa7-c351657b334b.jpg)
+<img src="https://user-images.githubusercontent.com/10100202/69939492-ab78a480-14e8-11ea-8aa7-c351657b334b.jpg" alt="A Minecraft house with its roof made out of glass stairs, powered by the Mo Glass mod" width="1280" height="720">
 
 Mo Glass is a Minecraft mod that adds glass stairs and glass slabs, including stained and tinted glass variants. They look great in any build and connect seamlessly with vanilla glass blocks. The mod is available for many different Minecraft versions, including snapshots.
 
