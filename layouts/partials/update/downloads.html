@@ -49,20 +49,31 @@
 </div>
 
 <script>
-	let urlParams = new URLSearchParams(window.location.search);
-	let mc = urlParams.get("mc") || urlParams.get("snapshot");
-
-	if (mc) {
-		let snapshotDetails = document.querySelectorAll(`details[data-snapshot="${mc}"]`);
-		if (snapshotDetails.length > 0) {
-			mc = "snapshot";
-			snapshotDetails.forEach(details => {
-				details.style.gridRow = "1";
-				details.open = true;
-			});
-		}
-
-		let mcversionElements = document.querySelectorAll(`[data-mcversion="${mc}"]`);
-		mcversionElements.forEach(element => element.style.gridRow = "1");
+// handle mc and snapshot parameters
+let urlParams = new URLSearchParams(window.location.search);
+let mc = urlParams.get("mc") || urlParams.get("snapshot");
+if (mc) {
+	let snapshotDetails = document.querySelectorAll(`details[data-snapshot="${mc}"]`);
+	if (snapshotDetails.length > 0) {
+		mc = "snapshot";
+		snapshotDetails.forEach(details => {
+			details.style.gridRow = "1";
+			details.open = true;
+		});
 	}
+
+	let mcversionElements = document.querySelectorAll(`[data-mcversion="${mc}"]`);
+	mcversionElements.forEach(element => element.style.gridRow = "1");
+}
+
+// handle download button clicks
+document.querySelectorAll('a[data-href]').forEach(element => {
+	element.addEventListener('click', e => openDataHref(e, element.getAttribute('data-href')));
+	element.addEventListener('auxclick', e => openDataHref(e, element.getAttribute('data-href')));
+});
+function openDataHref(event, dataHref) {
+	if(event.type === 'auxclick' && event.button !== 1)
+		return;
+	window.open(dataHref, '_blank');
+}
 </script>

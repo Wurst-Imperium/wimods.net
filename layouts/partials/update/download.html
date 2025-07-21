@@ -29,7 +29,8 @@
 	{{- $mainlink := printf "%s.jar" $baselink -}}
 	{{- $mainfile := index (last 1 (split $mainlink "/")) 0 -}}
 	<a class="command-button download"
-		href="{{ $mainlink }}" rel="nofollow" target="_blank"
+		href="javascript:void(0)"
+		data-href="{{ $mainlink }}"
 		data-analytics="Download {{ $modname }}"
 		data-analytics-version="{{ $modversion }}"
 		data-analytics-mcversion="{{ $mcversion }}"
@@ -54,7 +55,8 @@
 				{{- $apilink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
 				{{- $apifile := index (last 1 (split $apilink "/")) 0 }}
 				<a class="command-button"
-					href="{{ $apilink }}" rel="nofollow" target="_blank"
+					href="javascript:void(0)"
+					data-href="{{ $apilink }}"
 					style="margin: 5px 5px 5px 0"
 					data-analytics="Download Fabric API"
 					data-analytics-version="{{ $fabric_apiversion_short }}"
@@ -86,7 +88,8 @@
 		{{- with $modrinth -}}
 			{{- $modrinthlink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 			<a class="button modrinth"
-				href="{{ $modrinthlink }}" rel="nofollow" target="_blank"
+				href="javascript:void(0)"
+				data-href="{{ $modrinthlink }}"
 				data-analytics="Download {{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
 				data-analytics-mcversion="{{ $mcversion }}"
@@ -102,7 +105,8 @@
 		{{ with $mirrors.Get "curseforge" -}}
 			{{- $cflink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
 			<a class="button curseforge"
-				href="{{ $cflink }}" rel="nofollow" target="_blank"
+				href="javascript:void(0)"
+				data-href="{{ $cflink }}"
 				data-analytics="Download {{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
 				data-analytics-mcversion="{{ $mcversion }}"
@@ -125,7 +129,8 @@
 		<li>
 			{{- $srclink := printf "%s-sources.jar" $baselink -}}
 			{{- $srcfile := index (last 1 (split $srclink "/")) 0 -}}
-			<a href="{{ $srclink }}" rel="nofollow" target="_blank"
+			<a href="javascript:void(0)"
+				data-href="{{ $srclink }}"
 				data-analytics="Download {{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
 				data-analytics-mcversion="{{ $mcversion }}"
