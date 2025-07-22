@@ -27,6 +27,10 @@ titleCaseStyle = "none"
     wi-zoom = "WI Zoom"
     cameranoclip = "CameraNoClip"
     chestesp = "ChestESP"
+  [Params.modloader_names]
+    fabric = "Fabric"
+    neoforge = "NeoForge"
+    forge = "Forge"
   [Params.fabric_suffix]
     cameranoclip = "-Fabric"
     chestesp = "-Fabric"

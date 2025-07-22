@@ -7,6 +7,8 @@
 
 {{- $mcversion := .mcversion -}}
 {{- $modloader := .modloader -}}
+{{- $modloaderName := index .page.Site.Params.modloader_names $modloader -}}
+{{- $modloaderField := printf "Params.%s" $modloader -}}
 {{- $isFabric := eq $modloader "fabric" -}}
 
 {{- if $isFabric -}}
@@ -21,7 +23,7 @@
 	{{- $scratch.Set "modloaderSuffix" "-Forge" -}}
 {{- end -}}
 
-{{- $latestPage := index (first 1 (where (where .page.Site.Pages "Section" .page.Params.mod) "Params.mcversions" "intersect" (slice $mcversion))) 0 -}}
+{{- $latestPage := index (first 1 (where (where .page.Site.Pages "Section" .page.Params.mod) $modloaderField "intersect" (slice $mcversion))) 0 -}}
 {{- $latestVersion := $latestPage.Params.modversion -}}
 
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
@@ -32,7 +34,7 @@
 <div class="bg-amber padding5">
 	<div class="bg-white padding10">
 		<p class="no-margin-top no-margin-bottom">
-			<b>IMPORTANT:</b> You are currently viewing {{ $modname }} {{ $modversion }}, which is an older version for Minecraft {{ $mcversion }}. For optimal performance and the latest features, we recommend downloading
+			<b>IMPORTANT:</b> You are currently viewing {{ $modname }} {{ $modversion }}, which is an older version for Minecraft {{ $mcversion }} + {{ $modloaderName }}. For optimal performance and the latest features, we recommend downloading
 			<b><a href="{{ $latestPage.Permalink }}?mc={{ $mcversion }}"
 				data-analytics="Old Version Warning: Link Click"
 				data-analytics-oldversion="{{ $modversion }}"
