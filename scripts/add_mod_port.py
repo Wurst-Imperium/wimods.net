@@ -35,16 +35,24 @@ def update_mod_post(mod, modloader, mod_version, mc_version):
 				key=lambda v: version_info[v]["releaseTime"],
 				reverse=True,
 			)
-
-	if modloader == "neoforge":
-		if "neoforge" not in front_matter:
-			front_matter["neoforge"] = []
-		if mc_version not in front_matter["neoforge"]:
-			front_matter["neoforge"].append(mc_version)
-			front_matter["neoforge"].sort(
-				key=lambda v: version_info[v]["releaseTime"],
-				reverse=True,
-			)
+		if modloader == "fabric":
+			if "fabric" not in front_matter:
+				front_matter["fabric"] = []
+			if mc_version not in front_matter["fabric"]:
+				front_matter["fabric"].append(mc_version)
+				front_matter["fabric"].sort(
+					key=lambda v: version_info[v]["releaseTime"],
+					reverse=True,
+				)
+		if modloader == "neoforge":
+			if "neoforge" not in front_matter:
+				front_matter["neoforge"] = []
+			if mc_version not in front_matter["neoforge"]:
+				front_matter["neoforge"].append(mc_version)
+				front_matter["neoforge"].sort(
+					key=lambda v: version_info[v]["releaseTime"],
+					reverse=True,
+				)
 
 	util.write_front_matter(post.path, front_matter)
 

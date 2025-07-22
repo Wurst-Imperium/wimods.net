@@ -6,6 +6,8 @@ mod: mo-glass
 modversion: "1.0"
 mcversions:
 - "1.14.4"
+fabric:
+- "1.14.4"
 ---
 ## Changelog
 

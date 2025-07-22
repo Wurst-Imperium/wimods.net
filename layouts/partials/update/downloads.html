@@ -9,10 +9,8 @@
 <div class="padding10 no-padding-left no-padding-right" style="display: grid;grid-template-columns: 1fr;">
 
 	{{- range .Params.mcversions -}}
-		{{- $tooOldForFabric := lt (index (first 2 (split . ".")) 1) 14 -}}
-		{{- $fabricSupported := not $tooOldForFabric | and (not (in $.Params.nofabric .)) -}}
 		<div data-mcversion="{{ . }}">
-			{{- if $fabricSupported -}}
+			{{- if and (isset $.Params "fabric") (in $.Params.fabric .) -}}
 				<div class="padding10 no-padding-left no-padding-right">
 					<h3>for Minecraft {{ . }} + Fabric</h3>
 					{{- partial "update/download" (dict "mcversion" . "modloader" "fabric" "page" $) -}}

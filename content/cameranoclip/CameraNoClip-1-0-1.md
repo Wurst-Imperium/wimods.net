@@ -1,7 +1,8 @@
 ---
 title: CameraNoClip 1.0.1 - Bugfixes
 date: 2023-01-02T14:55:00+01:00
-image: https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0.1_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0.1_540p.webp
 mod: cameranoclip
 modversion: "1.0.1"
 mcversions:
@@ -10,6 +11,11 @@ mcversions:
 - "1.20"
 - "1.19.x"
 forge:
+- 1.20.1
+- "1.20"
+- "1.19.x"
+fabric:
+- 1.20.2
 - 1.20.1
 - "1.20"
 - "1.19.x"

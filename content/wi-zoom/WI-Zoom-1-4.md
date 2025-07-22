@@ -76,6 +76,16 @@ snapshots:
 - "1.19.1-rc1"
 - "1.19.1-pre1"
 - "22w24a"
+fabric:
+- 1.20.2
+- 1.20.1
+- '1.20'
+- 1.19.4
+- "1.19.3"
+- "1.19.2"
+- "1.19.1"
+- "1.19"
+- "1.18.2"
 ---
 **Note:** In snapshot 23w13a_or_b, make sure to change the zoom keybind to something else so that it doesn't conflict with the new "Vote Menu" keybind.
 

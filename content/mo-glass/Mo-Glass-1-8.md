@@ -16,6 +16,9 @@ snapshots:
 - 1.20.5-rc1
 - 1.20.5-pre4
 - 1.20.5-pre3
+fabric:
+- 1.20.6
+- 1.20.5
 ---
 ## Changelog
 

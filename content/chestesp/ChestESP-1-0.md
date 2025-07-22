@@ -9,6 +9,11 @@ mcversions:
 - 1.20.1
 - "1.20"
 - 1.19.4
+fabric:
+- 1.20.2
+- 1.20.1
+- "1.20"
+- 1.19.4
 ---
 ## Changelog
 - Initial release.

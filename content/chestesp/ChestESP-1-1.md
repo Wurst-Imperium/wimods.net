@@ -12,6 +12,12 @@ mcversions:
 - 1.20.3
 snapshots:
 - 23w42a
+fabric:
+- "1.21"
+- 1.20.6
+- 1.20.5
+- 1.20.4
+- 1.20.3
 ---
 ## Changelog
 - Added support for the new decorated pots and crafters.

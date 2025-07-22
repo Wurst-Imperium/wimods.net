@@ -7,6 +7,9 @@ modversion: "1.1"
 mcversions:
 - "1.15"
 - "1.14.4"
+fabric:
+- "1.15"
+- "1.14.4"
 ---
 ## Changelog
 

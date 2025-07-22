@@ -1,12 +1,15 @@
 ---
 title: CameraNoClip 1.0 - Initial Release
 date: 2022-12-30T16:45:00+01:00
-image: https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0_540p.webp
 mod: cameranoclip
 modversion: "1.0"
 mcversions:
 - "1.19.x"
 forge:
+- "1.19.x"
+fabric:
 - "1.19.x"
 ---
 ## Changelog

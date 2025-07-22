@@ -10,6 +10,9 @@ mcversions:
 - "1.12.2"
 forge:
 - "1.12.2"
+fabric:
+- "1.15"
+- "1.14.4"
 ---
 ## Changelog
 

@@ -1,11 +1,15 @@
 ---
 title: Mo Glass 1.9 - Translation Updates
-description: Mo Glass 1.9 updates the translations for the Russian and Chinese (Traditional/Taiwan) languages.
+description: Mo Glass 1.9 updates the translations for the Russian and Chinese (Traditional/Taiwan)
+  languages.
 date: 2024-08-14T22:15:00+02:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.9_540p.webp
 mod: mo-glass
 modversion: "1.9"
 mcversions:
+- 1.21.1
+- '1.21'
+fabric:
 - 1.21.1
 - '1.21'
 ---

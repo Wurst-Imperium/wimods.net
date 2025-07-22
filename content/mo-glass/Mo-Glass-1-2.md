@@ -36,6 +36,13 @@ snapshots:
 - "20w13a"
 - "20w12a"
 - "20w11a"
+fabric:
+- "1.16.1"
+- "1.16"
+- "1.15.2"
+- "1.15.1"
+- "1.15"
+- "1.14.4"
 ---
 **Note:** The 20w13a version also works with 20w13b. The 20w20a version also works with 20w20b.
 

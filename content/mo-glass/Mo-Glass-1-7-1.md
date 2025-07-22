@@ -1,6 +1,7 @@
 ---
 title: Mo Glass 1.7.1 - Forge Crash Fix
-description: Mo Glass 1.7.1 fixes a Forge-only crash that sporadically occurred when generating new chunks.
+description: Mo Glass 1.7.1 fixes a Forge-only crash that sporadically occurred when
+  generating new chunks.
 date: 2024-04-15T22:52:00+02:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.7.1_540p.webp
 mod: mo-glass
@@ -8,8 +9,6 @@ modversion: "1.7.1"
 mcversions:
 - 1.20.1
 neoforge:
-- 1.20.1
-nofabric:
 - 1.20.1
 ---
 ## Changelog

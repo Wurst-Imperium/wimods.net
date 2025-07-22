@@ -1,12 +1,15 @@
 ---
 title: CameraNoClip 1.0pre2 - Bugfixes, Forge Support
 date: 2022-12-29T22:05:00+01:00
-image: https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0pre2_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0pre2_540p.webp
 mod: cameranoclip
 modversion: "1.0pre2"
 mcversions:
 - "1.19.x"
 forge:
+- "1.19.x"
+fabric:
 - "1.19.x"
 ---
 ## Changelog

@@ -12,6 +12,11 @@ mcversions:
 snapshots:
 - "20w11a"
 - "20w10a"
+fabric:
+- "1.15.2"
+- "1.15.1"
+- "1.15"
+- "1.14.4"
 ---
 ## Changelog
 

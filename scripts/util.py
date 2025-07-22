@@ -37,9 +37,8 @@ class HugoPost:
 		if modloader == "fabric":
 			return [
 				v
-				for v in self.front_matter.get("mcversions", [])
+				for v in self.front_matter.get("fabric", [])
 				+ self.front_matter.get("snapshots", [])
-				if v not in self.front_matter.get("nofabric", [])
 			]
 		if modloader == "neoforge":
 			return self.front_matter.get("neoforge", [])

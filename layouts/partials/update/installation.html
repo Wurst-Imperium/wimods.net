@@ -1,22 +1,12 @@
 {{- $modname := index .Site.Params.modnames .Params.mod -}}
 
-{{- $scratch := newScratch -}}
-{{- $scratch.Set "nofabric" (slice) -}}
-{{- if isset .Params "nofabric" -}}
-	{{- $scratch.Set "nofabric" .Params.nofabric -}}
-{{- end -}}
-
-{{- $scratch.Set "modloaders" (slice) -}}
-{{- if and (isset .Params "mcversions") (not (eq (len .Params.mcversions) (len ($scratch.Get "nofabric")))) -}}
-	{{- $scratch.Add "modloaders" "fabric" -}}
-{{- end -}}
-{{- if isset .Params "neoforge" -}}
-	{{- $scratch.Add "modloaders" "neoforge" -}}
-{{- end -}}
-
 <p>
 	{{- $modname }} can be installed just like any other Minecraft mod.
-	{{ if gt (len ($scratch.Get "modloaders")) 1 -}}
+	{{ $modloaders := 0 -}}
+	{{- if isset .Params "fabric" -}}{{- $modloaders = add $modloaders 1 -}}{{- end -}}
+	{{- if isset .Params "neoforge" -}}{{- $modloaders = add $modloaders 1 -}}{{- end -}}
+	{{- if isset .Params "forge" -}}{{- $modloaders = add $modloaders 1 -}}{{- end -}}
+	{{- if gt $modloaders 1 -}}
 		Follow the instructions below for your modloader of choice.
 	{{- end -}}
 </p>
@@ -27,7 +17,7 @@
 	Your game will crash if you mix different versions.
 </p>
 
-{{- if in ($scratch.Get "modloaders") "fabric" -}}
+{{- if isset .Params "fabric" -}}
 <h3>Installation using Fabric</h3>
 <ol>
 	<li><p>Install <a href="https://fabricmc.net/use/installer/" target="_blank" rel="nofollow">Fabric Loader</a>.</p></li>
@@ -36,10 +26,18 @@
 </ol>
 {{- end -}}
 
-{{- if in ($scratch.Get "modloaders") "neoforge" -}}
+{{- if isset .Params "neoforge" -}}
 <h3>Installation using NeoForge</h3>
 <ol>
 	<li><p>Install <a href="https://neoforged.net/" target="_blank" rel="nofollow">NeoForge</a>.</p></li>
+	<li><p>Add {{ $modname }} to your mods folder.</p></li>
+</ol>
+{{- end -}}
+
+{{- if isset .Params "forge" -}}
+<h3>Installation using Forge</h3>
+<ol>
+	<li><p>Install <a href="https://files.minecraftforge.net/" target="_blank" rel="nofollow">Forge</a>.</p></li>
 	<li><p>Add {{ $modname }} to your mods folder.</p></li>
 </ol>
 {{- end -}}
