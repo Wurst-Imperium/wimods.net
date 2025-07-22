@@ -21,9 +21,31 @@
 	{{- $scratch.Set "modloaderSuffix" "-Forge" -}}
 {{- end -}}
 
+{{- $latestPage := index (first 1 (where (where .page.Site.Pages "Section" .page.Params.mod) "Params.mcversions" "intersect" (slice $mcversion))) 0 -}}
+{{- $latestVersion := $latestPage.Params.modversion -}}
+
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
 {{- $fabric_apis := index (index .page.Site.Data.fabric_api $modid) $modversion -}}
 {{- $baselink := printf "https://github.com/Wurst-Imperium-MCX/%s/releases/download/v%s/%s-%s-MC%s%s" $modnameGitHub $modversion $modnameGitHub $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
+
+{{- if and $latestVersion (ne $modversion $latestVersion) -}}
+<div class="bg-amber padding5">
+	<div class="bg-white padding10">
+		<p class="no-margin-top no-margin-bottom">
+			<b>IMPORTANT:</b> You are currently viewing {{ $modname }} {{ $modversion }}, which is an older version for Minecraft {{ $mcversion }}. For optimal performance and the latest features, we recommend downloading
+			<b><a href="{{ $latestPage.Permalink }}?mc={{ $mcversion }}"
+				data-analytics="Old Version Warning: Link Click"
+				data-analytics-oldversion="{{ $modversion }}"
+				data-analytics-newversion="{{ $latestVersion }}"
+				data-analytics-mcversion="{{ $mcversion }}"
+			>
+				{{ $modname }} {{ $latestVersion }} MC{{ $mcversion }}
+			</a></b>
+			instead.
+		</p>
+	</div>
+</div>
+{{- end -}}
 
 <p>
 	{{- $mainlink := printf "%s.jar" $baselink -}}
