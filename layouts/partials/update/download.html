@@ -25,12 +25,13 @@
 
 {{- $latestPage := index (first 1 (where (where .page.Site.Pages "Section" .page.Params.mod) $modloaderField "intersect" (slice $mcversion))) 0 -}}
 {{- $latestVersion := $latestPage.Params.modversion -}}
+{{- $isLatest := or (eq $modversion $latestVersion) (not $latestVersion) -}}
 
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
 {{- $fabric_apis := index (index .page.Site.Data.fabric_api $modid) $modversion -}}
 {{- $baselink := printf "https://github.com/Wurst-Imperium-MCX/%s/releases/download/v%s/%s-%s-MC%s%s" $modnameGitHub $modversion $modnameGitHub $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 
-{{- if and $latestVersion (ne $modversion $latestVersion) -}}
+{{- if not $isLatest -}}
 <div class="bg-amber padding5">
 	<div class="bg-white padding10">
 		<p class="no-margin-top no-margin-bottom">
@@ -50,22 +51,25 @@
 {{- end -}}
 
 <p>
-	{{- $mainlink := printf "%s.jar" $baselink -}}
-	{{- $mainfile := index (last 1 (split $mainlink "/")) 0 -}}
+	{{- $mainText := printf "%s v%s MC%s" $modname $modversion $mcversion -}}
+	{{- $mainLink := printf "%s.jar" $baselink -}}
+	{{- $mainLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $mainLink) (urlquery $mainText) -}}
+	{{- $mainFile := index (last 1 (split $mainLink "/")) 0 -}}
 	<a class="command-button download"
 		href="javascript:void(0)"
-		data-href="{{ $mainlink }}"
+		data-href="{{ if $isLatest }}{{ $mainLink }}{{ else }}{{ $mainLoot }}{{ end }}"
 		data-analytics="Download {{ $modname }}"
 		data-analytics-version="{{ $modversion }}"
 		data-analytics-mcversion="{{ $mcversion }}"
 		data-analytics-modloader="{{ $modloader }}"
 		data-analytics-type="main"
 		data-analytics-mirror="GitHub"
-		data-analytics-file="{{ $mainfile }}"
+		data-analytics-file="{{ $mainFile }}"
+		data-analytics-lootlink="{{ not $isLatest }}"
 	>
 		<span class="icon mif-file-download"></span>
-		{{ $modname }} v{{ $modversion }} MC{{ $mcversion }}
-		<small>File: {{ $mainfile }}</small>
+		{{ $mainText }}
+		<small>File: {{ $mainFile }}</small>
 	</a>
 	{{- if $isFabric -}}
 		{{- $mcversion_short := index (split $mcversion ".x") 0 -}}
@@ -76,23 +80,26 @@
 		{{- range $fabric_mcversion, $fabric_apiversion := $fabric_apis -}}
 			{{- if hasPrefix $fabric_mcversion $mcversion_short | or (eq $fabric_mcversion $mcversion) -}}
 				{{- $fabric_apiversion_short := index (split $fabric_apiversion "+") 0 -}}
-				{{- $apilink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
-				{{- $apifile := index (last 1 (split $apilink "/")) 0 }}
+				{{- $apiText := printf "Fabric API MC%s" $fabric_mcversion -}}
+				{{- $apiLink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
+				{{- $apiLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $apiLink) (urlquery $apiText) -}}
+				{{- $apiFile := index (last 1 (split $apiLink "/")) 0 }}
 				<a class="command-button"
 					href="javascript:void(0)"
-					data-href="{{ $apilink }}"
+					data-href="{{ if $isLatest }}{{ $apiLink }}{{ else }}{{ $apiLoot }}{{ end }}"
 					style="margin: 5px 5px 5px 0"
 					data-analytics="Download Fabric API"
 					data-analytics-version="{{ $fabric_apiversion_short }}"
 					data-analytics-mcversion="{{ $mcversion }}"
-					data-analytics-file="{{ $apifile }}"
+					data-analytics-file="{{ $apiFile }}"
 					data-analytics-mod="{{ $modname }}"
 					data-analytics-modmc="{{ $modname }} MC{{ $mcversion }}"
 					data-analytics-modversion="{{ $modname }} {{ $modversion }}"
 					data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
+					data-analytics-lootlink="{{ not $isLatest }}"
 				>
 					<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
-					Fabric API MC{{ $fabric_mcversion }}
+					{{ $apiText }}
 					<small>v{{ $fabric_apiversion }}</small>
 				</a>
 			{{- end -}}
@@ -110,34 +117,38 @@
 	<p>Mirrors:</p>
 	<p>
 		{{- with $modrinth -}}
-			{{- $modrinthlink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
+			{{- $modrinthLink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
+			{{- $modrinthLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $modrinthLink) (urlquery $mainText) -}}
 			<a class="button modrinth"
 				href="javascript:void(0)"
-				data-href="{{ $modrinthlink }}"
+				data-href="{{ $modrinthLoot }}"
 				data-analytics="Download {{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
 				data-analytics-mcversion="{{ $mcversion }}"
 				data-analytics-modloader="{{ $modloader }}"
 				data-analytics-type="main"
 				data-analytics-mirror="Modrinth"
-				data-analytics-file="{{ $mainfile }}"
+				data-analytics-file="{{ $mainFile }}"
+				data-analytics-lootlink="true"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
 				Modrinth
 			</a>
 		{{- end }}
 		{{ with $mirrors.Get "curseforge" -}}
-			{{- $cflink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
+			{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
+			{{- $cfLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $cfLink) (urlquery $mainText) -}}
 			<a class="button curseforge"
 				href="javascript:void(0)"
-				data-href="{{ $cflink }}"
+				data-href="{{ $cfLoot }}"
 				data-analytics="Download {{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
 				data-analytics-mcversion="{{ $mcversion }}"
 				data-analytics-modloader="{{ $modloader }}"
 				data-analytics-type="main"
 				data-analytics-mirror="CurseForge"
-				data-analytics-file="{{ $mainfile }}"
+				data-analytics-file="{{ $mainFile }}"
+				data-analytics-lootlink="true"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" alt="CurseForge icon" class="icon">
 				CurseForge
