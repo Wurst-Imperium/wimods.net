@@ -81,9 +81,9 @@
 		{{- range $fabric_mcversion, $fabric_apiversion := $fabric_apis -}}
 			{{- if hasPrefix $fabric_mcversion $mcversion_short | or (eq $fabric_mcversion $mcversion) -}}
 				{{- $fabric_apiversion_short := index (split $fabric_apiversion "+") 0 -}}
-				{{- $apiText := printf "Fabric API MC%s" $fabric_mcversion -}}
+				{{- $apiLootTitle := printf "Fabric API v%s" $fabric_apiversion -}}
 				{{- $apiLink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
-				{{- $apiLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $apiLink) (urlquery $apiText) -}}
+				{{- $apiLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $apiLink) (urlquery $apiLootTitle) -}}
 				{{- $apiFile := index (last 1 (split $apiLink "/")) 0 }}
 				<a class="command-button"
 					href="javascript:void(0)"
@@ -101,7 +101,7 @@
 					data-analytics-outdated="{{ not $isLatest }}"
 				>
 					<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
-					{{ $apiText }}
+					Fabric API MC{{ $fabric_mcversion }}
 					<small>v{{ $fabric_apiversion }}</small>
 				</a>
 			{{- end -}}
