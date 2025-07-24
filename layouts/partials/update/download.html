@@ -66,6 +66,7 @@
 		data-analytics-mirror="GitHub"
 		data-analytics-file="{{ $mainFile }}"
 		data-analytics-lootlink="{{ not $isLatest }}"
+		data-analytics-outdated="{{ not $isLatest }}"
 	>
 		<span class="icon mif-file-download"></span>
 		{{ $mainText }}
@@ -97,6 +98,7 @@
 					data-analytics-modversion="{{ $modname }} {{ $modversion }}"
 					data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
 					data-analytics-lootlink="{{ not $isLatest }}"
+					data-analytics-outdated="{{ not $isLatest }}"
 				>
 					<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
 					{{ $apiText }}
@@ -130,6 +132,7 @@
 				data-analytics-mirror="Modrinth"
 				data-analytics-file="{{ $mainFile }}"
 				data-analytics-lootlink="true"
+				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
 				Modrinth
@@ -149,6 +152,7 @@
 				data-analytics-mirror="CurseForge"
 				data-analytics-file="{{ $mainFile }}"
 				data-analytics-lootlink="true"
+				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" alt="CurseForge icon" class="icon">
 				CurseForge
@@ -173,6 +177,8 @@
 				data-analytics-type="sources"
 				data-analytics-mirror="GitHub"
 				data-analytics-file="{{ $srcfile }}"
+				data-analytics-lootlink="false"
+				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				{{ $srcfile }}
 			</a>
