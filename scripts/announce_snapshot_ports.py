@@ -2,7 +2,7 @@ import util
 from argparse import ArgumentParser
 from pathlib import Path
 
-current_snapshot_discussion = 1213
+current_snapshot_discussion = 1242
 
 
 def get_link(mod: str, branch: str) -> str:
