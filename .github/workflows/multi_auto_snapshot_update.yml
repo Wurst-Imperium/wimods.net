@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mc_version: ${{ steps.get_mc_versions.outputs.mc_version }}
-      branch: ${{ steps.get_mc_versions.outputs.branch }}
+      branch: ${{ steps.get_branch.outputs.branch }}
       yarn_version: ${{ steps.get_yarn_and_loader.outputs.yarn_version }}
       loader_version: ${{ steps.get_yarn_and_loader.outputs.loader_version }}
       fapi_version: ${{ steps.get_fapi_version.outputs.fapi_version }}
