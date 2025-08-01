@@ -1,9 +1,10 @@
 ---
 title: WI Zoom 1.6 - Automated Tests, Korean Translation
-description: WI Zoom 1.6 adds several automated tests, a Korean translation, and updated
-  dependencies.
+description: WI Zoom 1.6 adds several automated tests, a Korean translation, and
+  updated dependencies.
 date: 2025-01-08T00:55:00+01:00
-image: https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.6_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.6_540p.webp
 mod: wi-zoom
 modversion: "1.6"
 mcversions:
@@ -21,6 +22,7 @@ mcversions:
 - 1.20.2
 - 1.20.1
 snapshots:
+- 25w31a
 - 1.21.8-rc1
 - 1.21.7-rc2
 - 1.21.7-rc1
