@@ -6,8 +6,8 @@ on:
       mc_version:
         description: "Target Minecraft version (leave blank to auto detect)"
         required: false
-      prev_mc_version:
-        description: "Previous Minecraft version (leave blank to auto detect)"
+      branch:
+        description: "Branch for the current snapshot cycle (leave blank to auto detect)"
         required: false
       fapi_version:
         description: "Fabric API version (leave blank to auto detect)"
@@ -37,40 +37,36 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mc_version: ${{ steps.get_mc_versions.outputs.mc_version }}
-      prev_mc_version: ${{ steps.get_mc_versions.outputs.prev_mc_version }}
+      branch: ${{ steps.get_mc_versions.outputs.branch }}
       yarn_version: ${{ steps.get_yarn_and_loader.outputs.yarn_version }}
       loader_version: ${{ steps.get_yarn_and_loader.outputs.loader_version }}
       fapi_version: ${{ steps.get_fapi_version.outputs.fapi_version }}
       cf_game_version: ${{ steps.get_cf_game_version.outputs.cf_game_version }}
     steps:
-    - name: Get target and previous MC versions
+    - name: Get target MC version
       id: get_mc_versions
       run: |
         MC_VERSION="${{ inputs.mc_version }}"
-        PREV_MC_VERSION="${{ inputs.prev_mc_version }}"
-        if [ -z "$MC_VERSION" ] || [ -z "$PREV_MC_VERSION" ]; then
+        if [ -z "$MC_VERSION" ]; then
           RESPONSE=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
+          MC_VERSION=$(echo "$RESPONSE" | jq -r '.latest.snapshot')
           if [ -z "$MC_VERSION" ]; then
-            MC_VERSION=$(echo "$RESPONSE" | jq -r '.latest.snapshot')
-            if [ -z "$MC_VERSION" ]; then
-              echo "No latest Minecraft snapshot found"
-              echo "Response: $RESPONSE"
-              exit 1
-            fi
-          fi
-          if [ -z "$PREV_MC_VERSION" ]; then
-            PREV_MC_VERSION=$(echo "$RESPONSE" | jq -r --arg MC_VERSION "$MC_VERSION" '.versions | map(select(.id != $MC_VERSION)) | .[0].id')
-            if [ -z "$PREV_MC_VERSION" ]; then
-              echo "No previous Minecraft version found"
-              echo "Response: $RESPONSE"
-              exit 1
-            fi
+            echo "No latest Minecraft snapshot found"
+            echo "Response: $RESPONSE"
+            exit 1
           fi
         fi
         echo "mc_version=$MC_VERSION" >> $GITHUB_OUTPUT
-        echo "prev_mc_version=$PREV_MC_VERSION" >> $GITHUB_OUTPUT
         echo "Minecraft version: \`$MC_VERSION\`" >> $GITHUB_STEP_SUMMARY
-        echo "Previous version: \`$PREV_MC_VERSION\`" >> $GITHUB_STEP_SUMMARY
+    - name: Get branch for current snapshot cycle
+      id: get_branch
+      run: |
+        BRANCH="${{ inputs.branch }}"
+        if [ -z "$BRANCH" ]; then
+          BRANCH=$(cat data/current_snapshot_cycle.json | jq -r '.target_release')
+        fi
+        echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+        echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
     - name: Get Yarn and Loader versions
       id: get_yarn_and_loader
       run: |
@@ -169,7 +165,7 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Wurst7
-        ref: ${{ needs.get_params.outputs.prev_mc_version }}
+        ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: ${{ steps.wurst_inputs.outputs.json }}
     - name: Wait for snapshot update workflow to finish (run ${{ steps.wurst_dispatch.outputs.run_id }})
@@ -208,7 +204,7 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Zoom
-        ref: ${{ needs.get_params.outputs.prev_mc_version }}
+        ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: ${{ steps.wi_zoom_inputs.outputs.json }}
     - name: Wait for snapshot update workflow to finish (run ${{ steps.wi_zoom_dispatch.outputs.run_id }})
@@ -247,7 +243,7 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Mo-Glass
-        ref: ${{ needs.get_params.outputs.prev_mc_version }}
+        ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: ${{ steps.mo_glass_inputs.outputs.json }}
     - name: Wait for snapshot update workflow to finish (run ${{ steps.mo_glass_dispatch.outputs.run_id }})
