@@ -63,7 +63,8 @@ jobs:
       run: |
         BRANCH="${{ inputs.branch }}"
         if [ -z "$BRANCH" ]; then
-          BRANCH=$(cat data/current_snapshot_cycle.json | jq -r '.target_release')
+          RESPONSE=$(curl -s https://raw.githubusercontent.com/Wurst-Imperium/wimods.net/refs/heads/master/data/current_snapshot_cycle.json)
+          BRANCH=$(echo "$RESPONSE" | jq -r '.target_release')
         fi
         echo "branch=$BRANCH" >> $GITHUB_OUTPUT
         echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
