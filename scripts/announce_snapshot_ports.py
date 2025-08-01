@@ -2,7 +2,9 @@ import util
 from argparse import ArgumentParser
 from pathlib import Path
 
-current_snapshot_discussion = 1242
+def get_current_snapshot_discussion() -> int:
+	cycle = util.read_json_file(Path("data/current_snapshot_cycle.json"))
+	return cycle["wurstforum_discussion"]
 
 
 def get_link(mod: str, branch: str) -> str:
@@ -32,7 +34,8 @@ def main(snapshot: str, included_mods: list[str], dry_run: bool):
 		content += f"{possible_mod_names[mod]}: <{get_link(mod, snapshot)}>\n"
 	content += "\nEnjoy! 🤖"
 
-	util.upload_post(current_snapshot_discussion, content, dry_run=dry_run)
+	discussion_id = get_current_snapshot_discussion()
+	util.upload_post(discussion_id, content, dry_run=dry_run)
 
 
 if __name__ == "__main__":
