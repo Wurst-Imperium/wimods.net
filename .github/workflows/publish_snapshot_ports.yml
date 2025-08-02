@@ -126,6 +126,7 @@ jobs:
     name: ${{ matrix.mod.name }}
     needs: prepare
     runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.matrix != '{"mod":[]}' }}
     strategy:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
       max-parallel: 1
