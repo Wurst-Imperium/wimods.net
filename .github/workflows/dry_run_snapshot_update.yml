@@ -1,0 +1,164 @@
+name: Test Snapshot With Old Fabric API
+
+on:
+  workflow_dispatch:
+    inputs:
+      mc_version:
+        description: "Target Minecraft version (leave blank to auto detect)"
+        required: false
+      branch:
+        description: "Branch for the current snapshot cycle (leave blank to auto detect)"
+        required: false
+      fapi_version:
+        description: "Fabric API version (leave blank to auto detect)"
+        required: false
+      cf_game_version:
+        description: "CurseForge game version (leave blank to auto detect)"
+        required: false
+
+jobs:
+
+  get_params:
+    runs-on: ubuntu-latest
+    outputs:
+      mc_version: ${{ steps.get_mc_versions.outputs.mc_version }}
+      branch: ${{ steps.get_branch.outputs.branch }}
+      yarn_version: ${{ steps.get_yarn_and_loader.outputs.yarn_version }}
+      loader_version: ${{ steps.get_yarn_and_loader.outputs.loader_version }}
+      fapi_version: ${{ steps.get_fapi_version.outputs.fapi_version }}
+      cf_game_version: ${{ steps.get_cf_game_version.outputs.cf_game_version }}
+    steps:
+    - name: Get target MC version
+      id: get_mc_versions
+      run: |
+        MC_VERSION="${{ inputs.mc_version }}"
+        if [ -z "$MC_VERSION" ]; then
+          RESPONSE=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
+          MC_VERSION=$(echo "$RESPONSE" | jq -r '.latest.snapshot')
+          if [ -z "$MC_VERSION" ]; then
+            echo "No latest Minecraft snapshot found"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
+        fi
+        echo "mc_version=$MC_VERSION" >> $GITHUB_OUTPUT
+        echo "Minecraft version: \`$MC_VERSION\`" >> $GITHUB_STEP_SUMMARY
+    - name: Get branch for current snapshot cycle
+      id: get_branch
+      run: |
+        BRANCH="${{ inputs.branch }}"
+        if [ -z "$BRANCH" ]; then
+          RESPONSE=$(curl -s https://raw.githubusercontent.com/Wurst-Imperium/wimods.net/refs/heads/master/data/current_snapshot_cycle.json)
+          BRANCH=$(echo "$RESPONSE" | jq -r '.target_release')
+        fi
+        echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+        echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
+    - name: Get Yarn and Loader versions
+      id: get_yarn_and_loader
+      run: |
+        RESPONSE=$(curl -s \
+          "https://meta.fabricmc.net/v1/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
+        if [ "$(echo "$RESPONSE" | jq length)" -gt 0 ]; then
+          YARN_VERSION=$(echo "$RESPONSE" | jq -r '.[0].mappings.version')
+          LOADER_VERSION=$(echo "$RESPONSE" | jq -r '.[0].loader.version')
+          echo "yarn_version=$YARN_VERSION" >> $GITHUB_OUTPUT
+          echo "loader_version=$LOADER_VERSION" >> $GITHUB_OUTPUT
+          echo "Yarn version: \`$YARN_VERSION\`" >> $GITHUB_STEP_SUMMARY
+          echo "Loader version: \`$LOADER_VERSION\`" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No yarn/loader versions found for ${{ steps.get_mc_versions.outputs.mc_version }}"
+          echo "Response: $RESPONSE"
+          exit 1
+        fi
+    - name: Get Fabric API version
+      id: get_fapi_version
+      run: |
+        FAPI_VERSION="${{ inputs.fapi_version }}"
+        if [ -z "$FAPI_VERSION" ]; then
+          MC_VERSION="${{ steps.get_mc_versions.outputs.mc_version }}"
+          if [ -z "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "GitHub token is not set"
+            exit 1
+          fi
+          RESPONSE=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/FabricMC/fabric/releases?per_page=100")
+          FAPI_VERSION=$(echo "$RESPONSE" \
+            | jq -r --arg MC_VERSION "$MC_VERSION" \
+            '.[] | select(.name | contains($MC_VERSION)) | .tag_name' \
+            | head -n 1)
+          if [ -z "$FAPI_VERSION" ]; then
+            echo "No Fabric API version found for $MC_VERSION"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
+        fi
+        echo "fapi_version=$FAPI_VERSION" >> $GITHUB_OUTPUT
+        echo "Fabric API version: \`$FAPI_VERSION\`" >> $GITHUB_STEP_SUMMARY
+    - name: Get CurseForge game version
+      id: get_cf_game_version
+      run: |
+        CF_GAME_VERSION="${{ inputs.cf_game_version }}"
+        if [ -z "$CF_GAME_VERSION" ]; then
+          # CfCore is the _other_ CurseForge API, see https://console.curseforge.com/#/api-keys
+          if [ -z "${{ secrets.CFCORE_API_KEY }}" ]; then
+            echo "CfCore API key is not set"
+            exit 1
+          fi
+          # Must use single quotes here because the API keys contain $
+          RESPONSE=$(curl -s -w "%{http_code}" \
+            -H "Accept: application/json" \
+            -H 'x-api-key: ${{ secrets.CFCORE_API_KEY }}' \
+            "https://api.curseforge.com/v1/mods/306612/files")
+          STATUS_CODE=${RESPONSE: -3}
+          BODY=${RESPONSE::-3}
+          CF_GAME_VERSION=$(echo "$BODY" \
+            | jq -r '.data[0].gameVersions[] | select(. != "Fabric")')
+          if [ -z "$CF_GAME_VERSION" ]; then
+            echo "No CurseForge game version found for ${{ steps.get_mc_versions.outputs.mc_version }}"
+            echo "Status code: $STATUS_CODE"
+            echo "Response: $BODY"
+            exit 1
+          fi
+        fi
+        echo "cf_game_version=$CF_GAME_VERSION" >> $GITHUB_OUTPUT
+        echo "CurseForge game version: \`$CF_GAME_VERSION\`" >> $GITHUB_STEP_SUMMARY
+
+  wi_zoom:
+    runs-on: ubuntu-latest
+    needs: get_params
+    steps:
+    - name: Build WI Zoom test inputs
+      id: wi_zoom_inputs
+      run: |
+        JSON_STRING=$(cat << EOF
+        {
+          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+          "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
+          "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+          "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
+          "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+        }
+        EOF
+        )
+        # Convert to single line and escape quotes
+        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
+    - name: Trigger snapshot test workflow
+      id: wi_zoom_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: WI-Zoom
+        ref: ${{ needs.get_params.outputs.branch }}
+        workflow: dry_run_snapshot_update.yml
+        workflow_inputs: ${{ steps.wi_zoom_inputs.outputs.json }}
+    - name: Wait for snapshot test workflow to finish (run ${{ steps.wi_zoom_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: WI-Zoom
+        run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
+        run_timeout_seconds: 1200  # 20 minutes
