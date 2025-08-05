@@ -3,11 +3,6 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 
-def get_current_snapshot_discussion() -> int:
-	cycle = util.read_json_file(Path("data/current_snapshot_cycle.json"))
-	return cycle["wurstforum_discussion"]
-
-
 def get_link(mod: str, mc_version: str, branch: str) -> str:
 	props = util.read_gradle_properties(mod, branch)
 	version = props["mod_version"].removeprefix("v")
@@ -37,7 +32,7 @@ def main(mc_version: str, branch: str, included_mods: list[str], dry_run: bool):
 		content += f"{possible_mod_names[mod]}: <{get_link(mod, mc_version, branch)}>\n"
 	content += "\nEnjoy! 🤖"
 
-	discussion_id = get_current_snapshot_discussion()
+	discussion_id = util.get_current_snapshot_discussion()
 	util.upload_post(discussion_id, content, dry_run=dry_run)
 
 

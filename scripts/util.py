@@ -104,6 +104,11 @@ def parse_changelog(content: str) -> str:
 	return "\n".join(changelog_lines).strip()
 
 
+def get_current_snapshot_discussion() -> int:
+	cycle = read_json_file(Path("data/current_snapshot_cycle.json"))
+	return cycle["wurstforum_discussion"]
+
+
 def upload_discussion(discussion: WurstForumDiscussion, dry_run: bool = False) -> int:
 	"""Upload a new discussion to WurstForum and return its ID."""
 	url = "https://wurstforum.net/api/discussions"
