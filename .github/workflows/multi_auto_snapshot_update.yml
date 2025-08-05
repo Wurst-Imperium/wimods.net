@@ -30,6 +30,11 @@ on:
         type: boolean
         required: false
         default: true
+      auto_publish:
+        description: "Automatically publish mods that were successfully updated"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
 
@@ -254,4 +259,72 @@ jobs:
         owner: Wurst-Imperium
         repo: Mo-Glass
         run_id: ${{ steps.mo_glass_dispatch.outputs.run_id }}
+        run_timeout_seconds: 1200  # 20 minutes
+
+  auto_publish:
+    runs-on: ubuntu-latest
+    needs: [get_params, wurst, wi_zoom, mo_glass]
+    if: ${{ !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
+    steps:
+    - name: Build publish workflow inputs
+      id: publish_inputs
+      run: |
+        # Determine which mods succeeded and should be published
+        INCLUDE_WURST="false"
+        INCLUDE_WI_ZOOM="false"
+        INCLUDE_MO_GLASS="false"
+        
+        if [[ "${{ needs.wurst.result }}" == "success" ]]; then
+          INCLUDE_WURST="true"
+        fi
+        if [[ "${{ needs.wi_zoom.result }}" == "success" ]]; then
+          INCLUDE_WI_ZOOM="true"
+        fi
+        if [[ "${{ needs.mo_glass.result }}" == "success" ]]; then
+          INCLUDE_MO_GLASS="true"
+        fi
+        
+        JSON_STRING=$(cat << EOF
+        {
+          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+          "branch": "${{ needs.get_params.outputs.branch }}",
+          "include_wurst": "$INCLUDE_WURST",
+          "include_wi_zoom": "$INCLUDE_WI_ZOOM",
+          "include_mo_glass": "$INCLUDE_MO_GLASS",
+          "announce": "true",
+          "announce_only": "false"
+        }
+        EOF
+        )
+        # Convert to single line and escape quotes
+        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
+        
+        # Add summary of what will be published
+        echo "Auto-publishing mods that were successfully updated:" >> $GITHUB_STEP_SUMMARY
+        if [[ "$INCLUDE_WURST" == "true" ]]; then
+          echo "- ✅ Wurst Client" >> $GITHUB_STEP_SUMMARY
+        fi
+        if [[ "$INCLUDE_WI_ZOOM" == "true" ]]; then
+          echo "- ✅ WI Zoom" >> $GITHUB_STEP_SUMMARY
+        fi
+        if [[ "$INCLUDE_MO_GLASS" == "true" ]]; then
+          echo "- ✅ Mo Glass" >> $GITHUB_STEP_SUMMARY
+        fi
+    - name: Trigger publish snapshot ports workflow
+      id: publish_dispatch
+      uses: codex-/return-dispatch@v2
+      with:
+        token: ${{ github.token }}
+        owner: Wurst-Imperium
+        repo: wimods.net
+        ref: master
+        workflow: publish_snapshot_ports.yml
+        workflow_inputs: ${{ steps.publish_inputs.outputs.json }}
+    - name: Wait for publish workflow to finish (run ${{ steps.publish_dispatch.outputs.run_id }})
+      uses: codex-/await-remote-run@v1
+      with:
+        token: ${{ github.token }}
+        owner: Wurst-Imperium
+        repo: wimods.net
+        run_id: ${{ steps.publish_dispatch.outputs.run_id }}
         run_timeout_seconds: 1200  # 20 minutes
