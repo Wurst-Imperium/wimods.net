@@ -34,6 +34,9 @@ on:
         type: boolean
         required: false
         default: false
+      distinct_id:
+        description: "Automatically set by the return-dispatch action (leave blank if running manually)"
+        required: false
 
 
 jobs:
@@ -45,6 +48,8 @@ jobs:
       branch: ${{ steps.get_branch.outputs.branch }}
       matrix: ${{ steps.set_matrix.outputs.matrix }}
     steps:
+    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
+      run: echo ${{ github.event.inputs.distinct_id }}
     - name: Get Minecraft version
       id: get_mc_version
       run: |
