@@ -1,4 +1,5 @@
 {
   "target_release": "1.21.9",
-  "wurstforum_discussion": 1242
+  "wurstforum_discussion": 1242,
+  "curseforge_game_version": "1.21.9-snapshot"
 }
