@@ -1,0 +1,48 @@
+name: Announce Fabric API
+
+on:
+  workflow_dispatch:
+    inputs:
+      fapi_version:
+        description: "Fabric API version (e.g. '0.115.0+1.21.5')"
+        required: true
+      mc_version:
+        description: "Minecraft version (e.g. '25w03a')"
+        required: true
+      dry_run:
+        description: "Don't actually upload the announcement"
+        type: boolean
+        default: false
+      distinct_id:
+        description: "Automatically set by the return-dispatch action (leave blank if running manually)"
+        required: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
+      run: echo ${{ github.event.inputs.distinct_id }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: "pip"
+        cache-dependency-path: scripts/requirements.txt
+
+    - name: Install dependencies
+      run: pip install -r scripts/requirements.txt
+
+    - name: Run announce_fabric_api.py
+      env:
+        WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
+      run: |
+        python scripts/announce_fabric_api.py \
+          "${{ github.event.inputs.fapi_version }}" \
+          "${{ github.event.inputs.mc_version }}" \
+          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
