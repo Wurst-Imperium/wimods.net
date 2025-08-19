@@ -124,6 +124,13 @@ jobs:
         fi
         echo "fapi_version=$FAPI_VERSION" >> $GITHUB_OUTPUT
         echo "Fabric API version: \`$FAPI_VERSION\`" >> $GITHUB_STEP_SUMMARY
+    - name: Mark workflow as started
+      run: |
+        curl -X POST \
+          -H "Content-Type: application/json" \
+          -H "x-api-key: ${{ secrets.WI_BACKUPS_API_KEY }}" \
+          -d "{\"mc_version\": \"${{ steps.get_mc_versions.outputs.mc_version }}\", \"run_id\": \"${{ github.run_id }}\"}" \
+          https://api.wurstclient.net/webhooks/snapshot/auto_update_started
 
   wurst:
     runs-on: ubuntu-latest
