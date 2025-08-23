@@ -1,20 +1,29 @@
 ---
 title: ChestESP 1.3.1
 date: 2025-04-09T18:40:00+02:00
-image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3.1_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3.1_540p.webp
 mod: chestesp
 modversion: "1.3.1"
 mcversions:
+- 1.21.8
 - 1.21.7
 - 1.21.6
 - 1.21.5
+- 1.21.4
+- 1.21.1
+- 1.20.1
 neoforge:
 - 1.21.6
 - 1.21.5
 fabric:
+- 1.21.8
 - 1.21.7
 - 1.21.6
 - 1.21.5
+- 1.21.4
+- 1.21.1
+- 1.20.1
 ---
 ## Changelog
 
