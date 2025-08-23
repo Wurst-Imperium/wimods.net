@@ -53,11 +53,10 @@
 <p>
 	{{- $mainText := printf "%s v%s MC%s" $modname $modversion $mcversion -}}
 	{{- $mainLink := printf "%s.jar" $baselink -}}
-	{{- $mainLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $mainLink) (urlquery $mainText) -}}
 	{{- $mainFile := index (last 1 (split $mainLink "/")) 0 -}}
 	<a class="command-button download"
 		href="javascript:void(0)"
-		data-href="{{ if $isLatest }}{{ $mainLink }}{{ else }}{{ $mainLoot }}{{ end }}"
+		data-href="{{ $mainLink }}"
 		data-analytics="Download Mod"
 		data-analytics-mod="{{ $modname }}"
 		data-analytics-version="{{ $modversion }}"
@@ -66,7 +65,6 @@
 		data-analytics-type="main"
 		data-analytics-mirror="GitHub"
 		data-analytics-file="{{ $mainFile }}"
-		data-analytics-lootlink="{{ not $isLatest }}"
 		data-analytics-outdated="{{ not $isLatest }}"
 	>
 		<span class="icon mif-file-download"></span>
@@ -82,13 +80,11 @@
 		{{- range $fabric_mcversion, $fabric_apiversion := $fabric_apis -}}
 			{{- if hasPrefix $fabric_mcversion $mcversion_short | or (eq $fabric_mcversion $mcversion) -}}
 				{{- $fabric_apiversion_short := index (split $fabric_apiversion "+") 0 -}}
-				{{- $apiLootTitle := printf "Fabric API v%s" $fabric_apiversion -}}
 				{{- $apiLink := printf "https://github.com/FabricMC/fabric/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
-				{{- $apiLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $apiLink) (urlquery $apiLootTitle) -}}
 				{{- $apiFile := index (last 1 (split $apiLink "/")) 0 }}
 				<a class="command-button"
 					href="javascript:void(0)"
-					data-href="{{ if $isLatest }}{{ $apiLink }}{{ else }}{{ $apiLoot }}{{ end }}"
+					data-href="{{ $apiLink }}"
 					style="margin: 5px 5px 5px 0"
 					data-analytics="Download Fabric API"
 					data-analytics-version="{{ $fabric_apiversion_short }}"
@@ -98,7 +94,6 @@
 					data-analytics-modmc="{{ $modname }} MC{{ $mcversion }}"
 					data-analytics-modversion="{{ $modname }} {{ $modversion }}"
 					data-analytics-modversionmc="{{ $modname }} {{ $modversion }} MC{{ $mcversion }}"
-					data-analytics-lootlink="{{ not $isLatest }}"
 					data-analytics-outdated="{{ not $isLatest }}"
 				>
 					<img src="https://images.wurstclient.net/_media/icon/fabric.png" width="52" height="56" alt="Fabric icon" class="icon">
@@ -121,10 +116,9 @@
 	<p>
 		{{- with $modrinth -}}
 			{{- $modrinthLink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
-			{{- $modrinthLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $modrinthLink) (urlquery $mainText) -}}
 			<a class="button modrinth"
 				href="javascript:void(0)"
-				data-href="{{ $modrinthLoot }}"
+				data-href="{{ $modrinthLink }}"
 				data-analytics="Download Mod"
 				data-analytics-mod="{{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
@@ -133,7 +127,6 @@
 				data-analytics-type="main"
 				data-analytics-mirror="Modrinth"
 				data-analytics-file="{{ $mainFile }}"
-				data-analytics-lootlink="true"
 				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
@@ -142,10 +135,9 @@
 		{{- end }}
 		{{ with $mirrors.Get "curseforge" -}}
 			{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
-			{{- $cfLoot := printf "https://api.wurstclient.net/loot/?to=%s&title=%s" (urlquery $cfLink) (urlquery $mainText) -}}
 			<a class="button curseforge"
 				href="javascript:void(0)"
-				data-href="{{ $cfLoot }}"
+				data-href="{{ $cfLink }}"
 				data-analytics="Download Mod"
 				data-analytics-mod="{{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
@@ -154,7 +146,6 @@
 				data-analytics-type="main"
 				data-analytics-mirror="CurseForge"
 				data-analytics-file="{{ $mainFile }}"
-				data-analytics-lootlink="true"
 				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" alt="CurseForge icon" class="icon">
@@ -181,7 +172,6 @@
 				data-analytics-type="sources"
 				data-analytics-mirror="GitHub"
 				data-analytics-file="{{ $srcfile }}"
-				data-analytics-lootlink="false"
 				data-analytics-outdated="{{ not $isLatest }}"
 			>
 				{{ $srcfile }}
