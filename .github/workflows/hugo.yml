@@ -52,7 +52,7 @@ jobs:
         HUGO_ENVIRONMENT: production
       run: hugo --baseURL "https://www.wimods.net/"
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: public/
 
