@@ -142,3 +142,10 @@ jobs:
         repo: WI-Zoom
         run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
         run_timeout_seconds: 1200  # 20 minutes
+    - name: Mark Fabric API version as working
+      run: |
+        curl -X POST \
+          -H "Content-Type: application/json" \
+          -H "x-api-key: ${{ secrets.WI_BACKUPS_API_KEY }}" \
+          -d "{\"mc_version\": \"${{ needs.get_params.outputs.mc_version }}\", \"fapi_version\": \"${{ needs.get_params.outputs.fapi_version }}\"}" \
+          https://api.wurstclient.net/webhooks/snapshot/old_fapi_still_works
