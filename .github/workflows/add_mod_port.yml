@@ -1,6 +1,6 @@
 # Adds the necessary Hugo metadata when an existing mod update is ported to a new Minecraft version.
 name: Add Mod Port
-run-name: Add ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} build for ${{ github.event.inputs.mc_version }} (${{ github.event.inputs.modloader }})
+run-name: Add ${{ inputs.mod }} ${{ inputs.mod_version }} build for ${{ inputs.mc_version }} (${{ inputs.modloader }})
 
 on:
   workflow_dispatch:
@@ -38,8 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
-      run: echo ${{ github.event.inputs.distinct_id }}
+    - name: Echo distinct ID ${{ inputs.distinct_id }}
+      run: echo ${{ inputs.distinct_id }}
 
     - name: Checkout repository
       uses: actions/checkout@v5
@@ -57,19 +57,19 @@ jobs:
     - name: Run add_mod_port.py
       run: |
         python scripts/add_mod_port.py \
-          "${{ github.event.inputs.mod }}" \
-          "${{ github.event.inputs.modloader }}" \
-          "${{ github.event.inputs.mod_version }}" \
-          "${{ github.event.inputs.mc_version }}" \
-          ${{ github.event.inputs.modloader == 'fabric' && format('--fapi_version {0}', github.event.inputs.fapi_version) || '' }} \
-          "${{ github.event.inputs.file_id }}"
+          "${{ inputs.mod }}" \
+          "${{ inputs.modloader }}" \
+          "${{ inputs.mod_version }}" \
+          "${{ inputs.mc_version }}" \
+          ${{ inputs.modloader == 'fabric' && format('--fapi_version {0}', inputs.fapi_version) || '' }} \
+          "${{ inputs.file_id }}"
 
     - name: Commit changes
       run: |
-        MOD="${{ github.event.inputs.mod }}"
-        MOD_VERSION="${{ github.event.inputs.mod_version }}"
-        MC_VERSION="${{ github.event.inputs.mc_version }}"
-        MODLOADER="${{ github.event.inputs.modloader }}"
+        MOD="${{ inputs.mod }}"
+        MOD_VERSION="${{ inputs.mod_version }}"
+        MC_VERSION="${{ inputs.mc_version }}"
+        MODLOADER="${{ inputs.modloader }}"
         git config --local user.email "contact.wurstimperium@gmail.com"
         git config --local user.name "Wurst-Bot"
         git add .

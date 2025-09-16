@@ -1,5 +1,5 @@
 name: Announce Mod Update
-run-name: Announce ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} update on WurstForum
+run-name: Announce ${{ inputs.mod }} ${{ inputs.mod_version }} update on WurstForum
 
 on:
   workflow_dispatch:
@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
-      run: echo ${{ github.event.inputs.distinct_id }}
+    - name: Echo distinct ID ${{ inputs.distinct_id }}
+      run: echo ${{ inputs.distinct_id }}
 
     - name: Checkout repository
       uses: actions/checkout@v5
@@ -44,6 +44,6 @@ jobs:
         WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
       run: |
         python scripts/announce_mod_update.py \
-          "${{ github.event.inputs.mod }}" \
-          "${{ github.event.inputs.mod_version }}" \
-          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+          "${{ inputs.mod }}" \
+          "${{ inputs.mod_version }}" \
+          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}

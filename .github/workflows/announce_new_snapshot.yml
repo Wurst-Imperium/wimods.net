@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
-      run: echo ${{ github.event.inputs.distinct_id }}
+    - name: Echo distinct ID ${{ inputs.distinct_id }}
+      run: echo ${{ inputs.distinct_id }}
 
     - name: Checkout repository
       uses: actions/checkout@v5
@@ -40,5 +40,5 @@ jobs:
         WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
       run: |
         python scripts/announce_new_snapshot.py \
-          "${{ github.event.inputs.mc_version }}" \
-          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+          "${{ inputs.mc_version }}" \
+          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}

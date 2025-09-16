@@ -1,5 +1,5 @@
 name: Announce Mod Ports
-run-name: Announce new ${{ github.event.inputs.mod }} ${{ github.event.inputs.mod_version }} port(s) on WurstForum
+run-name: Announce new ${{ inputs.mod }} ${{ inputs.mod_version }} port(s) on WurstForum
 
 on:
   workflow_dispatch:
@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Echo distinct ID ${{ github.event.inputs.distinct_id }}
-      run: echo ${{ github.event.inputs.distinct_id }}
+    - name: Echo distinct ID ${{ inputs.distinct_id }}
+      run: echo ${{ inputs.distinct_id }}
 
     - name: Checkout repository
       uses: actions/checkout@v5
@@ -47,7 +47,7 @@ jobs:
         WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
       run: |
         python scripts/announce_mod_ports.py \
-          "${{ github.event.inputs.mod }}" \
-          "${{ github.event.inputs.mod_version }}" \
-          ${{ github.event.inputs.branches }} \
-          ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+          "${{ inputs.mod }}" \
+          "${{ inputs.mod_version }}" \
+          ${{ inputs.branches }} \
+          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
