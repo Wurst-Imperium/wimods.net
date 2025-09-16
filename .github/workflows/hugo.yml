@@ -3,13 +3,13 @@ name: Deploy Hugo site to Pages
 on:
   push:
     branches:
-      - "master"
+    - "master"
     tags-ignore:
-      - "**"
+    - "**"
   schedule:
-    # cron: minute, hour, day of month, month, day of week
-    # Update the copyright year on Jan 1st
-    - cron: "0 0 1 1 *"
+  # cron: minute, hour, day of month, month, day of week
+  # Update the copyright year on Jan 1st
+  - cron: "0 0 1 1 *"
   workflow_dispatch:
     inputs:
       distinct_id:
