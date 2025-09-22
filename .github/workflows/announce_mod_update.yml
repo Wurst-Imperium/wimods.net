@@ -45,4 +45,4 @@ jobs:
         python scripts/announce_mod_update.py \
           "${{ inputs.mod }}" \
           "${{ inputs.mod_version }}" \
-          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}

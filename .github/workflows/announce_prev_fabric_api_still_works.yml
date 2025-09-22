@@ -44,4 +44,4 @@ jobs:
         python scripts/announce_prev_fabric_api_still_works.py \
           "${{ inputs.fapi_version }}" \
           "${{ inputs.mc_version }}" \
-          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}

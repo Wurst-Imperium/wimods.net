@@ -44,4 +44,4 @@ jobs:
         python scripts/announce_fabric_api.py \
           "${{ inputs.fapi_version }}" \
           "${{ inputs.mc_version }}" \
-          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}

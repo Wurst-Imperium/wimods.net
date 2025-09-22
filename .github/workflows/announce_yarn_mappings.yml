@@ -44,4 +44,4 @@ jobs:
         python scripts/announce_yarn_mappings.py \
           "${{ inputs.yarn_version }}" \
           "${{ inputs.mc_version }}" \
-          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}

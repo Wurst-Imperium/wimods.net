@@ -40,4 +40,4 @@ jobs:
       run: |
         python scripts/announce_new_snapshot.py \
           "${{ inputs.mc_version }}" \
-          ${{ inputs.dry_run == 'true' && '--dry-run' || '' }}
+          ${{ inputs.dry_run && '--dry-run' || '' }}
