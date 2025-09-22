@@ -10,6 +10,7 @@ mcversions:
 - 1.21.1
 - 1.20.1
 fabric:
+- 1.21.4
 - 1.21.1
 - 1.20.1
 neoforge:
