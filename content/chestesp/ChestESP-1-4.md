@@ -1,9 +1,14 @@
 ---
 title: ChestESP 1.4
 date: 2025-09-22T18:10:00+02:00
-image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.4_540p.webp
+image: 
+  https://images.wurstclient.net/_media/update/chestesp/chestesp_1.4_540p.webp
 mod: chestesp
 modversion: "1.4"
+mcversions:
+- 1.20.1
+fabric:
+- 1.20.1
 ---
 ## Changelog
 
