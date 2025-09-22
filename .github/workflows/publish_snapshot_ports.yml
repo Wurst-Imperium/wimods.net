@@ -35,7 +35,6 @@ on:
         required: false
         default: false
       distinct_id:
-        description: "Automatically set by the return-dispatch action (leave blank if running manually)"
         required: false
 
 
@@ -94,37 +93,21 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ inputs.include_wurst && !inputs.announce_only }}
     steps:
-    - name: Build Wurst publish inputs
-      id: wurst_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "close_milestone": "false",
-          "upload_backups": "true",
-          "publish_github": "true",
-          "update_website": "true"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> "$GITHUB_OUTPUT"
     - name: Trigger publish workflow
-      id: wurst_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Wurst7
         ref: ${{ needs.prepare.outputs.branch }}
         workflow: publish.yml
-        workflow_inputs: ${{ steps.wurst_inputs.outputs.json }}
-    - name: Wait for publish workflow to finish (run ${{ steps.wurst_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: Wurst7
-        run_id: ${{ steps.wurst_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "close_milestone": "false",
+            "upload_backups": "true",
+            "publish_github": "true",
+            "update_website": "true"
+          }
         run_timeout_seconds: 600  # 10 minutes
 
   wi_mods:
@@ -136,39 +119,23 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
       max-parallel: 1
     steps:
-    - name: Build ${{ matrix.mod.name }} publish inputs
-      id: mod_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "close_milestone": "false",
-          "upload_backups": "true",
-          "publish_github": "true",
-          "publish_curseforge": "true",
-          "publish_modrinth": "true",
-          "update_website": "true"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> "$GITHUB_OUTPUT"
     - name: Trigger publish workflow
-      id: mod_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: ${{ matrix.mod.repo }}
         ref: ${{ needs.prepare.outputs.branch }}
         workflow: publish.yml
-        workflow_inputs: ${{ steps.mod_inputs.outputs.json }}
-    - name: Wait for publish workflow to finish (run ${{ steps.mod_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: ${{ matrix.mod.repo }}
-        run_id: ${{ steps.mod_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "close_milestone": "false",
+            "upload_backups": "true",
+            "publish_github": "true",
+            "publish_curseforge": "true",
+            "publish_modrinth": "true",
+            "update_website": "true"
+          }
         run_timeout_seconds: 600  # 10 minutes
 
   announce:

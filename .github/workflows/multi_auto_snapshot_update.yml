@@ -137,37 +137,21 @@ jobs:
     needs: get_params
     if: ${{ inputs.include_wurst }}
     steps:
-    - name: Build Wurst update inputs
-      id: wurst_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-          "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
-          "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-          "fapi_version": "${{ needs.get_params.outputs.fapi_version }}"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
     - name: Trigger snapshot update workflow
-      id: wurst_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Wurst7
         ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
-        workflow_inputs: ${{ steps.wurst_inputs.outputs.json }}
-    - name: Wait for snapshot update workflow to finish (run ${{ steps.wurst_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: Wurst7
-        run_id: ${{ steps.wurst_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
+            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}"
+          }
         run_timeout_seconds: 1200  # 20 minutes
 
   wi_zoom:
@@ -175,38 +159,22 @@ jobs:
     needs: get_params
     if: ${{ inputs.include_wi_zoom }}
     steps:
-    - name: Build WI Zoom update inputs
-      id: wi_zoom_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-          "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
-          "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-          "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-          "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
     - name: Trigger snapshot update workflow
-      id: wi_zoom_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Zoom
         ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
-        workflow_inputs: ${{ steps.wi_zoom_inputs.outputs.json }}
-    - name: Wait for snapshot update workflow to finish (run ${{ steps.wi_zoom_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: WI-Zoom
-        run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
+            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+          }
         run_timeout_seconds: 1200  # 20 minutes
 
   mo_glass:
@@ -214,38 +182,22 @@ jobs:
     needs: get_params
     if: ${{ inputs.include_mo_glass }}
     steps:
-    - name: Build Mo Glass update inputs
-      id: mo_glass_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-          "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
-          "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-          "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-          "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
     - name: Trigger snapshot update workflow
-      id: mo_glass_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Mo-Glass
         ref: ${{ needs.get_params.outputs.branch }}
         workflow: auto_snapshot_update.yml
-        workflow_inputs: ${{ steps.mo_glass_inputs.outputs.json }}
-    - name: Wait for snapshot update workflow to finish (run ${{ steps.mo_glass_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: Mo-Glass
-        run_id: ${{ steps.mo_glass_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
+            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+          }
         run_timeout_seconds: 1200  # 20 minutes
 
   auto_publish:
@@ -256,62 +208,25 @@ jobs:
     - name: Build publish workflow inputs
       id: publish_inputs
       run: |
-        # Determine which mods succeeded and should be published
-        INCLUDE_WURST="false"
-        INCLUDE_WI_ZOOM="false"
-        INCLUDE_MO_GLASS="false"
-        
-        if [[ "${{ needs.wurst.result }}" == "success" ]]; then
-          INCLUDE_WURST="true"
-        fi
-        if [[ "${{ needs.wi_zoom.result }}" == "success" ]]; then
-          INCLUDE_WI_ZOOM="true"
-        fi
-        if [[ "${{ needs.mo_glass.result }}" == "success" ]]; then
-          INCLUDE_MO_GLASS="true"
-        fi
-        
-        JSON_STRING=$(cat << EOF
-        {
-          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-          "branch": "${{ needs.get_params.outputs.branch }}",
-          "include_wurst": "$INCLUDE_WURST",
-          "include_wi_zoom": "$INCLUDE_WI_ZOOM",
-          "include_mo_glass": "$INCLUDE_MO_GLASS",
-          "announce": "true",
-          "announce_only": "false"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
-        
-        # Add summary of what will be published
-        echo "Auto-publishing mods that were successfully updated:" >> $GITHUB_STEP_SUMMARY
-        if [[ "$INCLUDE_WURST" == "true" ]]; then
-          echo "- ✅ Wurst Client" >> $GITHUB_STEP_SUMMARY
-        fi
-        if [[ "$INCLUDE_WI_ZOOM" == "true" ]]; then
-          echo "- ✅ WI Zoom" >> $GITHUB_STEP_SUMMARY
-        fi
-        if [[ "$INCLUDE_MO_GLASS" == "true" ]]; then
-          echo "- ✅ Mo Glass" >> $GITHUB_STEP_SUMMARY
-        fi
+        echo "include_wurst=$([[ "${{ needs.wurst.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+        echo "include_wi_zoom=$([[ "${{ needs.wi_zoom.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+        echo "include_mo_glass=$([[ "${{ needs.mo_glass.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
     - name: Trigger publish snapshot ports workflow
-      id: publish_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ github.token }}
         owner: Wurst-Imperium
         repo: wimods.net
         ref: master
         workflow: publish_snapshot_ports.yml
-        workflow_inputs: ${{ steps.publish_inputs.outputs.json }}
-    - name: Wait for publish workflow to finish (run ${{ steps.publish_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ github.token }}
-        owner: Wurst-Imperium
-        repo: wimods.net
-        run_id: ${{ steps.publish_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "branch": "${{ needs.get_params.outputs.branch }}",
+            "include_wurst": "${{ steps.publish_inputs.outputs.include_wurst }}",
+            "include_wi_zoom": "${{ steps.publish_inputs.outputs.include_wi_zoom }}",
+            "include_mo_glass": "${{ steps.publish_inputs.outputs.include_mo_glass }}",
+            "announce": "true",
+            "announce_only": "false"
+          }
         run_timeout_seconds: 1200  # 20 minutes

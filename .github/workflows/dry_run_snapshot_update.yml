@@ -109,38 +109,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: get_params
     steps:
-    - name: Build WI Zoom test inputs
-      id: wi_zoom_inputs
-      run: |
-        JSON_STRING=$(cat << EOF
-        {
-          "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-          "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
-          "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-          "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-          "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
-        }
-        EOF
-        )
-        # Convert to single line and escape quotes
-        echo "json=${JSON_STRING//$'\n'/}" >> $GITHUB_OUTPUT
     - name: Trigger snapshot test workflow
-      id: wi_zoom_dispatch
-      uses: codex-/return-dispatch@v2
+      uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Zoom
         ref: ${{ needs.get_params.outputs.branch }}
         workflow: dry_run_snapshot_update.yml
-        workflow_inputs: ${{ steps.wi_zoom_inputs.outputs.json }}
-    - name: Wait for snapshot test workflow to finish (run ${{ steps.wi_zoom_dispatch.outputs.run_id }})
-      uses: codex-/await-remote-run@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: WI-Zoom
-        run_id: ${{ steps.wi_zoom_dispatch.outputs.run_id }}
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
+            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+          }
         run_timeout_seconds: 1200  # 20 minutes
     - name: Mark Fabric API version as working
       run: |
