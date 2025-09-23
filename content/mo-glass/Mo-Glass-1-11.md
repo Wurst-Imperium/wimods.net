@@ -14,6 +14,7 @@ mcversions:
 - 1.21.5
 - 1.21.4
 snapshots:
+- 1.21.9-pre4
 - 1.21.9-pre3
 - 1.21.9-pre2
 - 1.21.9-pre1
