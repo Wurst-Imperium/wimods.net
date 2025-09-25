@@ -26,12 +26,6 @@ on:
       distinct_id:
         required: false
 
-permissions:
-  # To push the automated commit.
-  contents: write
-  # To trigger the hugo workflow.
-  actions: write
-
 jobs:
   update-post:
     runs-on: ubuntu-latest
@@ -42,6 +36,9 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v5
+      with:
+        # So that the hugo workflow runs automatically.
+        token: ${{ secrets.WIMODS_NET_PUBLISH_TOKEN }}
 
     - name: Set up Python
       uses: actions/setup-python@v6
@@ -74,14 +71,3 @@ jobs:
         git add .
         git commit -m "[Wurst-Bot] Port $MOD $MOD_VERSION to Minecraft $MC_VERSION ($MODLOADER)"
         git push
-
-    - name: Trigger hugo workflow
-      continue-on-error: true  # often fails due to GitHub API issues
-      uses: Wurst-Imperium/dispatch-and-wait@v1
-      with:
-        token: ${{ github.token }}
-        owner: Wurst-Imperium
-        repo: wimods.net
-        ref: master
-        workflow: hugo.yml
-        run_timeout_seconds: 300  # 5 minutes
