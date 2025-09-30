@@ -8,6 +8,7 @@ image:
 mod: wi-zoom
 modversion: "1.6"
 mcversions:
+- 1.21.9
 - 1.21.8
 - 1.21.7
 - 1.21.6
@@ -75,6 +76,7 @@ neoforge:
 - 1.20.4
 - 1.20.2
 fabric:
+- 1.21.9
 - 1.21.8
 - 1.21.7
 - 1.21.6
