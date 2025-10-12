@@ -1,18 +1,4 @@
 {{ define "main" }}
-
-<style>
-@media(max-width:800px) {
-	ins.adsbygoogle {
-		height: 333px;
-	}
-}
-@media(min-width:801px) {
-	ins.adsbygoogle {
-		height: 280px;
-	}
-}
-</style>
-
 <main>
 	{{- partial "title" (dict "l1" .Title "l2" (.Date.Format "2006-01-02")) -}}
 
