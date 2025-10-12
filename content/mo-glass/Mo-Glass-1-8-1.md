@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.8.1 - Crafting Fix
+layout: update
 description: Mo Glass 1.8.1 fixes the crafting recipes not working in Minecraft 1.20.5/6.
 date: 2024-05-01T13:40:00+02:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.8.1_540p.webp

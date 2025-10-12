@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.3 - Colored Glass
+layout: update
 date: 2020-07-11T06:54:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.3_540p.webp
 mod: mo-glass

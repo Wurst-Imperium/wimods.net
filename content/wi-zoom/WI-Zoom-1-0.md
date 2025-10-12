@@ -1,5 +1,6 @@
 ---
 title: WI Zoom 1.0 - Initial Release
+layout: update
 date: 2019-10-28T08:00:00+01:00
 image: https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.0_540p.webp
 mod: wi-zoom

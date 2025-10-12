@@ -1,5 +1,6 @@
 ---
 title: ChestESP 1.0 - Initial Release
+layout: update
 date: 2023-06-04T20:31:00+02:00
 image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.0_540p.webp
 mod: chestesp

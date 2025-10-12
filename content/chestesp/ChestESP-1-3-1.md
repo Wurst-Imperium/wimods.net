@@ -1,5 +1,6 @@
 ---
 title: ChestESP 1.3.1
+layout: update
 date: 2025-04-09T18:40:00+02:00
 image: 
   https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3.1_540p.webp

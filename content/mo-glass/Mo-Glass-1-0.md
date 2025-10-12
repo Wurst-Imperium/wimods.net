@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.0 - Initial Release
+layout: update
 date: 2019-12-01T23:38:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.0_540p.webp
 mod: mo-glass

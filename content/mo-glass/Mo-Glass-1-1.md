@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.1 - Stonecutter Recipes
+layout: update
 date: 2019-12-09T02:01:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.1_540p.webp
 mod: mo-glass

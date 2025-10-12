@@ -1,5 +1,6 @@
 ---
 title: ChestESP 1.3 - Rendering Improvements
+layout: update
 date: 2025-03-19T06:30:00+01:00
 image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.3_540p.webp
 mod: chestesp

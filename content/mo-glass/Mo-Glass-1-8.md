@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.8 - Updated Tag Conventions
+layout: update
 description: Mo Glass 1.8 adjusts Mo Glass's tags according to the new unified tag
   conventions for Fabric and NeoForge.
 date: 2024-04-17T01:24:00+02:00

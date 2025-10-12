@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.6 - Tinted Glass, Bugfixes
+layout: update
 date: 2021-12-15T18:13:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.6_540p.webp
 mod: mo-glass

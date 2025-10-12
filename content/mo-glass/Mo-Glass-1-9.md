@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.9 - Translation Updates
+layout: update
 description: Mo Glass 1.9 updates the translations for the Russian and Chinese (Traditional/Taiwan)
   languages.
 date: 2024-08-14T22:15:00+02:00

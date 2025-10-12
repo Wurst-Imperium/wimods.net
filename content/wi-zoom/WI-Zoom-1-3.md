@@ -1,5 +1,6 @@
 ---
 title: WI Zoom 1.3 - Russian Translation
+layout: update
 date: 2020-11-06T16:23:00+01:00
 image: https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.3_540p.webp
 mod: wi-zoom

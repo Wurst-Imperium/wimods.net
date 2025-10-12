@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.11 - More Tests and Fixes
+layout: update
 description: Update 1.11 makes the Mo Glass mod more reliable by adding many 
   automated tests and fixing bugs that these tests uncovered.
 date: 2025-03-08T13:16:00+01:00

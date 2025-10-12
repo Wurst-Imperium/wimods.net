@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.7.1 - Forge Crash Fix
+layout: update
 description: Mo Glass 1.7.1 fixes a Forge-only crash that sporadically occurred when
   generating new chunks.
 date: 2024-04-15T22:52:00+02:00

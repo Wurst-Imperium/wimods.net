@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.7 - NeoForge Support, Language Updates, Bugfixes
+layout: update
 description: Mo Glass 1.7 adds support for the NeoForge mod loader, updates localizations
   and fixes some transparency bugs.
 date: 2023-12-13T13:47:00+01:00

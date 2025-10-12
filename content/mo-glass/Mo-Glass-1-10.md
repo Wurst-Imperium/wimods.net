@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.10 - Translucent Glass Compatibility
+layout: update
 description: Mo Glass 1.10 adds support for the Translucent Glass mod (version 0.2.0
   or later).
 date: 2024-08-15T20:45:00+02:00

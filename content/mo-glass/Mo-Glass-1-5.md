@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.5 - More Translations
+layout: update
 date: 2020-11-06T17:01:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.5_540p.webp
 mod: mo-glass

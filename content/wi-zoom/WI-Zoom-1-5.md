@@ -1,5 +1,6 @@
 ---
 title: WI Zoom 1.5 - NeoForge Support, More Languages
+layout: update
 description: WI Zoom 1.5 adds support for the NeoForge modloader and several new languages.
   The update is available as a Fabric and Forge mod for Minecraft 1.20.x.
 date: 2023-09-27T10:59:00+02:00

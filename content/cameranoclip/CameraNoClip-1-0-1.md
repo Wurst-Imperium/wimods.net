@@ -1,5 +1,6 @@
 ---
 title: CameraNoClip 1.0.1 - Bugfixes
+layout: update
 date: 2023-01-02T14:55:00+01:00
 image: 
   https://images.wurstclient.net/_media/update/cameranoclip/cameranoclip_1.0.1_540p.webp

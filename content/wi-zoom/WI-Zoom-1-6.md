@@ -1,5 +1,6 @@
 ---
 title: WI Zoom 1.6 - Automated Tests, Korean Translation
+layout: update
 description: WI Zoom 1.6 adds several automated tests, a Korean translation, and
   updated dependencies.
 date: 2025-01-08T00:55:00+01:00

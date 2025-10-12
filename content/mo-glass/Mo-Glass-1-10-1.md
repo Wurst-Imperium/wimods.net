@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.10.1 - Bugfixes and Tests
+layout: update
 description: Mo Glass 1.10.1 fixes the 1.21.2 and 1.21.3 Fabric builds crashing on
   launch, which somehow went unnoticed until 1.21.4.
 date: 2024-12-20T13:15:00+01:00

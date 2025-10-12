@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.6.1 - Crash Fix
+layout: update
 description: Mo Glass 1.6.1 fixes a crash when running the mod on a server. The update
   is available as a Fabric mod for Minecraft 1.19.3 - 1.17.1, as well as many different
   snapshots.

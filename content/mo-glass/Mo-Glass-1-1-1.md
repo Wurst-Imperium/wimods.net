@@ -1,5 +1,6 @@
 ---
 title: Mo Glass 1.1.1 - Multiplayer Fix
+layout: update
 date: 2020-02-29T01:42:00+01:00
 image: https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.1.1_540p.webp
 mod: mo-glass

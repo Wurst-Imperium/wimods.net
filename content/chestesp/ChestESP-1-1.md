@@ -1,5 +1,6 @@
 ---
 title: ChestESP 1.1 - New 1.21 Containers
+layout: update
 date: 2023-10-25T19:25:00+02:00
 image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.1_540p.webp
 mod: chestesp

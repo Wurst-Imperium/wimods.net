@@ -1,5 +1,6 @@
 ---
 title: ChestESP 1.2 - Normal Chests Toggle, Easier Installation, Automated Testing
+layout: update
 date: 2024-11-15T16:00:00+01:00
 image: https://images.wurstclient.net/_media/update/chestesp/chestesp_1.2_540p.webp
 mod: chestesp

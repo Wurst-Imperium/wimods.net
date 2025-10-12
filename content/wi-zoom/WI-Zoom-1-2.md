@@ -1,5 +1,6 @@
 ---
 title: WI Zoom 1.2 - Bugfixes & Improvements
+layout: update
 date: 2020-04-08T04:52:00+01:00
 image: https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.2_540p.webp
 mod: wi-zoom
