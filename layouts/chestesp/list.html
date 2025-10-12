@@ -1,6 +1,6 @@
 {{ define "main" }}
 <main>
-    {{ partial "title" (dict "l1" .Title) }}
+    {{ partial "title" . }}
     <section class="padding20 no-padding-left no-padding-right">
         <div class="container">
             {{- .Content -}}
