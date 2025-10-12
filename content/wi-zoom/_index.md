@@ -2,6 +2,7 @@
 title: WI Zoom
 title_l2: The zoom from the Wurst Client as a standalone mod.
 description: WI Zoom is the zoom from the Wurst Client as a standalone Minecraft mod, letting you zoom in and out with the mouse wheel and providing up to 50x magnification.
+layout: simple_page
 ---
 <img src="https://user-images.githubusercontent.com/10100202/67816432-973d2400-fab2-11e9-8699-e05eb5ba6551.jpg" alt="comparison of no zoom, 3x zoom, and 50x zoom" width="2560" height="1440">
 

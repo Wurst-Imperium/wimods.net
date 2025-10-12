@@ -1,6 +1,7 @@
 ---
 title: CameraNoClip
 description: Allows the camera in 3rd person to go through walls.
+layout: simple_page
 ---
 ## CameraNoClip Mod - Enhance Your Third-Person View in Minecraft! (Fabric & Forge)
 

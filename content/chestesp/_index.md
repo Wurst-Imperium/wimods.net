@@ -1,7 +1,8 @@
 ---
 title: ChestESP
-description: This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 title_l2: ""
+description: This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
+layout: simple_page
 ---
 This mod highlights nearby chests so you can see them through walls. It's based on a Wurst Client feature of the same name.
 
