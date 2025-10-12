@@ -1,0 +1,33 @@
+{{- $sorted := slice -}}
+
+{{- range . -}}
+	{{- $version := .Params.mcversion -}}
+	{{- $sortKey := "" -}}
+	
+	{{- if eq $version "z-all" -}}
+		{{- $sortKey = "999999999" -}}
+	{{- else if eq $version "snapshot" -}}
+		{{- $sortKey = "888888888" -}}
+	{{- else -}}
+		{{- $parts := split $version "." -}}
+		{{- $major := index $parts 0 | int -}}
+		{{- $minor := index $parts 1 | int -}}
+		{{- $patch := 0 -}}
+		{{- if gt (len $parts) 2 -}}
+			{{- $patchPart := index $parts 2 -}}
+			{{- if eq $patchPart "x" -}}
+				{{- $patch = 999 -}}
+			{{- else -}}
+				{{- $patch = $patchPart | int -}}
+			{{- end -}}
+		{{- end -}}
+		
+		{{- $sortKey = printf "%03d%03d%03d" $major $minor $patch -}}
+	{{- end -}}
+	
+	{{- $pageWithSort := dict "page" . "sortKey" $sortKey -}}
+	{{- $sorted = $sorted | append $pageWithSort -}}
+{{- end -}}
+
+{{- $sorted = sort $sorted "sortKey" "desc" -}}
+{{- return $sorted -}}

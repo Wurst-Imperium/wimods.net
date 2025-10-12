@@ -31,20 +31,22 @@
 	{{ partial "title" . }}
 	<section class="padding20 no-padding-left no-padding-right">
 		<div class="container">
-			{{- partial "ad" "2172829624" -}}
+			{{ partial "ad" "2172829624" -}}
 			{{- .Content -}}
 			<ul class="mcversions">
-				{{ range where (where (.Site.Pages.ByParam "mcversion").Reverse "Section" .Params.mod) "Layout" "mod_mc_downloads" }}
-				<li {{ if (in $.Params.old_mcversions .Params.mcversion) -}}class="old"{{- end -}}>
-					<a href="{{- .Permalink -}}" class="fg-gray">
+				{{ $modPages := where (where .Site.Pages "Section" .Params.mod) "Layout" "mod_mc_downloads" -}}
+				{{- $sortedPages := partial "sort_mcversions.html" $modPages -}}
+				{{- range $sortedPages -}}
+				<li {{ if (in $.Params.old_mcversions .page.Params.mcversion) -}}class="old"{{- end -}}>
+					<a href="{{- .page.Permalink -}}" class="fg-gray">
 						<div>
 							<h2>
-								{{- if eq "z-all" .Params.mcversion -}}
+								{{- if eq "z-all" .page.Params.mcversion -}}
 									Latest {{ $modname }} Updates
-								{{- else if eq "snapshot" .Params.mcversion -}}
+								{{- else if eq "snapshot" .page.Params.mcversion -}}
 									Snapshots, Pre-Releases, etc.
 								{{- else -}}
-									{{ $modname }} for Minecraft {{ .Params.mcversion }}
+									{{ $modname }} for Minecraft {{ .page.Params.mcversion }}
 								{{- end -}}
 							</h2>
 						</div>
