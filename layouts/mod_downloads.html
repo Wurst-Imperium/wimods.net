@@ -34,7 +34,7 @@
 			{{- partial "ad" "2172829624" -}}
 			{{- .Content -}}
 			<ul class="mcversions">
-				{{ range where (where (.Site.Pages.ByParam "mcversion").Reverse "Section" .Params.mod) "Type" "mod-mc-downloads" }}
+				{{ range where (where (.Site.Pages.ByParam "mcversion").Reverse "Section" .Params.mod) "Layout" "mod_mc_downloads" }}
 				<li {{ if (in $.Params.old_mcversions .Params.mcversion) -}}class="old"{{- end -}}>
 					<a href="{{- .Permalink -}}" class="fg-gray">
 						<div>
