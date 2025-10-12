@@ -6,7 +6,7 @@ titleCaseStyle = "none"
 [privacy]
   [privacy.googleAnalytics]
     disable = true
-  [privacy.twitter]
+  [privacy.x]
     disable = false
     enableDNT = true
     simple = false
