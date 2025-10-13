@@ -1,0 +1,54 @@
+{{ define "main" }}
+<main>
+	{{- partial "title" (dict "l1" .Title "l2" (.Date.Format "2006-01-02")) -}}
+
+	<section id="changelog" class="padding20 no-padding-left no-padding-right">
+		<div class="container">
+			{{- partial "update/image" . -}}
+			<p class="align-center text-accent">
+				This is a pre-release version for Early Access members on Ko-fi.
+			</p>
+			<p class="align-center">
+				<a class="command-button shadow bg-lightBlue bg-hover-cyan fg-white bd-lightBlue" href="{{ .Params.kofi_url }}" style="padding-top: 1rem;padding-bottom: 1rem;padding-left: 5rem;" data-analytics="View on Ko-fi" data-analytics-id="top button">
+					<img src="https://storage.ko-fi.com/cdn/cup-border.png" class="icon" style="width: auto;">
+					Download via Ko-fi
+				</a>
+			</p>
+			<div class="padding40 no-padding-left no-padding-right"></div>
+			{{- partial "update/mcversions" . -}}
+			{{- .Content -}}
+		</div>
+	</section>
+
+	<section id="downloads" class="padding40 no-padding-left no-padding-right bg-grayLighter">
+		<div class="container">
+			<h2>Downloads</h2>
+			<p class="align-center text-accent">
+				Early Access members can download this version through Ko-fi.
+			</p>
+			<p class="align-center">
+				<a class="command-button shadow bg-lightBlue bg-hover-cyan fg-white bd-lightBlue" href="{{ .Params.kofi_url }}" style="padding-top: 1rem;padding-bottom: 1rem;padding-left: 5rem;" data-analytics="View on Ko-fi" data-analytics-id="bottom button">
+					<img src="https://storage.ko-fi.com/cdn/cup-border.png" class="icon" style="width: auto;">
+					Download via Ko-fi
+				</a>
+			</p>
+			<p class="align-center text-accent">
+				If you aren't an Early Access member yet, join now to download this version!
+			</p>
+			<iframe id='kofiframe' src='https://ko-fi.com/wurst/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='712' title='wurst'></iframe>
+		</div>
+	</section>
+
+	<section id="installation" class="padding20 no-padding-left no-padding-right">
+		<div class="container">
+			<h2 id="installation">Installation</h2>
+			{{- partial "update/installation" . -}}
+		</div>
+	</section>
+
+</main>
+{{ end }}
+
+{{ define "ads" }}
+<!-- No ads on Ko-fi exclusive versions -->
+{{ end }}

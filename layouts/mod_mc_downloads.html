@@ -46,7 +46,13 @@
 								<span class="mif-file-picture fg-grayLight"></span>
 							</span>
 							{{- end -}}
-							<h2 class="sub-header">{{- .Title -}}</h2>
+							<h2 class="sub-header">
+								{{- .Title -}}
+								{{- if isset .Params "kofi_url" -}}
+									{{- " " -}}
+									<span class="tag bg-darkGreen fg-white" title="For monthly subscribers.">Members Only</span>
+								{{- end -}}
+							</h2>
 						</article>
 					</a>
 				</li>

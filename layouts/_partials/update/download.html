@@ -23,8 +23,16 @@
 	{{- $scratch.Set "modloaderSuffix" "-Forge" -}}
 {{- end -}}
 
-{{- $latestPage := index (first 1 (where (where .page.Site.Pages "Section" .page.Params.mod) $modloaderField "intersect" (slice $mcversion))) 0 -}}
-{{- $latestVersion := $latestPage.Params.modversion -}}
+{{- $latestPage := "" -}}
+{{- $latestVersion := "" -}}
+{{- range (where (where (where .page.Site.Pages "Section" .page.Params.mod) $modloaderField "intersect" (slice $mcversion)) "Date" "ge" .page.Date) -}}
+	{{- if and (ne .Layout "update_kofi") (not (strings.Contains .Params.modversion "pre")) -}}
+		{{- $latestPage = . -}}
+		{{- $latestVersion = .Params.modversion -}}
+		{{- break -}}
+	{{- end -}}
+{{- end -}}
+
 {{- $isLatest := or (eq $modversion $latestVersion) (not $latestVersion) -}}
 
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
