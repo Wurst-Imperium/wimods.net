@@ -12,6 +12,8 @@ mcversions:
 - 1.21.9
 neoforge:
 - 1.21.9
+fabric:
+- 1.21.9
 ---
 **Note:** NeoForge version `21.9.16-beta` is known to crash when opening the mod list. Use version `21.9.15-beta` instead.
 
