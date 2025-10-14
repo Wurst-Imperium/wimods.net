@@ -9,8 +9,10 @@ image:
 mod: chestesp
 modversion: "1.4.1-pre1"
 mcversions:
+- 1.21.10
 - 1.21.9
 neoforge:
+- 1.21.10
 - 1.21.9
 fabric:
 - 1.21.9
