@@ -133,7 +133,8 @@ def main(mod, modloader, mod_version, mc_version, fapi_version, file_id):
 	update_mod_post(mod, modloader, mod_version, mc_version)
 
 	# Update data files
-	update_curseforge_data(mod, modloader, mod_version, mc_version, file_id)
+	if file_id is not None:
+		update_curseforge_data(mod, modloader, mod_version, mc_version, file_id)
 	if modloader == "fabric":
 		update_fabric_api_data(mod, mod_version, mc_version, fapi_version)
 
@@ -157,7 +158,7 @@ if __name__ == "__main__":
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
 	parser.add_argument("mc_version", help="Minecraft version")
 	parser.add_argument("--fapi_version", help="Fabric API version")
-	parser.add_argument("file_id", help="CurseForge file ID")
+	parser.add_argument("--file_id", help="CurseForge file ID")
 
 	args = parser.parse_args()
 	if args.modloader == "fabric" and not args.fapi_version:

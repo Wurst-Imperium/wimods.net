@@ -21,8 +21,8 @@ on:
         description: "Fabric API version (if modloader is fabric)"
         required: false
       file_id:
-        description: "CurseForge file ID"
-        required: true
+        description: "CurseForge file ID (if published to CurseForge)"
+        required: false
       distinct_id:
         required: false
 
@@ -58,7 +58,7 @@ jobs:
           "${{ inputs.mod_version }}" \
           "${{ inputs.mc_version }}" \
           ${{ inputs.modloader == 'fabric' && format('--fapi_version {0}', inputs.fapi_version) || '' }} \
-          "${{ inputs.file_id }}"
+          ${{ inputs.file_id && format('--file_id {0}', inputs.file_id) || '' }}
 
     - name: Commit changes
       run: |
