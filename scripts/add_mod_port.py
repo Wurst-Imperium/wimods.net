@@ -111,21 +111,28 @@ def update_curseforge_data(mod, modloader, mod_version, mc_version, file_id):
 	util.write_json_file(data_file, data)
 
 
-def add_download_category(mod, new_mcversion, old_mcversion):
+category_template = """
+---
+title: Minecraft {mcversion} {mod_name} Mod Downloads
+description: Download {mod_name} for Minecraft {mcversion}!
+layout: mod_mc_downloads
+mod: {mod}
+mcversion: "{mcversion}"
+---
+""".strip()
+
+
+def add_download_category(mod, mcversion):
 	"""Add a new download category when a mod is ported to a new Minecraft version."""
-	old_page_path = Path("content") / mod / f"minecraft-{old_mcversion.replace('.', '-')}.html"
-	new_page_path = Path("content") / mod / f"minecraft-{new_mcversion.replace('.', '-')}.html"
+	page_path = Path("content") / mod / f"minecraft-{mcversion.replace('.', '-')}.html"
+	if page_path.exists():
+		return
 
-	front_matter = util.read_post(old_page_path).front_matter
-	title = front_matter["title"]
-	description = front_matter["description"]
+	config = util.read_toml_file(Path("config.toml"))
+	mod_name = config["Params"]["modnames"][mod]
 
-	front_matter["title"] = title.replace(old_mcversion, new_mcversion)
-	front_matter["description"] = description.replace(old_mcversion, new_mcversion)
-	front_matter["mcversion"] = new_mcversion
-
-	new_page_path.write_text("---\n---\n", encoding="utf-8", newline="\n")
-	util.write_front_matter(new_page_path, front_matter)
+	front_matter = category_template.format(mod=mod, mod_name=mod_name, mcversion=mcversion)
+	page_path.write_text(f"{front_matter}\n", encoding="utf-8", newline="\n")
 
 
 def main(mod, modloader, mod_version, mc_version, fapi_version, file_id):
@@ -139,14 +146,8 @@ def main(mod, modloader, mod_version, mc_version, fapi_version, file_id):
 		update_fabric_api_data(mod, mod_version, mc_version, fapi_version)
 
 	# Add download category
-	mc_version_type = version_info[mc_version]["type"]
-	if mc_version_type == "release" and mc_version == manifest["latest"]["release"]:
-		old_latest = sorted(
-			[v for v in manifest["versions"] if v["type"] == "release"],
-			key=lambda v: v["releaseTime"],
-			reverse=True,
-		)[1]["id"]
-		add_download_category(mod, mc_version, old_latest)
+	if version_info[mc_version]["type"] == "release":
+		add_download_category(mod, mc_version)
 
 
 if __name__ == "__main__":
