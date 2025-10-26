@@ -1,7 +1,7 @@
 ---
 title: ChestESP 1.4.1
 layout: update
-date: 2025-10-26T18:14:30+01:00
+date: 2025-10-26T14:30:00+01:00
 image: 
   https://images.wurstclient.net/_media/update/chestesp/chestesp_1.4.1_540p.webp
 mod: chestesp
