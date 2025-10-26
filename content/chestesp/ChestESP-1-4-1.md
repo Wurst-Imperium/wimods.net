@@ -6,6 +6,10 @@ image:
   https://images.wurstclient.net/_media/update/chestesp/chestesp_1.4.1_540p.webp
 mod: chestesp
 modversion: "1.4.1"
+mcversions:
+- 1.21.1
+neoforge:
+- 1.21.1
 ---
 ## Changelog
 
