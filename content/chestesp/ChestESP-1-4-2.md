@@ -7,8 +7,10 @@ image:
 mod: chestesp
 modversion: "1.4.2"
 mcversions:
+- 1.21.4
 - 1.21.1
 neoforge:
+- 1.21.4
 - 1.21.1
 ---
 ## Changelog
