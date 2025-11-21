@@ -35,7 +35,7 @@ jobs:
     - name: Echo distinct ID ${{ inputs.distinct_id }}
       run: echo ${{ inputs.distinct_id }}
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Install Hugo CLI
       run: |
         HUGO_VERSION=$(curl -sS https://api.github.com/repos/gohugoio/hugo/releases/latest \

@@ -35,7 +35,7 @@ jobs:
       run: echo ${{ inputs.distinct_id }}
 
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         # So that the hugo workflow runs automatically.
         token: ${{ secrets.WIMODS_NET_PUBLISH_TOKEN }}
