@@ -6,6 +6,10 @@ image:
   https://images.wurstclient.net/_media/update/wi-zoom/wi_zoom_1.7_540p.webp
 mod: wi-zoom
 modversion: "1.7"
+mcversions:
+- 1.21.1
+fabric:
+- 1.21.1
 ---
 ## Changelog
 
