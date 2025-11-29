@@ -7,8 +7,10 @@ image:
 mod: mo-glass
 modversion: "1.12"
 mcversions:
+- 1.21.4
 - 1.21.1
 fabric:
+- 1.21.4
 - 1.21.1
 ---
 ## Changelog
