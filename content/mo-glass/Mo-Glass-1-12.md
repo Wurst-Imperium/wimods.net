@@ -16,6 +16,8 @@ fabric:
 - 1.21.8
 - 1.21.4
 - 1.21.1
+snapshots:
+- 1.21.11-pre3
 ---
 ## Changelog
 
