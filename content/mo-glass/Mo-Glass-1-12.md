@@ -6,6 +6,10 @@ image:
   https://images.wurstclient.net/_media/update/mo-glass/mo_glass_1.12_540p.webp
 mod: mo-glass
 modversion: "1.12"
+mcversions:
+- 1.21.1
+fabric:
+- 1.21.1
 ---
 ## Changelog
 
