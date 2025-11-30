@@ -44,8 +44,7 @@ jobs:
       mc_version: ${{ steps.get_mc_versions.outputs.mc_version }}
       branch: ${{ steps.get_snapshot_cycle_info.outputs.branch }}
       cf_game_version: ${{ steps.get_snapshot_cycle_info.outputs.cf_game_version }}
-      yarn_version: ${{ steps.get_yarn_and_loader.outputs.yarn_version }}
-      loader_version: ${{ steps.get_yarn_and_loader.outputs.loader_version }}
+      loader_version: ${{ steps.get_loader_version.outputs.loader_version }}
       fapi_version: ${{ steps.get_fapi_version.outputs.fapi_version }}
     steps:
     - name: Get target MC version
@@ -81,20 +80,17 @@ jobs:
         echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
         echo "cf_game_version=$CF_GAME_VERSION" >> $GITHUB_OUTPUT
         echo "CurseForge game version: \`$CF_GAME_VERSION\`" >> $GITHUB_STEP_SUMMARY
-    - name: Get Yarn and Loader versions
-      id: get_yarn_and_loader
+    - name: Get Loader version
+      id: get_loader_version
       run: |
         RESPONSE=$(curl -s \
-          "https://meta.fabricmc.net/v1/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
+          "https://meta.fabricmc.net/v2/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
         if [ "$(echo "$RESPONSE" | jq length)" -gt 0 ]; then
-          YARN_VERSION=$(echo "$RESPONSE" | jq -r '.[0].mappings.version')
           LOADER_VERSION=$(echo "$RESPONSE" | jq -r '.[0].loader.version')
-          echo "yarn_version=$YARN_VERSION" >> $GITHUB_OUTPUT
           echo "loader_version=$LOADER_VERSION" >> $GITHUB_OUTPUT
-          echo "Yarn version: \`$YARN_VERSION\`" >> $GITHUB_STEP_SUMMARY
           echo "Loader version: \`$LOADER_VERSION\`" >> $GITHUB_STEP_SUMMARY
         else
-          echo "No yarn/loader versions found for ${{ steps.get_mc_versions.outputs.mc_version }}"
+          echo "No loader version found for ${{ steps.get_mc_versions.outputs.mc_version }}"
           echo "Response: $RESPONSE"
           exit 1
         fi
@@ -144,7 +140,6 @@ jobs:
         workflow_inputs: |
           {
             "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
             "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
             "fapi_version": "${{ needs.get_params.outputs.fapi_version }}"
           }
@@ -166,7 +161,6 @@ jobs:
         workflow_inputs: |
           {
             "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
             "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
             "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
             "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
@@ -189,7 +183,6 @@ jobs:
         workflow_inputs: |
           {
             "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "yarn_mappings": "${{ needs.get_params.outputs.yarn_version }}",
             "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
             "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
             "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
