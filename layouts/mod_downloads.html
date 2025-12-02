@@ -46,7 +46,7 @@
 								{{- else if eq "snapshot" .page.Params.mcversion -}}
 									Snapshots, Pre-Releases, etc.
 								{{- else -}}
-									{{ $modname }} for Minecraft {{ .page.Params.mcversion }}
+									{{ $modname }} for Minecraft {{ index $.Site.Params.mc_version_aliases .page.Params.mcversion | default .page.Params.mcversion }}
 								{{- end -}}
 							</h2>
 						</div>
