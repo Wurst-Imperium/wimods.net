@@ -1,4 +1,4 @@
-name: Announce Fabric API
+name: Announce Fabric Meta
 
 on:
   workflow_dispatch:
