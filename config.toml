@@ -34,9 +34,6 @@ titleCaseStyle = "none"
   [Params.fabric_suffix]
     cameranoclip = "-Fabric"
     chestesp = "-Fabric"
-  [Params.modrinth]
-    wi-zoom = true
-    mo-glass = true
   [Params.mc_version_aliases]
     "1.21.5" = "1.21.5 / 25.1"
     "1.21.6" = "1.21.6 / 25.2"

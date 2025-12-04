@@ -111,6 +111,33 @@ def update_curseforge_data(mod, modloader, mod_version, mc_version, file_id):
 	util.write_json_file(data_file, data)
 
 
+def update_modrinth_data(mod, modloader, mod_version, mc_version):
+	"""Add a new entry to the Modrinth data file for a mod."""
+	data_file = Path("data") / "modrinth" / f"{mod}" / f"{modloader}.json"
+	data = util.read_json_file(data_file)
+
+	# Add mod_version -> mc_version mapping unless it is already there
+	if mod_version not in data:
+		data[mod_version] = {}
+	if mc_version not in data[mod_version]:
+		data[mod_version][mc_version] = True
+
+	# Sort by release time and version type
+	data[mod_version] = {
+		k: v
+		for k, v in sorted(
+			data[mod_version].items(),
+			key=lambda item: (
+				version_info[item[0]]["type"] == "release",
+				version_info[item[0]]["releaseTime"],
+			),
+			reverse=True,
+		)
+	}
+
+	util.write_json_file(data_file, data)
+
+
 category_template = """
 ---
 title: Minecraft {mcversion} {mod_name} Mod Downloads
@@ -135,13 +162,15 @@ def add_download_category(mod, mcversion):
 	page_path.write_text(f"{front_matter}\n", encoding="utf-8", newline="\n")
 
 
-def main(mod, modloader, mod_version, mc_version, fapi_version, file_id):
+def main(mod, modloader, mod_version, mc_version, fapi_version, file_id, modrinth):
 	# Update post
 	update_mod_post(mod, modloader, mod_version, mc_version)
 
 	# Update data files
 	if file_id is not None:
 		update_curseforge_data(mod, modloader, mod_version, mc_version, file_id)
+	if modrinth:
+		update_modrinth_data(mod, modloader, mod_version, mc_version)
 	if modloader == "fabric":
 		update_fabric_api_data(mod, mod_version, mc_version, fapi_version)
 
@@ -160,11 +189,12 @@ if __name__ == "__main__":
 	parser.add_argument("mc_version", help="Minecraft version")
 	parser.add_argument("--fapi_version", help="Fabric API version")
 	parser.add_argument("--file_id", help="CurseForge file ID")
+	parser.add_argument("--modrinth", action="store_true", help="Whether the build is published to Modrinth")
 
 	args = parser.parse_args()
 	if args.modloader == "fabric" and not args.fapi_version:
 		parser.error("--fapi-version is required for Fabric builds")
 
 	main(
-		args.mod, args.modloader, args.mod_version, args.mc_version, args.fapi_version, args.file_id
+		args.mod, args.modloader, args.mod_version, args.mc_version, args.fapi_version, args.file_id, args.modrinth
 	)

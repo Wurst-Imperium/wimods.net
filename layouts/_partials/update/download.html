@@ -36,6 +36,7 @@
 {{- $isLatest := or (eq $modversion $latestVersion) (not $latestVersion) -}}
 
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
+{{- $modrinthVersions := index (index (index .page.Site.Data.modrinth $modid) $modloader) $modversion -}}
 {{- $fabric_apis := index (index .page.Site.Data.fabric_api $modid) $modversion -}}
 {{- $baselink := printf "https://github.com/Wurst-Imperium-MCX/%s/releases/download/v%s/%s-%s-MC%s%s" $modnameGitHub $modversion $modnameGitHub $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 
@@ -113,16 +114,13 @@
 	{{- end -}}
 </p>
 
-{{- $mirrors := newScratch -}}
-{{- if isset $cfids $mcversion -}}
-	{{- $mirrors.Set "curseforge" (string (index $cfids $mcversion)) -}}
-{{- end -}}
-{{- $modrinth := and (index .page.Site.Params.modrinth $modid) (ne $mcversion "1.19_deep_dark_experimental_snapshot-1") -}}
+{{- $hasCurseForge := isset $cfids $mcversion -}}
+{{- $hasModrinth := isset $modrinthVersions $mcversion -}}
 
-{{- if or (ne nil ($mirrors.Get "curseforge")) (ne nil $modrinth) -}}
+{{- if or $hasCurseForge $hasModrinth -}}
 	<p>Mirrors:</p>
 	<p>
-		{{- with $modrinth -}}
+		{{- if $hasModrinth -}}
 			{{- $modrinthLink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 			<a class="button modrinth"
 				href="javascript:void(0)"
@@ -140,9 +138,11 @@
 				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
 				Modrinth
 			</a>
-		{{- end }}
-		{{ with $mirrors.Get "curseforge" -}}
-			{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid ($mirrors.Get "curseforge") -}}
+		{{- end -}}
+		{{- " " -}}
+		{{- if $hasCurseForge -}}
+			{{- $cfFileId := string (index $cfids $mcversion) -}}
+			{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid $cfFileId -}}
 			<a class="button curseforge"
 				href="javascript:void(0)"
 				data-href="{{ $cfLink }}"
