@@ -1,50 +1,9 @@
 <nav class="app-bar darcula" data-role="appbar">
 	<div class="container wide">
-		{{ if eq .Section "mo-glass" }}
-			<a class="app-bar-element branding" href="/mo-glass/">
-				<img src="https://user-images.githubusercontent.com/10100202/211171661-a2da10a6-4deb-419c-b8f5-0bf6e45e6af6.png" alt="Mo Glass" width="302" height="64" style="height: 2rem;width: auto;">
-			</a>
-			<ul class="app-bar-menu">
-				<li><a href="/mo-glass/download/">Download</a></li>
-				<li><a href="https://github.com/Wurst-Imperium/Mo-Glass" target="_blank">Source Code</a></li>
-			</ul>
-			<ul class="app-bar-menu place-right">
-				<li><a href="/">Other Mods</a></li>
-			</ul>
-		{{ else if eq .Section "wi-zoom" }}
-			<a class="app-bar-element branding" href="/wi-zoom/">
-				<img src="https://user-images.githubusercontent.com/10100202/213937592-fe87c58f-76f3-4518-a628-a96d2812e1ce.png" alt="WI Zoom" width="295" height="64" style="height: 2rem;width: auto;">
-			</a>
-			<ul class="app-bar-menu">
-				<li><a href="/wi-zoom/download/">Download</a></li>
-				<li><a href="https://github.com/Wurst-Imperium/WI-Zoom" target="_blank">Source Code</a></li>
-			</ul>
-			<ul class="app-bar-menu place-right">
-				<li><a href="/">Other Mods</a></li>
-			</ul>
-		{{ else if eq .Section "chestesp" }}
-			<a class="app-bar-element branding text-bold" href="/chestesp/">
-				ChestESP
-			</a>
-			<ul class="app-bar-menu">
-				<li><a href="/chestesp/download/">Download</a></li>
-				<li><a href="https://github.com/Wurst-Imperium/ChestESP" target="_blank">Source Code</a></li>
-			</ul>
-			<ul class="app-bar-menu place-right">
-				<li><a href="/">Other Mods</a></li>
-			</ul>
-		{{ else if eq .Section "cameranoclip" }}
-			<a class="app-bar-element branding text-bold" href="/cameranoclip/">
-				CameraNoClip
-			</a>
-			<ul class="app-bar-menu">
-				<li><a href="/cameranoclip/download/">Download</a></li>
-				<li><a href="https://github.com/Wurst-Imperium/CameraNoClip" target="_blank">Source Code</a></li>
-			</ul>
-			<ul class="app-bar-menu place-right">
-				<li><a href="/">Other Mods</a></li>
-			</ul>
-		{{ else }}
+		{{- $headerPartial := printf "header/%s.html" .Section -}}
+		{{- if templates.Exists (printf "_partials/%s" $headerPartial) -}}
+			{{- partialCached $headerPartial . .Section -}}
+		{{- else -}}
 			<a class="app-bar-element branding" href="/">
 				<img src="https://cloud.githubusercontent.com/assets/10100202/19618025/d7aeb13a-983f-11e6-9c15-c4db572b5b18.png" alt="Wurst Client" width="253" height="64" style="height: 2rem;width: auto;">
 			</a>
@@ -59,6 +18,6 @@
 			<ul class="app-bar-menu place-right">
 				<li><a href="https://www.wurstclient.net/contact/">Contact</a></li>
 			</ul>
-		{{ end }}
+		{{- end -}}
 	</div>
 </nav>
