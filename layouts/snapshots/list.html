@@ -19,7 +19,7 @@
 				<h2>Supported Snapshots</h2>
 				<ul class="wurst-grid list cells5">
 					{{- range .Pages.ByTitle.Reverse -}}
-						{{- if in .Title "w" | and (eq (len .Title) 6) -}}
+						{{- if or (in .Title "w" | and (eq (len .Title) 6)) (in .Title "-snapshot-") -}}
 							{{- $scratch.Add "snapshots" . -}}
 							<li><a href="{{- .Permalink -}}">{{- .Title -}}</a></li>
 						{{- end -}}
