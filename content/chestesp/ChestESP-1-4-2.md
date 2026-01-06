@@ -20,6 +20,8 @@ neoforge:
 - 1.21.8
 - 1.21.4
 - 1.21.1
+fabric:
+- 1.21.11
 ---
 ## Changelog
 
