@@ -20,7 +20,7 @@ class ModTarget:
 		if not mc_version:
 			raise ValueError(f"Could not find Minecraft version in {mod}@{branch}")
 
-		if "fabric_version" in props:
+		if "fabric_api_version" in props:
 			modloader = "fabric"
 		elif "neo_version" in props:
 			modloader = "neoforge"
