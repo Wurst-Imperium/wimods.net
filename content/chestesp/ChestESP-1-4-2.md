@@ -27,4 +27,4 @@ fabric:
 
 - Fixed the NeoForge version of ChestESP no longer rendering anything, due to an undocumented change in NeoGradle 7.1 that disabled all mixins in production builds but kept them enabled during development and testing, effectively hiding the issue until a user reported it.
 
-- This is a NeoForge-only release because the Fabric version of ChestESP was not affected by this issue.
+- This was originally a NeoForge-only release because the Fabric version of ChestESP was not affected by this issue. But this is also the version I used to update ChestESP to 1.21.11 so now there's a Fabric version of it too.
