@@ -80,7 +80,7 @@ jobs:
         FAPI_VERSION="${{ inputs.fapi_version }}"
         if [ -z "$FAPI_VERSION" ]; then
           TARGET_RELEASE="${{ steps.get_snapshot_cycle_info.outputs.branch }}"
-          RESPONSE=$(curl -s \
+          RESPONSE=$(curl -sL \
             -H "Authorization: Bearer ${{ github.token }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/FabricMC/fabric/releases?per_page=100")
