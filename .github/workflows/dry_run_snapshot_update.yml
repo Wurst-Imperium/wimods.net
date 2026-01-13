@@ -12,6 +12,9 @@ on:
       cf_game_version:
         description: "CurseForge game version (leave blank to auto detect)"
         required: false
+      loader_version:
+        description: "Fabric Loader version (leave blank to auto detect)"
+        required: false
       fapi_version:
         description: "Fabric API version (leave blank to auto detect)"
         required: false
@@ -63,17 +66,20 @@ jobs:
     - name: Get Loader version
       id: get_loader_version
       run: |
-        RESPONSE=$(curl -s \
-          "https://meta.fabricmc.net/v2/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
-        if [ "$(echo "$RESPONSE" | jq length)" -gt 0 ]; then
-          LOADER_VERSION=$(echo "$RESPONSE" | jq -r '.[0].loader.version')
-          echo "loader_version=$LOADER_VERSION" >> $GITHUB_OUTPUT
-          echo "Loader version: \`$LOADER_VERSION\`" >> $GITHUB_STEP_SUMMARY
-        else
-          echo "No loader version found for ${{ steps.get_mc_versions.outputs.mc_version }}"
-          echo "Response: $RESPONSE"
-          exit 1
+        LOADER_VERSION="${{ inputs.loader_version }}"
+        if [ -z "$LOADER_VERSION" ]; then
+          RESPONSE=$(curl -s \
+            "https://meta.fabricmc.net/v2/versions/loader/${{ steps.get_mc_versions.outputs.mc_version }}")
+          if [ "$(echo "$RESPONSE" | jq length)" -gt 0 ]; then
+            LOADER_VERSION=$(echo "$RESPONSE" | jq -r '.[0].loader.version')
+          else
+            echo "No loader version found for ${{ steps.get_mc_versions.outputs.mc_version }}"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
         fi
+        echo "loader_version=$LOADER_VERSION" >> $GITHUB_OUTPUT
+        echo "Loader version: \`$LOADER_VERSION\`" >> $GITHUB_STEP_SUMMARY
     - name: Get Fabric API version
       id: get_fapi_version
       run: |
