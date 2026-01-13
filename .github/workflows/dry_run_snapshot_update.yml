@@ -134,7 +134,7 @@ jobs:
   announce_failure:
     runs-on: ubuntu-latest
     needs: [get_params, wi_zoom]
-    if: needs.wi_zoom.result == 'failure'
+    if: failure() && needs.wi_zoom.result == 'failure'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
