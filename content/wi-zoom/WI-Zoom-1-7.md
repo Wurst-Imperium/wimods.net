@@ -19,6 +19,7 @@ fabric:
 - 1.21.4
 - 1.21.1
 snapshots:
+- 26.1-snapshot-3
 - 26.1-snapshot-2
 - 26.1-snapshot-1
 - 1.21.11-rc3
