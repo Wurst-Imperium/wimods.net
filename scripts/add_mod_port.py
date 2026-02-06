@@ -60,7 +60,10 @@ def update_mod_post(mod, modloader, mod_version, mc_version):
 def update_fabric_api_data(mod, mod_version, mc_version, fapi_version):
 	"""Add a new entry to the Fabric API data file for a mod."""
 	data_file = Path("data") / "fabric_api" / f"{mod}.json"
-	data = util.read_json_file(data_file)
+	if data_file.exists():
+		data = util.read_json_file(data_file)
+	else:
+		data = {}
 
 	# Add mod_version -> mc_version -> fabric_api mapping unless it is already there
 	if mod_version not in data:
@@ -87,7 +90,10 @@ def update_fabric_api_data(mod, mod_version, mc_version, fapi_version):
 def update_curseforge_data(mod, modloader, mod_version, mc_version, file_id):
 	"""Add a new entry to the CurseForge data file for a mod."""
 	data_file = Path("data") / "curseforge" / f"{mod}" / f"{modloader}.json"
-	data = util.read_json_file(data_file)
+	if data_file.exists():
+		data = util.read_json_file(data_file)
+	else:
+		data = {}
 
 	# Add mod_version -> mc_version mapping unless it is already there
 	if mod_version not in data:
@@ -114,7 +120,10 @@ def update_curseforge_data(mod, modloader, mod_version, mc_version, file_id):
 def update_modrinth_data(mod, modloader, mod_version, mc_version):
 	"""Add a new entry to the Modrinth data file for a mod."""
 	data_file = Path("data") / "modrinth" / f"{mod}" / f"{modloader}.json"
-	data = util.read_json_file(data_file)
+	if data_file.exists():
+		data = util.read_json_file(data_file)
+	else:
+		data = {}
 
 	# Add mod_version -> mc_version mapping unless it is already there
 	if mod_version not in data:
