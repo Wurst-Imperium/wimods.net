@@ -18,22 +18,22 @@ on:
       include_wurst:
         description: "Include Wurst Client"
         type: boolean
-        required: false
         default: true
       include_wi_zoom:
         description: "Include WI Zoom"
         type: boolean
-        required: false
         default: true
       include_mo_glass:
         description: "Include Mo Glass"
         type: boolean
-        required: false
+        default: true
+      include_wi_freecam:
+        description: "Include WI Freecam"
+        type: boolean
         default: true
       auto_publish:
         description: "Automatically publish mods that were successfully updated"
         type: boolean
-        required: false
         default: false
 
 jobs:
@@ -189,9 +189,31 @@ jobs:
           }
         run_timeout_seconds: 1200  # 20 minutes
 
+  wi_freecam:
+    runs-on: ubuntu-latest
+    needs: get_params
+    if: ${{ inputs.include_wi_freecam }}
+    steps:
+    - name: Trigger snapshot update workflow
+      uses: Wurst-Imperium/dispatch-and-wait@v1
+      with:
+        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
+        owner: Wurst-Imperium
+        repo: WI-Freecam
+        ref: ${{ needs.get_params.outputs.branch }}
+        workflow: auto_snapshot_update.yml
+        workflow_inputs: |
+          {
+            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
+            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+          }
+        run_timeout_seconds: 1200  # 20 minutes
+
   auto_publish:
     runs-on: ubuntu-latest
-    needs: [get_params, wurst, wi_zoom, mo_glass]
+    needs: [get_params, wurst, wi_zoom, mo_glass, wi_freecam]
     if: ${{ !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
     steps:
     - name: Build publish workflow inputs
@@ -200,6 +222,7 @@ jobs:
         echo "include_wurst=$([[ "${{ needs.wurst.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
         echo "include_wi_zoom=$([[ "${{ needs.wi_zoom.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
         echo "include_mo_glass=$([[ "${{ needs.mo_glass.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+        echo "include_wi_freecam=$([[ "${{ needs.wi_freecam.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
     - name: Trigger publish snapshot ports workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
@@ -215,6 +238,7 @@ jobs:
             "include_wurst": "${{ steps.publish_inputs.outputs.include_wurst }}",
             "include_wi_zoom": "${{ steps.publish_inputs.outputs.include_wi_zoom }}",
             "include_mo_glass": "${{ steps.publish_inputs.outputs.include_mo_glass }}",
+            "include_wi_freecam": "${{ steps.publish_inputs.outputs.include_wi_freecam }}",
             "announce": "true",
             "announce_only": "false"
           }

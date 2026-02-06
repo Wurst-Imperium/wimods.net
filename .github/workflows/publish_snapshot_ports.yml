@@ -12,27 +12,26 @@ on:
       include_wurst:
         description: "Include Wurst Client"
         type: boolean
-        required: false
         default: true
       include_wi_zoom:
         description: "Include WI Zoom"
         type: boolean
-        required: false
         default: true
       include_mo_glass:
         description: "Include Mo Glass"
         type: boolean
-        required: false
+        default: true
+      include_wi_freecam:
+        description: "Include WI Freecam"
+        type: boolean
         default: true
       announce:
         description: "Announce the snapshot port(s) on WurstForum"
         type: boolean
-        required: false
         default: true
       announce_only:
         description: "Only announce, don't publish"
         type: boolean
-        required: false
         default: false
       distinct_id:
         required: false
@@ -83,6 +82,9 @@ jobs:
           fi
           if [[ "${{ inputs.include_mo_glass }}" == "true" ]]; then
             mods+=('{"name": "Mo Glass", "repo": "Mo-Glass"}')
+          fi
+          if [[ "${{ inputs.include_wi_freecam }}" == "true" ]]; then
+            mods+=('{"name": "WI Freecam", "repo": "WI-Freecam"}')
           fi
         fi
         echo "matrix={\"mod\":[$(IFS=,; echo "${mods[*]}")]}" >> "$GITHUB_OUTPUT"
@@ -162,4 +164,5 @@ jobs:
           ${{ needs.prepare.outputs.branch }} \
           ${{ inputs.include_wurst && 'wurst7' || '' }} \
           ${{ inputs.include_wi_zoom && 'wi-zoom' || '' }} \
-          ${{ inputs.include_mo_glass && 'mo-glass' || '' }}
+          ${{ inputs.include_mo_glass && 'mo-glass' || '' }} \
+          ${{ inputs.include_wi_freecam && 'wi-freecam' || '' }}
