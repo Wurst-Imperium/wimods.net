@@ -7,9 +7,11 @@ image:
 mod: wi-freecam
 modversion: "1.0"
 mcversions:
+- 1.21.11
 - 1.21.10
 - 1.21.8
 fabric:
+- 1.21.11
 - 1.21.10
 - 1.21.8
 ---
