@@ -14,6 +14,8 @@ fabric:
 - 1.21.11
 - 1.21.10
 - 1.21.8
+snapshots:
+- 26.1-snapshot-6
 ---
 ## Changelog
 
