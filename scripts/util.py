@@ -72,6 +72,7 @@ def write_front_matter(path: Path, front_matter: CommentedMap):
 	output = StringIO()
 	yaml.dump(front_matter, output)
 	new_content = f"---\n{output.getvalue()}---{parts[2]}"
+	path.parent.mkdir(parents=True, exist_ok=True)
 	path.write_text(new_content, encoding="utf-8", newline="\n")
 
 
@@ -198,6 +199,7 @@ def write_yaml_file(path: Path, data: CommentedMap | CommentedSeq):
 	"""Write a YAML data file."""
 	output = StringIO()
 	yaml.dump(data, output)
+	path.parent.mkdir(parents=True, exist_ok=True)
 	path.write_text(output.getvalue(), encoding="utf-8", newline="\n")
 
 
@@ -208,6 +210,7 @@ def read_json_file(path: Path) -> dict:
 
 def write_json_file(path: Path, data: dict):
 	"""Write a JSON data file."""
+	path.parent.mkdir(parents=True, exist_ok=True)
 	path.write_text(json.dumps(data, indent=2), encoding="utf-8", newline="\n")
 
 
