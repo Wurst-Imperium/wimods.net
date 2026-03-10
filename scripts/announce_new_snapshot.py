@@ -10,14 +10,14 @@ def get_link(mc_version: str) -> str:
 		base, num = mc_version.split("-snapshot-")
 		base = base.replace(".", "-")
 		return f"{prefix}/minecraft-{base}-snapshot-{num}"
-	elif "-pre" in mc_version:
+	elif "-pre-" in mc_version:
 		# e.g. 26.1-pre1 -> minecraft-26-1-pre-release-1
-		base, pre = mc_version.split("-pre")
+		base, pre = mc_version.split("-pre-")
 		base = base.replace(".", "-")
 		return f"{prefix}/minecraft-{base}-pre-release-{pre}"
-	elif "-rc" in mc_version:
+	elif "-rc-" in mc_version:
 		# e.g. 26.1-rc1 -> minecraft-26-1-release-candidate-1
-		base, rc = mc_version.split("-rc")
+		base, rc = mc_version.split("-rc-")
 		base = base.replace(".", "-")
 		return f"{prefix}/minecraft-{base}-release-candidate-{rc}"
 	else:
