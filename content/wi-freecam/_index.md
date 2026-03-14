@@ -4,7 +4,7 @@ title_l2: Allows you to move the camera without moving your character.
 description: WI Freecam allows you to detach your camera and move it around freely while your character stays in place.
 layout: simple_page
 ---
-<img src="https://images.wurstclient.net/_media/update/wi-freecam/wi_freecam_1.0_540p.webp" alt="A screenshot of WI Freecam being used. The settings menu is open and visible on the right, while at the same time Freecam is active and the player character is visible in the center. In the background, there is little retextured bee that looks like a camera (not part of the mod)." width="960" height="540">
+<img src="https://images.wurstclient.net/wi-freecam/2026/1.0/960x540.webp" alt="A screenshot of WI Freecam being used. The settings menu is open and visible on the right, while at the same time Freecam is active and the player character is visible in the center. In the background, there is little retextured bee that looks like a camera (not part of the mod)." width="960" height="540">
 
 # WI Freecam (Wurst-Imperium Freecam)
 
