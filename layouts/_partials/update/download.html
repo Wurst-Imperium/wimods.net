@@ -172,6 +172,7 @@
 			{{- $srcfile := index (last 1 (split $srclink "/")) 0 -}}
 			<a href="javascript:void(0)"
 				data-href="{{ $srclink }}"
+				data-warning="This link downloads {{ $modname }}'s source code, not the mod itself.&#10;&#10;If you want to install {{ $modname }}, click the big download button above instead. Putting this -sources.jar file into your mods folder will crash the game.&#10;&#10;Download the source code anyway?"
 				data-analytics="Download Mod"
 				data-analytics-mod="{{ $modname }}"
 				data-analytics-version="{{ $modversion }}"
