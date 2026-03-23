@@ -10,6 +10,7 @@ mcversions:
 fabric:
 - 1.21.11
 snapshots:
+- 26.1-rc-3
 - 26.1-rc-2
 ---
 ## Changelog
