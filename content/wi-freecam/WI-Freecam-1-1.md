@@ -6,8 +6,10 @@ image: https://images.wurstclient.net/wi-freecam/2026/1.1/960x540.webp
 mod: wi-freecam
 modversion: "1.1"
 mcversions:
+- '26.1'
 - 1.21.11
 fabric:
+- '26.1'
 - 1.21.11
 snapshots:
 - 26.1-rc-3
