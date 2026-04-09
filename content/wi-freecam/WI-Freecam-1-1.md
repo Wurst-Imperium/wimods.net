@@ -16,6 +16,7 @@ fabric:
 - '26.1'
 - 1.21.11
 snapshots:
+- 26.2-snapshot-2
 - 26.1.2-rc-1
 - 26.2-snapshot-1
 - 26w14a
