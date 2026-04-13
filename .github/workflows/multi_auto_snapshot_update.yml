@@ -35,6 +35,10 @@ on:
         description: "Automatically publish mods that were successfully updated"
         type: boolean
         default: false
+      dry_run:
+        description: "Don't actually start an update or publish anything"
+        type: boolean
+        default: false
 
 jobs:
 
@@ -117,6 +121,7 @@ jobs:
         echo "fapi_version=$FAPI_VERSION" >> $GITHUB_OUTPUT
         echo "Fabric API version: \`$FAPI_VERSION\`" >> $GITHUB_STEP_SUMMARY
     - name: Mark workflow as started
+      if: ${{ !inputs.dry_run }}
       run: |
         curl -X POST \
           -H "Content-Type: application/json" \
@@ -127,7 +132,7 @@ jobs:
   wurst:
     runs-on: ubuntu-latest
     needs: get_params
-    if: ${{ inputs.include_wurst }}
+    if: ${{ !inputs.dry_run && inputs.include_wurst }}
     steps:
     - name: Trigger snapshot update workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
@@ -148,7 +153,7 @@ jobs:
   wi_zoom:
     runs-on: ubuntu-latest
     needs: get_params
-    if: ${{ inputs.include_wi_zoom }}
+    if: ${{ !inputs.dry_run && inputs.include_wi_zoom }}
     steps:
     - name: Trigger snapshot update workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
@@ -170,7 +175,7 @@ jobs:
   mo_glass:
     runs-on: ubuntu-latest
     needs: get_params
-    if: ${{ inputs.include_mo_glass }}
+    if: ${{ !inputs.dry_run && inputs.include_mo_glass }}
     steps:
     - name: Trigger snapshot update workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
@@ -192,7 +197,7 @@ jobs:
   wi_freecam:
     runs-on: ubuntu-latest
     needs: get_params
-    if: ${{ inputs.include_wi_freecam }}
+    if: ${{ !inputs.dry_run && inputs.include_wi_freecam }}
     steps:
     - name: Trigger snapshot update workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
@@ -214,7 +219,7 @@ jobs:
   auto_publish:
     runs-on: ubuntu-latest
     needs: [get_params, wurst, wi_zoom, mo_glass, wi_freecam]
-    if: ${{ !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
+    if: ${{ !inputs.dry_run && !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
     steps:
     - name: Build publish workflow inputs
       id: publish_inputs
