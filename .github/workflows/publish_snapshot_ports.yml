@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mc_version:
-        description: "Target Minecraft version (leave blank to auto detect)"
+        description: "Minecraft version (leave blank to auto detect)"
         required: false
       branch:
         description: "Branch for the current snapshot cycle (leave blank to auto detect)"
@@ -68,8 +68,8 @@ jobs:
       run: |
         BRANCH="${{ inputs.branch }}"
         if [ -z "$BRANCH" ]; then
-          RESPONSE=$(curl -s https://raw.githubusercontent.com/Wurst-Imperium/wimods.net/refs/heads/master/data/current_snapshot_cycle.json)
-          BRANCH=$(echo "$RESPONSE" | jq -r '.target_release')
+          MC_VERSION="${{ steps.get_mc_version.outputs.mc_version }}"
+          BRANCH="${MC_VERSION%%-*}"
         fi
         echo "branch=$BRANCH" >> $GITHUB_OUTPUT
         echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
