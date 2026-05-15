@@ -99,7 +99,6 @@ jobs:
     if: ${{ needs.prepare.outputs.matrix != '{"mod":[]}' }}
     strategy:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
-      max-parallel: 1
     steps:
     - name: Trigger publish workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
