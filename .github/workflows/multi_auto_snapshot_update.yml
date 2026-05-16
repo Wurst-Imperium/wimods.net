@@ -42,7 +42,7 @@ on:
 
 jobs:
 
-  get_params:
+  prepare:
     runs-on: ubuntu-latest
     outputs:
       mc_version: ${{ steps.get_mc_version.outputs.mc_version }}
@@ -133,7 +133,7 @@ jobs:
 
   wurst:
     runs-on: ubuntu-latest
-    needs: get_params
+    needs: prepare
     if: ${{ !inputs.dry_run && inputs.include_wurst }}
     steps:
     - name: Trigger snapshot update workflow
@@ -142,19 +142,19 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Wurst7
-        ref: ${{ needs.get_params.outputs.branch }}
+        ref: ${{ needs.prepare.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}"
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
+            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}"
           }
         run_timeout_seconds: 1200  # 20 minutes
 
   wi_zoom:
     runs-on: ubuntu-latest
-    needs: get_params
+    needs: prepare
     if: ${{ !inputs.dry_run && inputs.include_wi_zoom }}
     steps:
     - name: Trigger snapshot update workflow
@@ -163,20 +163,20 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Zoom
-        ref: ${{ needs.get_params.outputs.branch }}
+        ref: ${{ needs.prepare.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
+            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
           }
         run_timeout_seconds: 1200  # 20 minutes
 
   mo_glass:
     runs-on: ubuntu-latest
-    needs: get_params
+    needs: prepare
     if: ${{ !inputs.dry_run && inputs.include_mo_glass }}
     steps:
     - name: Trigger snapshot update workflow
@@ -185,20 +185,20 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: Mo-Glass
-        ref: ${{ needs.get_params.outputs.branch }}
+        ref: ${{ needs.prepare.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
+            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
           }
         run_timeout_seconds: 1200  # 20 minutes
 
   wi_freecam:
     runs-on: ubuntu-latest
-    needs: get_params
+    needs: prepare
     if: ${{ !inputs.dry_run && inputs.include_wi_freecam }}
     steps:
     - name: Trigger snapshot update workflow
@@ -207,20 +207,20 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Freecam
-        ref: ${{ needs.get_params.outputs.branch }}
+        ref: ${{ needs.prepare.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
+            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
           }
         run_timeout_seconds: 1200  # 20 minutes
 
   auto_publish:
     runs-on: ubuntu-latest
-    needs: [get_params, wurst, wi_zoom, mo_glass, wi_freecam]
+    needs: [prepare, wurst, wi_zoom, mo_glass, wi_freecam]
     if: ${{ !inputs.dry_run && !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
     steps:
     - name: Build publish workflow inputs
@@ -240,8 +240,8 @@ jobs:
         workflow: publish_snapshot_ports.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "branch": "${{ needs.get_params.outputs.branch }}",
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "branch": "${{ needs.prepare.outputs.branch }}",
             "include_wurst": "${{ steps.publish_inputs.outputs.include_wurst }}",
             "include_wi_zoom": "${{ steps.publish_inputs.outputs.include_wi_zoom }}",
             "include_mo_glass": "${{ steps.publish_inputs.outputs.include_mo_glass }}",

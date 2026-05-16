@@ -21,7 +21,7 @@ on:
 
 jobs:
 
-  get_params:
+  prepare:
     runs-on: ubuntu-latest
     outputs:
       mc_version: ${{ steps.get_mc_version.outputs.mc_version }}
@@ -107,7 +107,7 @@ jobs:
 
   wi_zoom:
     runs-on: ubuntu-latest
-    needs: get_params
+    needs: prepare
     steps:
     - name: Trigger snapshot test workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
@@ -115,14 +115,14 @@ jobs:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
         repo: WI-Zoom
-        ref: ${{ needs.get_params.outputs.branch }}
+        ref: ${{ needs.prepare.outputs.branch }}
         workflow: dry_run_snapshot_update.yml
         workflow_inputs: |
           {
-            "mc_version": "${{ needs.get_params.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.get_params.outputs.loader_version }}",
-            "fapi_version": "${{ needs.get_params.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.get_params.outputs.cf_game_version }}"
+            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
+            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
+            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
+            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
           }
         run_timeout_seconds: 1200  # 20 minutes
     - name: Mark Fabric API version as working
@@ -130,12 +130,12 @@ jobs:
         curl -X POST \
           -H "Content-Type: application/json" \
           -H "x-api-key: ${{ secrets.WI_BACKUPS_API_KEY }}" \
-          -d "{\"mc_version\": \"${{ needs.get_params.outputs.mc_version }}\", \"fapi_version\": \"${{ needs.get_params.outputs.fapi_version }}\"}" \
+          -d "{\"mc_version\": \"${{ needs.prepare.outputs.mc_version }}\", \"fapi_version\": \"${{ needs.prepare.outputs.fapi_version }}\"}" \
           https://api.wurstclient.net/webhooks/snapshot/old_fapi_still_works
 
   announce_failure:
     runs-on: ubuntu-latest
-    needs: [get_params, wi_zoom]
+    needs: [prepare, wi_zoom]
     if: failure() && needs.wi_zoom.result == 'failure'
     steps:
     - name: Checkout repository
@@ -153,5 +153,5 @@ jobs:
         WURSTFORUM_TOKEN: ${{ secrets.WF_BOT_TOKEN }}
       run: |
         python scripts/announce_prev_fabric_api_doesnt_work.py \
-          "${{ needs.get_params.outputs.fapi_version }}" \
-          "${{ needs.get_params.outputs.mc_version }}"
+          "${{ needs.prepare.outputs.fapi_version }}" \
+          "${{ needs.prepare.outputs.mc_version }}"
