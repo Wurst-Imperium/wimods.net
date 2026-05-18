@@ -73,14 +73,14 @@
 		{{- range .Pages.GroupBy "Section" -}}
 		<section id="{{ .Key }}" class="padding20 no-padding-left no-padding-right">
 			<div class="container">
-				{{ $modname := index $.Site.Params.modnames .Key }}
+				{{ $modname := (index $.Site.Data.mods .Key).name }}
 				<h2>{{ $modname }}</h2>
 				<ul class="wurst-grid">
 					{{- range .Pages -}}
 					<li>
 						<a href="{{- .Permalink -}}?snapshot={{ $.Data.Term }}">
 							<article>
-								{{ $altText := printf "%s v%s MC%s" (index .Site.Params.modnames .Params.mod) .Params.modversion $.Data.Term }}
+								{{ $altText := printf "%s v%s MC%s" (index .Site.Data.mods .Params.mod).name .Params.modversion $.Data.Term }}
 								{{ $placeholder := "https://images.wurstclient.net/_media/placeholder-320x180.webp" }}
 								{{ if isset .Params "image" }}
 									<img src="{{ $placeholder }}" data-src="{{ .Params.image }}" class="lazyload" alt="{{ $altText }}" width="640" height="360">

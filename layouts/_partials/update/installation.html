@@ -1,4 +1,4 @@
-{{- $modname := index .Site.Params.modnames .Params.mod -}}
+{{- $modname := (index .Site.Data.mods .Params.mod).name -}}
 
 <p>
 	{{- $modname }} can be installed just like any other Minecraft mod.

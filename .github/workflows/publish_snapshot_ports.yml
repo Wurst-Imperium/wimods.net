@@ -9,22 +9,10 @@ on:
       branch:
         description: "Branch for the current snapshot cycle (leave blank to auto detect)"
         required: false
-      include_wurst:
-        description: "Include Wurst Client"
-        type: boolean
-        default: true
-      include_wi_zoom:
-        description: "Include WI Zoom"
-        type: boolean
-        default: true
-      include_mo_glass:
-        description: "Include Mo Glass"
-        type: boolean
-        default: true
-      include_wi_freecam:
-        description: "Include WI Freecam"
-        type: boolean
-        default: true
+      mods:
+        description: "Space-separated list of mods to include (see data/mods.json)"
+        type: string
+        required: true
       announce:
         description: "Announce the snapshot port(s) on WurstForum"
         type: boolean
@@ -33,9 +21,17 @@ on:
         description: "Only announce, don't publish"
         type: boolean
         default: false
+      dry_run:
+        description: "Don't actually publish or announce anything"
+        type: boolean
+        default: false
       distinct_id:
+        type: string
         required: false
 
+permissions:
+  # To checkout data/mods.json
+  contents: read
 
 jobs:
 
@@ -48,6 +44,39 @@ jobs:
     steps:
     - name: Echo distinct ID ${{ inputs.distinct_id }}
       run: echo ${{ inputs.distinct_id }}
+    - name: Checkout repository
+      uses: actions/checkout@v6
+    - name: Build mod matrix
+      id: set_matrix
+      env:
+        MODS: ${{ inputs.mods }}
+      run: |
+        if [[ "$MODS" == "all" ]]; then
+          matrix=$(jq -c '{mod: to_entries | map(select(.value.supports_snapshots) | .value + {id: .key})}' data/mods.json)
+        else
+          read -ra mods_array <<< "$MODS"
+          ids_json=$(jq -cn '$ARGS.positional' --args "${mods_array[@]}")
+          matrix=$(jq -c --argjson ids "$ids_json" '{mod: [
+            $ids[] as $id
+            | (.[$id] // error("Unknown mod ID: " + $id)) as $mod
+            | if $mod.supports_snapshots then
+                $mod + {id: $id}
+              else
+                error("Mod does not support snapshots: " + $id)
+              end
+          ]}' data/mods.json)
+        fi
+
+        selected_mods=$(jq -r '.mod[].id' <<< "$matrix" | paste -sd' ' -)
+        echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+        echo "Selected mods: $selected_mods"
+        echo "Selected mods: \`$selected_mods\`" >> "$GITHUB_STEP_SUMMARY"
+
+        if [[ -z "$selected_mods" ]]; then
+          echo "::error::No mods selected"
+          echo "No mods selected." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+        fi
     - name: Get Minecraft version
       id: get_mc_version
       run: |
@@ -73,31 +102,16 @@ jobs:
         fi
         echo "branch=$BRANCH" >> $GITHUB_OUTPUT
         echo "Branch: \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
-    - id: set_matrix
-      run: |
-        mods=()
-        if [[ "${{ inputs.announce_only }}" == "false" ]]; then
-          if [[ "${{ inputs.include_wurst }}" == "true" ]]; then
-            mods+=('{"name": "Wurst Client", "repo": "Wurst7"}')
-          fi
-          if [[ "${{ inputs.include_wi_zoom }}" == "true" ]]; then
-            mods+=('{"name": "WI Zoom", "repo": "WI-Zoom"}')
-          fi
-          if [[ "${{ inputs.include_mo_glass }}" == "true" ]]; then
-            mods+=('{"name": "Mo Glass", "repo": "Mo-Glass"}')
-          fi
-          if [[ "${{ inputs.include_wi_freecam }}" == "true" ]]; then
-            mods+=('{"name": "WI Freecam", "repo": "WI-Freecam"}')
-          fi
-        fi
-        echo "matrix={\"mod\":[$(IFS=,; echo "${mods[*]}")]}" >> "$GITHUB_OUTPUT"
 
   wi_mods:
     name: ${{ matrix.mod.name }}
     needs: prepare
     runs-on: ubuntu-latest
-    if: ${{ needs.prepare.outputs.matrix != '{"mod":[]}' }}
+    if: ${{ !inputs.announce_only && !inputs.dry_run }}
     strategy:
+      # If something goes wrong, all published files have to be manually deleted.
+      # Best to fail as early as possible.
+      fail-fast: true
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
     - name: Trigger publish workflow
@@ -105,7 +119,7 @@ jobs:
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
-        repo: ${{ matrix.mod.repo }}
+        repo: ${{ matrix.mod.github_repo }}
         ref: ${{ needs.prepare.outputs.branch }}
         workflow: publish.yml
         workflow_inputs: |
@@ -122,7 +136,7 @@ jobs:
   announce:
     runs-on: ubuntu-latest
     needs: [wi_mods, prepare]
-    if: ${{ !failure() && !cancelled() && inputs.announce && needs.prepare.result == 'success' }}
+    if: ${{ always() && !cancelled() && inputs.announce && needs.prepare.result == 'success' && (inputs.dry_run || inputs.announce_only || needs.wi_mods.result == 'success') }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
@@ -141,7 +155,5 @@ jobs:
         python scripts/announce_snapshot_ports.py \
           ${{ needs.prepare.outputs.mc_version }} \
           ${{ needs.prepare.outputs.branch }} \
-          ${{ inputs.include_wurst && 'wurst7' || '' }} \
-          ${{ inputs.include_wi_zoom && 'wi-zoom' || '' }} \
-          ${{ inputs.include_mo_glass && 'mo-glass' || '' }} \
-          ${{ inputs.include_wi_freecam && 'wi-freecam' || '' }}
+          $(jq -r '.mod[].id' <<< '${{ needs.prepare.outputs.matrix }}') \
+          ${{ inputs.dry_run && '--dry-run' || '' }}

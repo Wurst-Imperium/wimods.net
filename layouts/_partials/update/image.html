@@ -1,4 +1,4 @@
-{{- $altText := printf "%s %s update image" (index .Site.Params.modnames .Params.mod) .Params.modversion -}}
+{{- $altText := printf "%s %s update image" (index .Site.Data.mods .Params.mod).name .Params.modversion -}}
 
 <div class="margin20 no-margin-left no-margin-right no-margin-top padding10 bg-grayDarker">
 	{{- if .Params.image -}}

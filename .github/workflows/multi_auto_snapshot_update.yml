@@ -15,22 +15,10 @@ on:
       fapi_version:
         description: "Fabric API version (leave blank to auto detect)"
         required: false
-      include_wurst:
-        description: "Include Wurst Client"
-        type: boolean
-        default: true
-      include_wi_zoom:
-        description: "Include WI Zoom"
-        type: boolean
-        default: true
-      include_mo_glass:
-        description: "Include Mo Glass"
-        type: boolean
-        default: true
-      include_wi_freecam:
-        description: "Include WI Freecam"
-        type: boolean
-        default: true
+      mods:
+        description: "Space-separated list of mods to include (see data/mods.json, default: all)"
+        type: string
+        default: "all"
       auto_publish:
         description: "Automatically publish mods that were successfully updated"
         type: boolean
@@ -39,6 +27,12 @@ on:
         description: "Don't actually start an update or publish anything"
         type: boolean
         default: false
+
+permissions:
+  # To checkout data/mods.json
+  contents: read
+  # To dispatch publish_snapshot_ports.yml with github.token and read this run's jobs via GitHub API
+  actions: write
 
 jobs:
 
@@ -50,7 +44,41 @@ jobs:
       cf_game_version: ${{ steps.get_snapshot_cycle_info.outputs.cf_game_version }}
       loader_version: ${{ steps.get_loader_version.outputs.loader_version }}
       fapi_version: ${{ steps.get_fapi_version.outputs.fapi_version }}
+      matrix: ${{ steps.set_matrix.outputs.matrix }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+    - name: Build mod matrix
+      id: set_matrix
+      env:
+        MODS: ${{ inputs.mods }}
+      run: |
+        if [[ "$MODS" == "all" ]]; then
+          matrix=$(jq -c '{mod: to_entries | map(select(.value.supports_snapshots) | .value + {id: .key})}' data/mods.json)
+        else
+          read -ra mods_array <<< "$MODS"
+          ids_json=$(jq -cn '$ARGS.positional' --args "${mods_array[@]}")
+          matrix=$(jq -c --argjson ids "$ids_json" '{mod: [
+            $ids[] as $id
+            | (.[$id] // error("Unknown mod ID: " + $id)) as $mod
+            | if $mod.supports_snapshots then
+                $mod + {id: $id}
+              else
+                error("Mod does not support snapshots: " + $id)
+              end
+          ]}' data/mods.json)
+        fi
+
+        selected_mods=$(jq -r '.mod[].id' <<< "$matrix" | paste -sd' ' -)
+        echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+        echo "Selected mods: $selected_mods"
+        echo "Selected mods: \`$selected_mods\`" >> "$GITHUB_STEP_SUMMARY"
+
+        if [[ -z "$selected_mods" ]]; then
+          echo "::error::No mods selected"
+          echo "No mods selected." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+        fi
     - name: Get Minecraft version
       id: get_mc_version
       run: |
@@ -81,8 +109,7 @@ jobs:
       run: |
         CF_GAME_VERSION="${{ inputs.cf_game_version }}"
         if [ -z "$CF_GAME_VERSION" ]; then
-          RESPONSE=$(curl -s https://raw.githubusercontent.com/Wurst-Imperium/wimods.net/refs/heads/master/data/current_snapshot_cycle.json)
-          CF_GAME_VERSION=$(echo "$RESPONSE" | jq -r '.curseforge_game_version')
+          CF_GAME_VERSION=$(jq -r '.curseforge_game_version' data/current_snapshot_cycle.json)
         fi
         echo "cf_game_version=$CF_GAME_VERSION" >> $GITHUB_OUTPUT
         echo "CurseForge game version: \`$CF_GAME_VERSION\`" >> $GITHUB_STEP_SUMMARY
@@ -131,82 +158,21 @@ jobs:
           -d "{\"mc_version\": \"${{ steps.get_mc_version.outputs.mc_version }}\", \"run_id\": \"${{ github.run_id }}\"}" \
           https://api.wurstclient.net/webhooks/snapshot/auto_update_started
 
-  wurst:
+  wi_mods:
+    name: ${{ matrix.mod.id }}
     runs-on: ubuntu-latest
     needs: prepare
-    if: ${{ !inputs.dry_run && inputs.include_wurst }}
+    if: ${{ !inputs.dry_run }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
     - name: Trigger snapshot update workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
         token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
         owner: Wurst-Imperium
-        repo: Wurst7
-        ref: ${{ needs.prepare.outputs.branch }}
-        workflow: auto_snapshot_update.yml
-        workflow_inputs: |
-          {
-            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
-            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}"
-          }
-        run_timeout_seconds: 1200  # 20 minutes
-
-  wi_zoom:
-    runs-on: ubuntu-latest
-    needs: prepare
-    if: ${{ !inputs.dry_run && inputs.include_wi_zoom }}
-    steps:
-    - name: Trigger snapshot update workflow
-      uses: Wurst-Imperium/dispatch-and-wait@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: WI-Zoom
-        ref: ${{ needs.prepare.outputs.branch }}
-        workflow: auto_snapshot_update.yml
-        workflow_inputs: |
-          {
-            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
-            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
-          }
-        run_timeout_seconds: 1200  # 20 minutes
-
-  mo_glass:
-    runs-on: ubuntu-latest
-    needs: prepare
-    if: ${{ !inputs.dry_run && inputs.include_mo_glass }}
-    steps:
-    - name: Trigger snapshot update workflow
-      uses: Wurst-Imperium/dispatch-and-wait@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: Mo-Glass
-        ref: ${{ needs.prepare.outputs.branch }}
-        workflow: auto_snapshot_update.yml
-        workflow_inputs: |
-          {
-            "mc_version": "${{ needs.prepare.outputs.mc_version }}",
-            "fabric_loader": "${{ needs.prepare.outputs.loader_version }}",
-            "fapi_version": "${{ needs.prepare.outputs.fapi_version }}",
-            "cf_game_version": "${{ needs.prepare.outputs.cf_game_version }}"
-          }
-        run_timeout_seconds: 1200  # 20 minutes
-
-  wi_freecam:
-    runs-on: ubuntu-latest
-    needs: prepare
-    if: ${{ !inputs.dry_run && inputs.include_wi_freecam }}
-    steps:
-    - name: Trigger snapshot update workflow
-      uses: Wurst-Imperium/dispatch-and-wait@v1
-      with:
-        token: ${{ secrets.SNAPSHOT_MODS_ACTIONS_TOKEN }}
-        owner: Wurst-Imperium
-        repo: WI-Freecam
+        repo: ${{ matrix.mod.github_repo }}
         ref: ${{ needs.prepare.outputs.branch }}
         workflow: auto_snapshot_update.yml
         workflow_inputs: |
@@ -220,16 +186,31 @@ jobs:
 
   auto_publish:
     runs-on: ubuntu-latest
-    needs: [prepare, wurst, wi_zoom, mo_glass, wi_freecam]
-    if: ${{ !inputs.dry_run && !cancelled() && inputs.auto_publish && (needs.wurst.result == 'success' || needs.wi_zoom.result == 'success' || needs.mo_glass.result == 'success') }}
+    needs: [prepare, wi_mods]
+    if: ${{ always() && !cancelled() && !inputs.dry_run && inputs.auto_publish && needs.prepare.result == 'success' }}
     steps:
-    - name: Build publish workflow inputs
-      id: publish_inputs
+    - name: Find successfully updated mods
+      id: successful_mods
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
-        echo "include_wurst=$([[ "${{ needs.wurst.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
-        echo "include_wi_zoom=$([[ "${{ needs.wi_zoom.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
-        echo "include_mo_glass=$([[ "${{ needs.mo_glass.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
-        echo "include_wi_freecam=$([[ "${{ needs.wi_freecam.result }}" == "success" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+        jobs_json=$(gh api \
+          "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100")
+        selected_ids_json=$(jq -c '[.mod[].id]' <<< '${{ needs.prepare.outputs.matrix }}')
+        mods=$(jq -r --argjson selected "$selected_ids_json" '
+          .jobs[]
+          | select(.conclusion == "success")
+          | select(.name as $name | $selected | index($name))
+          | .name
+        ' <<< "$jobs_json" | paste -sd' ' -)
+        echo "Successfully updated mods: ${mods:-none}"
+        echo "mods=$mods" >> "$GITHUB_OUTPUT"
+    - name: Fail if all updates failed
+      if: ${{ steps.successful_mods.outputs.mods == '' }}
+      run: |
+        echo "::error::All updates failed. Nothing to publish."
+        echo "All updates failed. Nothing to publish." >> "$GITHUB_STEP_SUMMARY"
+        exit 1
     - name: Trigger publish snapshot ports workflow
       uses: Wurst-Imperium/dispatch-and-wait@v1
       with:
@@ -242,11 +223,6 @@ jobs:
           {
             "mc_version": "${{ needs.prepare.outputs.mc_version }}",
             "branch": "${{ needs.prepare.outputs.branch }}",
-            "include_wurst": "${{ steps.publish_inputs.outputs.include_wurst }}",
-            "include_wi_zoom": "${{ steps.publish_inputs.outputs.include_wi_zoom }}",
-            "include_mo_glass": "${{ steps.publish_inputs.outputs.include_mo_glass }}",
-            "include_wi_freecam": "${{ steps.publish_inputs.outputs.include_wi_freecam }}",
-            "announce": "true",
-            "announce_only": "false"
+            "mods": "${{ steps.successful_mods.outputs.mods }}"
           }
         run_timeout_seconds: 1200  # 20 minutes

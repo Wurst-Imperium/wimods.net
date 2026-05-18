@@ -1,6 +1,5 @@
 import util
 from argparse import ArgumentParser
-from pathlib import Path
 from util import HugoPost, WurstForumDiscussion
 
 announcement_template = """
@@ -25,8 +24,7 @@ def create_announcement(mod_update: HugoPost) -> WurstForumDiscussion:
 
 	# Content
 	mod = mod_update.front_matter["mod"]
-	config = util.read_toml_file(Path("config.toml"))
-	mod_name = config["Params"]["modnames"][mod]
+	mod_name = util.get_mod_info(mod)["name"]
 	mod_version = mod_update.front_matter["modversion"]
 	content = announcement_template.format(
 		title=title,
@@ -48,7 +46,7 @@ def main(mod, mod_version, dry_run):
 
 if __name__ == "__main__":
 	parser = ArgumentParser(description="Announces a new mod update on WurstForum")
-	parser.add_argument("mod", help="Mod ID (as it appears in config.toml)")
+	parser.add_argument("mod", help="Mod ID (as it appears in data/mods.json)")
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
 	parser.add_argument(
 		"--dry-run", action="store_true", help="Don't actually upload the announcement"

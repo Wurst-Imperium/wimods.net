@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{- $modname := index .Site.Params.modnames .Params.mod -}}
+{{- $modname := (index .Site.Data.mods .Params.mod).name -}}
 {{- $scratch := newScratch -}}
 {{- $all := eq "z-all" .Params.mcversion -}}
 {{- $snapshot := eq "snapshot" .Params.mcversion -}}
@@ -36,7 +36,7 @@
 				<li>
 					<a href="{{- .Permalink -}}{{ if not $all }}?mc={{ $.Params.mcversion }}{{ end }}">
 						<article>
-							{{- $altText := printf "%s v%s MC%s" (index .Site.Params.modnames .Params.mod) .Params.modversion $.Params.mcversion -}}
+							{{- $altText := printf "%s v%s MC%s" (index .Site.Data.mods .Params.mod).name .Params.modversion $.Params.mcversion -}}
 							{{- $placeholder := "https://images.wurstclient.net/_media/placeholder-320x180.webp" -}}
 							{{- if isset .Params "image" -}}
 							<img src="{{ $placeholder }}" data-src="{{ .Params.image }}" class="lazyload" alt="{{ $altText }}" width="640" height="360">

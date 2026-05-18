@@ -164,8 +164,7 @@ def add_download_category(mod, mcversion):
 	if page_path.exists():
 		return
 
-	config = util.read_toml_file(Path("config.toml"))
-	mod_name = config["Params"]["modnames"][mod]
+	mod_name = util.get_mod_info(mod)["name"]
 
 	front_matter = category_template.format(mod=mod, mod_name=mod_name, mcversion=mcversion)
 	page_path.write_text(f"{front_matter}\n", encoding="utf-8", newline="\n")
@@ -192,7 +191,7 @@ if __name__ == "__main__":
 	parser = ArgumentParser(
 		description="Adds the necessary Hugo metadata when an existing mod update is ported to a new Minecraft version"
 	)
-	parser.add_argument("mod", help="Mod ID (as it appears in config.toml)")
+	parser.add_argument("mod", help="Mod ID (as it appears in data/mods.json)")
 	parser.add_argument("modloader", help="Mod loader (fabric or neoforge)")
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
 	parser.add_argument("mc_version", help="Minecraft version")

@@ -1,0 +1,32 @@
+{
+  "wurst": {
+    "name": "Wurst",
+    "github_repo": "Wurst7",
+    "supports_snapshots": true
+  },
+  "wi-zoom": {
+    "name": "WI Zoom",
+    "github_repo": "WI-Zoom",
+    "supports_snapshots": true
+  },
+  "mo-glass": {
+    "name": "Mo Glass",
+    "github_repo": "Mo-Glass",
+    "supports_snapshots": true
+  },
+  "wi-freecam": {
+    "name": "WI Freecam",
+    "github_repo": "WI-Freecam",
+    "supports_snapshots": true
+  },
+  "cameranoclip": {
+    "name": "CameraNoClip",
+    "github_repo": "CameraNoClip",
+    "supports_snapshots": false
+  },
+  "chestesp": {
+    "name": "ChestESP",
+    "github_repo": "ChestESP",
+    "supports_snapshots": false
+  }
+}

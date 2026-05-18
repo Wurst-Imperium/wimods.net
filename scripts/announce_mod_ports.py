@@ -2,7 +2,6 @@ import util
 from argparse import ArgumentParser
 from dataclasses import dataclass
 from datetime import datetime
-from pathlib import Path
 from util import HugoPost, WurstForumDiscussion
 
 
@@ -14,7 +13,8 @@ class ModTarget:
 	@classmethod
 	def from_branch(cls, mod: str, branch: str) -> "ModTarget":
 		"""Extract MC version and modloader from gradle.properties in the given branch."""
-		props = util.read_gradle_properties(mod, branch)
+		repo = util.get_mod_info(mod)["github_repo"]
+		props = util.read_gradle_properties(repo, branch)
 
 		mc_version = props.get("minecraft_version")
 		if not mc_version:
@@ -127,8 +127,7 @@ these Minecraft versions, they might sometimes not make sense in this context.
 
 
 def main(mod: str, mod_version: str, mod_targets: list[ModTarget], dry_run: bool):
-	config = util.read_toml_file(Path("config.toml"))
-	mod_name = config["Params"]["modnames"][mod]
+	mod_name = util.get_mod_info(mod)["name"]
 
 	# Title
 	formatted_targets = " / ".join(str(target) for target in mod_targets)
@@ -185,7 +184,7 @@ def main(mod: str, mod_version: str, mod_targets: list[ModTarget], dry_run: bool
 
 if __name__ == "__main__":
 	parser = ArgumentParser(description="Announces a new set of mod ports on WurstForum")
-	parser.add_argument("mod", help="Mod ID (as it appears in config.toml)")
+	parser.add_argument("mod", help="Mod ID (as it appears in data/mods.json)")
 	parser.add_argument("mod_version", help="Mod version (without v or -MC)")
 	parser.add_argument("branches", nargs="+", help="Branch names (e.g. 'master 1.21.3-neoforge')")
 	parser.add_argument(

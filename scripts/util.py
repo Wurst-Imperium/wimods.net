@@ -1,7 +1,6 @@
 import json
 import os
 import requests
-import tomli
 from dataclasses import dataclass
 from datetime import datetime
 from io import StringIO
@@ -214,19 +213,18 @@ def write_json_file(path: Path, data: dict):
 	path.write_text(json.dumps(data, indent=2), encoding="utf-8", newline="\n")
 
 
-def read_toml_file(path: Path) -> dict:
-	"""Read a TOML data file."""
-	return tomli.loads(path.read_text(encoding="utf-8"))
+def get_mod_info(mod: str) -> dict:
+	return read_json_file(Path("data/mods.json"))[mod]
 
 
-def read_gradle_properties(mod: str, branch: str) -> dict[str, str]:
-	"""Get a dict of gradle.properties entries for the given mod and branch."""
+def read_gradle_properties(repo: str, branch: str) -> dict[str, str]:
+	"""Get a dict of gradle.properties entries for the given repo and branch."""
 	response = requests.get(
-		f"https://raw.githubusercontent.com/Wurst-Imperium/{mod}/{branch}/gradle.properties"
+		f"https://raw.githubusercontent.com/Wurst-Imperium/{repo}/{branch}/gradle.properties"
 	)
 	if not response.ok:
 		raise ValueError(
-			f"Failed to read gradle.properties from {mod}@{branch}: {response.status_code}\n{response.text}"
+			f"Failed to read gradle.properties from {repo}@{branch}: {response.status_code}\n{response.text}"
 		)
 
 	props = {}

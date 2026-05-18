@@ -26,7 +26,7 @@
 	}
 </style>
 
-{{- $modname := index .Site.Params.modnames .Params.mod -}}
+{{- $modname := (index .Site.Data.mods .Params.mod).name -}}
 <main>
 	{{ partial "title" . }}
 	<section class="padding20 no-padding-left no-padding-right">

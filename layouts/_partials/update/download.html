@@ -2,7 +2,7 @@
 
 {{- $modid := .page.Params.mod -}}
 {{- $modversion := .page.Params.modversion -}}
-{{- $modname := index .page.Site.Params.modnames $modid -}}
+{{- $modname := (index .page.Site.Data.mods $modid).name -}}
 {{- $modnameGitHub := replace $modname " " "-" -}}
 
 {{- $mcversion := .mcversion -}}
