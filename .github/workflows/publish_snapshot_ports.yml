@@ -109,9 +109,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !inputs.announce_only && !inputs.dry_run }}
     strategy:
-      # If something goes wrong, all published files have to be manually deleted.
-      # Best to fail as early as possible.
-      fail-fast: true
+      # Workflow dispatches cannot truly be cancelled from here,
+      # so fail-fast marking them as cancelled would just be misleading.
+      fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
     - name: Trigger publish workflow
