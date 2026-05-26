@@ -3,6 +3,9 @@ baseurl = "https://www.wimods.net/"
 DefaultContentLanguage = "en"
 titleCaseStyle = "none"
 
+[security]
+  allowContent = ['.*']
+
 [privacy]
   [privacy.googleAnalytics]
     disable = true
