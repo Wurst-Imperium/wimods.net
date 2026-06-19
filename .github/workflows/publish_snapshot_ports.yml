@@ -45,7 +45,7 @@ jobs:
     - name: Echo distinct ID ${{ inputs.distinct_id }}
       run: echo ${{ inputs.distinct_id }}
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Build mod matrix
       id: set_matrix
       env:
@@ -139,7 +139,7 @@ jobs:
     if: ${{ always() && !cancelled() && inputs.announce && needs.prepare.result == 'success' && (inputs.dry_run || inputs.announce_only || needs.wi_mods.result == 'success') }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Set up Python
       uses: actions/setup-python@v6
       with:

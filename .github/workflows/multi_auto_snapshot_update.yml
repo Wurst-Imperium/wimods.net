@@ -47,7 +47,7 @@ jobs:
       matrix: ${{ steps.set_matrix.outputs.matrix }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
     - name: Build mod matrix
       id: set_matrix
       env:
