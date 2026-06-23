@@ -5,6 +5,10 @@ date: 2026-06-22T19:00:00+02:00
 image: https://images.wurstclient.net/wi-freecam/2026/1.1.1/960x540.webp
 mod: wi-freecam
 modversion: "1.1.1"
+mcversions:
+- '26.2'
+fabric:
+- '26.2'
 ---
 ## Changelog
 
