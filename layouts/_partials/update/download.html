@@ -89,8 +89,8 @@
 		{{- range $fabric_mcversion, $fabric_apiversion := $fabric_apis -}}
 			{{- if hasPrefix $fabric_mcversion $mcversion_short | or (eq $fabric_mcversion $mcversion) -}}
 				{{- $fabric_apiversion_short := index (split $fabric_apiversion "+") 0 -}}
-				{{- $apiLink := printf "https://github.com/FabricMC/fabric-api/releases/download/%s/fabric-api-%s.jar" $fabric_apiversion $fabric_apiversion -}}
-				{{- $apiFile := index (last 1 (split $apiLink "/")) 0 }}
+				{{- $apiFile := index $.page.Site.Data.fabric_api_asset_overrides $fabric_apiversion | default (printf "fabric-api-%s.jar" $fabric_apiversion) -}}
+				{{- $apiLink := printf "https://github.com/FabricMC/fabric-api/releases/download/%s/%s" $fabric_apiversion $apiFile -}}
 				<a class="command-button"
 					href="javascript:void(0)"
 					data-href="{{ $apiLink }}"
