@@ -9,6 +9,8 @@ mcversions:
 - '26.2'
 fabric:
 - '26.2'
+snapshots:
+- 26.3-snapshot-3
 ---
 ## Changelog
 
