@@ -10,6 +10,7 @@ mcversions:
 fabric:
 - '26.2'
 snapshots:
+- 26.3-snapshot-5
 - 26.3-snapshot-4
 - 26.3-snapshot-3
 ---

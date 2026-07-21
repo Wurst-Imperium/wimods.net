@@ -52,6 +52,7 @@
   },
   "1.1.2": {
     "26.2": true,
+    "26.3-snapshot-5": true,
     "26.3-snapshot-4": true,
     "26.3-snapshot-3": true
   }
