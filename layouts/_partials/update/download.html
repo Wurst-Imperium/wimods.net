@@ -36,7 +36,6 @@
 {{- $isLatest := or (eq $modversion $latestVersion) (not $latestVersion) -}}
 
 {{- $cfids := index (index (index .page.Site.Data.curseforge $modid) $modloader) $modversion -}}
-{{- $modrinthVersions := index (index (index .page.Site.Data.modrinth $modid) $modloader) $modversion -}}
 {{- $fabric_apis := index (index .page.Site.Data.fabric_api $modid) $modversion -}}
 {{- $baselink := printf "https://github.com/Wurst-Imperium-MCX/%s/releases/download/v%s/%s-%s-MC%s%s" $modnameGitHub $modversion $modnameGitHub $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
 
@@ -115,51 +114,28 @@
 </p>
 
 {{- $hasCurseForge := isset $cfids $mcversion -}}
-{{- $hasModrinth := isset $modrinthVersions $mcversion -}}
 
-{{- if or $hasCurseForge $hasModrinth -}}
+{{- if $hasCurseForge -}}
 	<p>Mirrors:</p>
 	<p>
-		{{- if $hasModrinth -}}
-			{{- $modrinthLink := printf "https://modrinth.com/mod/%s/version/%s-MC%s%s" $modid $modversion $mcversion ($scratch.Get "modloaderSuffix") -}}
-			<a class="button modrinth"
-				href="javascript:void(0)"
-				data-href="{{ $modrinthLink }}"
-				data-analytics="Download Mod"
-				data-analytics-mod="{{ $modname }}"
-				data-analytics-version="{{ $modversion }}"
-				data-analytics-mcversion="{{ $mcversion }}"
-				data-analytics-modloader="{{ $modloader }}"
-				data-analytics-type="main"
-				data-analytics-mirror="Modrinth"
-				data-analytics-file="{{ $mainFile }}"
-				data-analytics-outdated="{{ not $isLatest }}"
-			>
-				<img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" alt="Modrinth icon" class="icon">
-				Modrinth
-			</a>
-		{{- end -}}
-		{{- " " -}}
-		{{- if $hasCurseForge -}}
-			{{- $cfFileId := string (index $cfids $mcversion) -}}
-			{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid $cfFileId -}}
-			<a class="button curseforge"
-				href="javascript:void(0)"
-				data-href="{{ $cfLink }}"
-				data-analytics="Download Mod"
-				data-analytics-mod="{{ $modname }}"
-				data-analytics-version="{{ $modversion }}"
-				data-analytics-mcversion="{{ $mcversion }}"
-				data-analytics-modloader="{{ $modloader }}"
-				data-analytics-type="main"
-				data-analytics-mirror="CurseForge"
-				data-analytics-file="{{ $mainFile }}"
-				data-analytics-outdated="{{ not $isLatest }}"
-			>
-				<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" alt="CurseForge icon" class="icon">
-				CurseForge
-			</a>
-		{{- end -}}
+		{{- $cfFileId := string (index $cfids $mcversion) -}}
+		{{- $cfLink := printf "https://legacy.curseforge.com/minecraft/mc-mods/%s/files/%s" $modid $cfFileId -}}
+		<a class="button curseforge"
+			href="javascript:void(0)"
+			data-href="{{ $cfLink }}"
+			data-analytics="Download Mod"
+			data-analytics-mod="{{ $modname }}"
+			data-analytics-version="{{ $modversion }}"
+			data-analytics-mcversion="{{ $mcversion }}"
+			data-analytics-modloader="{{ $modloader }}"
+			data-analytics-type="main"
+			data-analytics-mirror="CurseForge"
+			data-analytics-file="{{ $mainFile }}"
+			data-analytics-outdated="{{ not $isLatest }}"
+		>
+			<img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" alt="CurseForge icon" class="icon">
+			CurseForge
+		</a>
 	</p>
 {{- end -}}
 

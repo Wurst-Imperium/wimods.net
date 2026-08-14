@@ -33,10 +33,6 @@ Don't let the camera snapping effect ruin your Minecraft experience any longer! 
     <img src="https://images.wurstclient.net/_media/icon/curseforge_white.svg" class="icon">
     CurseForge
   </a>
-  <!-- <a class="button modrinth" href="https://modrinth.com/mod/cameranoclip" rel="nofollow" target="_blank">
-    <img src="https://images.wurstclient.net/_media/icon/modrinth_white.svg" class="icon">
-    Modrinth
-  </a> -->
 </p>
 
 ## Features
