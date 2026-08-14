@@ -128,7 +128,7 @@ jobs:
             "upload_backups": "true",
             "publish_github": "true",
             "publish_curseforge": "true",
-            "publish_modrinth": "true",
+            "publish_modrinth": "false",
             "update_website": "true"
           }
         run_timeout_seconds: 600  # 10 minutes
