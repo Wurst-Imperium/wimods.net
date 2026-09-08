@@ -110,6 +110,7 @@ titleCaseStyle = "none"
     "26.1.1" = "Tiny Takeover Hotfix 1"
     "26.1.2" = "Tiny Takeover Hotfix 2"
     "26.2" = "Chaos Cubed"
+    "26.3" = "Wilderness Bound"
 
 [permalinks]
   redirect = "/:sections[1:]/:slugorcontentbasename"
