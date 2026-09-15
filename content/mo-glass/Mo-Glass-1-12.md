@@ -7,6 +7,7 @@ image:
 mod: mo-glass
 modversion: "1.12"
 mcversions:
+- '26.3'
 - '26.2'
 - 26.1.2
 - 26.1.1
@@ -17,6 +18,7 @@ mcversions:
 - 1.21.4
 - 1.21.1
 fabric:
+- '26.3'
 - '26.2'
 - 26.1.2
 - 26.1.1
