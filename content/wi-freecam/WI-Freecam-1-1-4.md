@@ -6,6 +6,7 @@ image: https://images.wurstclient.net/wi-freecam/2026/1.1.4/960x540.webp
 mod: wi-freecam
 modversion: "1.1.4"
 snapshots:
+- 26.4-snapshot-6
 - 26.4-snapshot-5
 - 26.4-snapshot-4
 ---
